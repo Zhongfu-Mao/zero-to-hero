@@ -52,6 +52,7 @@ Start-Sleep
 $PSVersionTable
 Get-Process | Out-GridView -PassThru
 Invoke-Item
+
 ```
 
 ### Pipeline
@@ -90,14 +91,14 @@ Get-Service | Where-Object -FilterScript { $_.Status -eq 'running'}
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running' -and $_.Name -like '*code*'}
 Invoke-Command -ScriptBlock { Get-ChildItem }
 Enable-PSRemoting
-Enter-PSSession -ComputerName localhost
+Enter-PSSession -ComputerName localhost # 一对一
 Get-Job
 Start-Job -ScriptBlock {
     Get-Location
 }
 Get-Job
 Receive-Job -id 1
-Invoke-Command {Get-WmiObject win32_Process -ASJob}
+Invoke-Command {Get-WmiObject win32_Process -ASJob} # 一对多
 Get-ChildItem Variable:
 'hello world' | Get-Member
 $x = 'hello'

@@ -1,1 +1,0 @@
-﻿ise -file ".\1erroraction.ps1, .\2Start.ps1, .\3SimpleTryCatch.ps1, .\4BettertryCatch.ps1"
