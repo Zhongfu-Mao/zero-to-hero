@@ -90,4 +90,52 @@
 
 ### 属性选择器
 
+|    选择器     |                   功能描述                   |
+| :-----------: | :------------------------------------------: |
+|    E[attr]    |         选择匹配具有属性attr的E元素          |
+|  E[attr=val]  |        attr的属性值为val(区分大小写)         |
+| E[attr\|=val] |    attr属性值是一个具有val或者以val-开始     |
+| E[attr~=val]  | attr属性具有多个空格分隔的值,其中一个值为val |
+| E[attr*=val]  |         attr属性中任意位置包含了val          |
+| E[attr^=val]  |              attr属性以val开头               |
+| E[attr$=val]  |              attr属性以val结尾               |
 
+> E省略时表示任意类型元素
+
+## 边框
+
+### 基本属性
+
+* border-width
+* border-color
+* border-style
+
+缩写语法:
+
+```css
+border: border-width border-style border-color;
+```
+
+> 没有先后次序
+> 只有`border-style`必须
+
+TRBL原则:
+
+```css
+border-style: <all>;
+border-style: <horizontal> <vertical>;
+border-style: <top> <horizontal> <bottom>;
+border-style: <top> <right> <bottom> <left>;
+```
+
+[border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style)
+
+### [边框颜色](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color)
+
+### [图片边框](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-image)
+
+### [圆角边框](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-radius)
+
+### [盒子阴影](https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow)
+
+## 背景
