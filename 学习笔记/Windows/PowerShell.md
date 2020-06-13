@@ -83,6 +83,9 @@ Get-Process | Format-Table -Property Id, VM, @{
     e={$_.PM / 1MB -as [int]}
 } -AutoSize
 Get-Process | Format-Table -GroupBy Name
+Get-Process | Format-Table Name, @{
+    name='VM(MB)'; expression={$_.VM}; formatstring='F2'; align='right'
+} -autosize
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running'}
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running' -and $_.Name -like '*code*'}
 Invoke-Command -ScriptBlock { Get-ChildItem }
