@@ -1,6 +1,8 @@
 # PowerShell 7の世界へようこそ
 
-## 参考になるかも知れない資料
+cmd + .NET + C# = windows PowerShell
+
+## 参考元
 
 ### ビデオ
 
@@ -15,7 +17,7 @@
 
 ### [フォーラム](https://powershell.org)
 
-### 管理者権限で開く
+### 管理者権限で開く方法
 
 ```powershell
 start-process powershell -verb runas
@@ -28,13 +30,17 @@ start-process powershell -verb runas
 
 ### CMDやBASHとの１番の違いー**オブジェクト指向**
 
-## Command
+## 基本
 
 ### Help
 
 ```powershell
+Update-Help -Force
 help Get-WmiObject -Full
-
+Get-Help Get-Help -Detailed
+Get-Help Get-Service -ShowWindow
+help about*
+get-help about_Functions_Advanced_Parameters -showWindow
 ```
 
 ### 実用的
@@ -42,31 +48,37 @@ help Get-WmiObject -Full
 ```powershell
 Get-PSDrive
 Get-PSSnapin
+Get-ChildItem Variable:
 Set-ExecutionPolicy RemoteSigned
-Get-Module -ListAvailable
-Import-Module
 Get-EventLog -LogName Security -Newest 50
 $env:COMPUTERNAME
+$PSVersionTable
 Expand-Archive <filename> -DestinationPath
 Start-Sleep
-$PSVersionTable
 Get-Process | Out-GridView -PassThru
 Invoke-Item
-
+Get-Alias -Definition Get-Process
 ```
 
 ### Pipeline
 
 ```powershell
+'hello world' | Get-Member
 Get-Service | Get-Member
 Get-Service | Stop-Service
 Get-Service | Stop-Process -WhatIf
 Get-ChildItem | Out-GridView
 Get-Service | Export-Csv service.csv
 Get-Service | Export-Clixml service.xml
+Get-Process | Export-Clixml a.xml
+Get-Service | ConvertTo-Json
 Get-Service | ConvertTo-Html | Out-File test.html
 Get-Process | Sort-Object -Property VM -Descending
-
+Get-Service -DisplayName *bi* | Stop-Service -WhatIf
+Get-Service -DisplayName *bi* | Stop-Service -Confirm
+Get-Service | Stop-Service -WhatIf
+Stop-Computer -WhatIf
+Get-Service | Stop-Service -Confirm
 ```
 
 ### 別のプログラムを起動させる
@@ -76,6 +88,19 @@ calc
 notepad.exe
 mspaint.exe
 Start-Process chrome.exe
+```
+
+### Remote
+
+```powershell
+Invoke-Command -ScriptBlock { Get-ChildItem }
+Enable-PSRemoting
+Enter-PSSession -ComputerName localhost
+```
+
+### Format-*
+
+```powershell
 Get-Process | Format-Wide
 Get-Process | Format-Wide -Property Id -Column 3
 Get-Process | Select-Object -Property Name, Id | Format-Table -AutoSize
@@ -87,94 +112,53 @@ Get-Process | Format-Table -GroupBy Name
 Get-Process | Format-Table Name, @{
     name='VM(MB)'; expression={$_.VM}; formatstring='F2'; align='right'
 } -autosize
+Import-Csv .\cgs_20200202.txt | Format-Table -AutoSize -Wrap
+```
+
+### Filter
+
+```powershell
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running'}
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running' -and $_.Name -like '*code*'}
-Invoke-Command -ScriptBlock { Get-ChildItem }
-Enable-PSRemoting
-Enter-PSSession -ComputerName localhost # 一对一
-Get-Job
-Start-Job -ScriptBlock {
-    Get-Location
-}
-Get-Job
-Receive-Job -id 1
-Invoke-Command {Get-WmiObject win32_Process -ASJob} # 一对多
-Get-ChildItem Variable:
-'hello world' | Get-Member
-$x = 'hello'
-$y = 'world'
-$a = "$x + $y"
-$b = '`$x + `$y'
-$a
-$b
-Write-Host "hello" -ForegroundColor Red -BackgroundColor Yellow
-$foo = Read-Host "Enter a interger"
-$foo
+```
 
+### Session
+
+```powershell
+New-PSSession -ComputerName localhost
+Get-PSSession
+Exit-PSSession
+Remove-PSSession
+```
+
+### Verbose
+
+```powershell
 Get-Command -Verb Write
 Write-Verbose "This is simply a test, nothing more"
 $VerbosePreference = "continue"
 Write-Verbose "So far so good?"
 $VerbosePreference = "silentlycontinue"
 Write-Verbose "What happens this time"
+```
 
-New-PSSession -ComputerName localhost
-Get-PSSession
-Exit-PSSession
-Remove-PSSession
+### Job
 
-function Get-OSInfo {
-    param (
-        $computer_name = "localhost"
-    )
-    Get-WmiObject -class win32_bios -ComputerName $computer_name
+```powershell
+Get-Job
+Start-Job -ScriptBlock {
+    Get-Location
 }
+Get-Job
+Receive-Job -id 1
+Invoke-Command {Get-WmiObject win32_Process -ASJob}
+```
 
-$computer_name = Read-Host "Please give me a computer name"
-switch ($computer_name) {
-    'localhost' {
-        Write-Host "Local Machine Selected"
-     }
-    Default {
-        Write-Host "Unknown Computer"
-    }
-}
+### Module
 
-$services = Get-Service
-foreach ($service in $services) {
-    Write-Host $service
-}
-Get-Service | Write-Host
-
-$str = [string]"hello"
-$today = Get-Date
-$today.ToSingle()
-
-123456.789 -as [int]
-123456.789 -is [int]
-123456.789 -isnot [int]
-
-cmd + .NET + C# = windows PowerShell
-
-Get-Alias -Definition Get-Process
-
-Update-Help -Force
-Get-Help Get-Help -Detailed
-Get-Help Get-Service -ShowWindow
-help about*
-
-Import-Csv .\cgs_20200202.txt | Format-Table -AutoSize -Wrap
-Get-Process | Export-Clixml a.xml
-Get-Service | ConvertTo-Json
-Get-Service | Stop-Service -WhatIf
-Stop-Computer -WhatIf
-Get-Service | Stop-Service -Confirm
-Get-Service -DisplayName *bi* | Stop-Service -WhatIf
-Get-Service -DisplayName *bi* | Stop-Service -Confirm
-
+```powershell
 Get-Module -ListAvailable
-
-cmdlet -> command-lets
+Import-Module
 ```
 
 ### WMI && CIM
@@ -233,6 +217,26 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 [array]     An array of values
 [hashtable] Hashtable object
 
+```powershell
+$x = 'hello'
+$y = 'world'
+$a = "$x + $y"
+$b = '`$x + `$y'
+$a
+$b
+Write-Host "hello" -ForegroundColor Red -BackgroundColor Yellow
+$foo = Read-Host "Enter a interger"
+$foo
+
+$str = [string]"hello"
+$today = Get-Date
+$today.ToSingle()
+
+123456.789 -as [int]
+123456.789 -is [int]
+123456.789 -isnot [int]
+```
+
 ### Array
 
 ### Hashtable
@@ -240,12 +244,41 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 ### Function
 
 ```powershell
-get-help about_Functions_Advanced_Parameters -showWindow
+function Get-OSInfo {
+    param (
+        $computer_name = "localhost"
+    )
+    Get-WmiObject -class win32_bios -ComputerName $computer_name
+}
 ```
 
-### 判断
+### If
 
-### ループ
+### Switch
+
+```powershell
+$computer_name = Read-Host "Please give me a computer name"
+switch ($computer_name) {
+    'localhost' {
+        Write-Host "Local Machine Selected"
+     }
+    Default {
+        Write-Host "Unknown Computer"
+    }
+}
+```
+
+### While, Do..While
+
+### foreach
+
+```powershell
+$services = Get-Service
+foreach ($service in $services) {
+    Write-Host $service
+}
+Get-Service | Write-Host
+```
 
 ### Try Catch
 
