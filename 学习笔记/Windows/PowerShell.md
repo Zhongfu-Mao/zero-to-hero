@@ -145,13 +145,16 @@ Write-Verbose "What happens this time"
 ### Job
 
 ```powershell
-Get-Job
-Start-Job -ScriptBlock {
-    Get-Location
-}
-Get-Job
+Start-Job -ScriptBlock {Get-ChildItem}
 Receive-Job -id 1
-Invoke-Command {Get-WmiObject win32_Process -ASJob}
+Get-Job -id 1 | Format-List *
+Get-Job -Name job2 | Format-List *
+Get-Job -id 1 | Select-Object -expand ChildJobs
+Get-Job | Where-Object { -not $_.HasMoreData } | Remove-Job
+Invoke-Command -Command { Nothing } -ComputerName notonline -AsJob
+Get-Job -Id 6 | Format-List *
+Get-Job -Name Job7
+Receive-Job -Name Job7
 ```
 
 ### Module
@@ -165,7 +168,7 @@ Import-Module
 
 WMI: Windows Management Instrumentation
 CIM: Common Information Model
-WMI is MicroSoft's implemenattion of CIM
+
 > PowerShell3.0以降、WMIの使用はもう推薦しない
 > [link](https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Management/Get-WmiObject)
 
