@@ -89,3 +89,9 @@ label标签的for属性有两个作用。
 ### 语义化验证
 
 一个很简单的办法就是：去掉CSS样式，然后看页面是否还具有很好的可读性。
+
+## HTML5新增API
+
+### [检测网络连接状态](https://developer.mozilla.org/zh-CN/docs/Web/API/NavigatorOnLine/Online_and_offline_events)
+
+### [文件读取]
