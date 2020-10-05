@@ -1,8 +1,6 @@
-# Pythonでテスト自動化実現
+# Seleniumの基本
 
-## Selenium
-
-### 1. Seleniumに関する簡単な紹介
+## 1. Seleniumに関する簡単な紹介
 
 [SeleniumのWiki](https://ja.wikipedia.org/wiki/Selenium_(%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2))
 
@@ -24,7 +22,7 @@ Excelのマクロ記録とVBAの違いみたいに、簡単なケースならIDE
 IDEの使い方に興味があるなら、ここを参考してください。＝＞[click me](https://qiita.com/jun2014/items/bf6b87699b7622c91326)  
 本記事はWebDriverをメインとする。
 
-### 2. インストール
+## 2. インストール
 
 ステップ１：　selenium　librariesをインストール
 
@@ -64,7 +62,7 @@ win32のzipファイルを解凍すると、`chromedriver.exe`のファイルが
 ※便利のため、ダウンロードされた`chromedriver.exe`をPythonの**Script**folderに置くのがお勧め。
 ![script folder](./imgs/8.Script%20Folder.png)
 
-### 3. 動かしてみる
+## 3. 動かしてみる
 
 ```python
 from selenium import webdriver
@@ -112,9 +110,9 @@ driver = webdriver.Chrome(executable_path=path)
 * `print(f"現在の降水確率は{rainfall_probability_element.get_property('innerHTML')}")`: `span`elementの`innerHTML`プロパティーで中身を取得する。
 * `driver.quit()`: ブラウザを閉じる。
 
-### 4. elementの取得
+## 4. elementの取得
 
-#### 一つの場合
+### 一つの場合
 
 * find_element_by_class_name
 * find_element_by_id
@@ -125,7 +123,7 @@ driver = webdriver.Chrome(executable_path=path)
 * find_element_by_xpath
 * find_element_by_css_selector
 
-#### 複数の場合
+### 複数の場合
 
 * find_elements_by_class_name
 * find_elements_by_tag_name
@@ -160,11 +158,11 @@ driver = webdriver.Chrome(executable_path=path)
 
 `css selector`と`XPath`強いツールなので、基本的にこの二つの方法で取得する。
 
-### 5. CSS Selector
+## 5. CSS Selector
 
 [MDN](https://developer.mozilla.org/ja/docs/Learn/CSS/Building_blocks/Selectors)
 
-#### 基本セレクター
+### 基本セレクター
 
 |      セレクター      |      タイプ      |
 | :------------------: | :--------------: |
@@ -174,7 +172,7 @@ driver = webdriver.Chrome(executable_path=path)
 |        .class        | クラスセレクター |
 | selector1, selectorN |  複数セレクター  |
 
-#### 結合子セレクター
+### 結合子セレクター
 
 | セレクター |     タイプ     |
 | :--------: | :------------: |
@@ -183,9 +181,9 @@ driver = webdriver.Chrome(executable_path=path)
 |    E+F     | 隣接兄弟結合子 |
 |    E~F     | 一般兄弟結合子 |
 
-#### [擬似クラスセレクター](https://developer.mozilla.org/ja/docs/Web/CSS/Pseudo-classes)
+### [擬似クラスセレクター](https://developer.mozilla.org/ja/docs/Web/CSS/Pseudo-classes)
 
-##### 動的
+### 動的
 
 | セレクター |                  機能                   |
 | :--------: | :-------------------------------------: |
@@ -198,17 +196,17 @@ driver = webdriver.Chrome(executable_path=path)
 > “LVHA順” LoVe/HAte
 > Link-visited-hover-active
 
-##### ターゲット
+#### ターゲット
 
 | セレクター |                               機能                                |
 | :--------: | :---------------------------------------------------------------: |
 |  E:target  | URLのフラグメントに一致する id を持つ固有の要素 (対象要素) を表す |
 
-##### 言語
+#### 言語
 
 :lang E(language)は要素を定義された言語に基づいて選択します
 
-##### UI要素の状態
+#### UI要素の状態
 
 | セレクター |       タイプ       |
 | :--------: | :----------------: |
@@ -216,7 +214,7 @@ driver = webdriver.Chrome(executable_path=path)
 | E:enabled  |        有効        |
 | E:disabled |        無効        |
 
-##### 仕組み
+#### 仕組み
 
 * E:first-child
 * E:last-child
@@ -234,13 +232,13 @@ driver = webdriver.Chrome(executable_path=path)
 > nは１から、０の場合何も選択しない  
 > `:empty`は要素のノードまたは文字列 (ホワイトスペースを含む)を持たない要素を表す
 
-##### 否定
+#### 否定
 
 | セレクター |     機能     |
 | :--------: | :----------: |
 |  E:not(F)  | F以外のE要素 |
 
-#### 疑似要素セレクター
+### 疑似要素セレクター
 
 > CSS3は疑似要素セレクターと擬似クラスセレクターを区別するためにそれぞれ`::`と`:`を使うのをすすめ。
 
@@ -250,7 +248,7 @@ driver = webdriver.Chrome(executable_path=path)
 * ::after
 * ::selection
 
-#### [属性セレクター](https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors)
+### [属性セレクター](https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors)
 
 |  セレクター   |                                             機能                                              |
 | :-----------: | :-------------------------------------------------------------------------------------------: |
@@ -264,16 +262,16 @@ driver = webdriver.Chrome(executable_path=path)
 
 > Eが省略される时は任意タイプの要素を表す
 
-### 6. [XPath](https://developer.mozilla.org/ja/docs/Web/XPath)
+## 6. [XPath](https://developer.mozilla.org/ja/docs/Web/XPath)
 
-#### [紹介](https://www.w3schools.com/xml/xpath_intro.asp)
+### [紹介](https://www.w3schools.com/xml/xpath_intro.asp)
 
 ![xpath](./imgs/14.XPath.gif)
 
 XPathは`XML Path Language`の略称  
 ご存知の通り、CSSはHTMLをどうのように表示するかを記録する。一方、XMLの場合は、`div`など事前に定義されたタッグはない。そこで、XSL(Extensible Stylesheet Language)が登場された。XPathはXSLの一部で、要素のナビの役割を担当している。
 
-#### [Syntax](https://www.w3schools.com/xml/xpath_syntax.asp)
+### [Syntax](https://www.w3schools.com/xml/xpath_syntax.asp)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -293,7 +291,7 @@ XPathは`XML Path Language`の略称
 </bookstore>
 ```
 
-##### Nodesを選択
+#### Nodesを選択
 
 | expression |                             description                             |
 | :--------: | :-----------------------------------------------------------------: |
@@ -315,7 +313,7 @@ XPathは`XML Path Language`の略称
 | bookstore//book |   bookstoreの子孫book要素を全部選択する    |
 |     //@lang     | `lang`の属性を持っている要素を全部選択する |
 
-##### 特定な要素
+#### 特定な要素
 
 |       Path Expression        |                                結果                                |
 | :--------------------------: | :----------------------------------------------------------------: |
@@ -325,7 +323,7 @@ XPathは`XML Path Language`の略称
 |        //title[@lang]        |         `lang`の属性を持っている全てのtitle要素を選択する          |
 |   bookstore/book[price>35]   | bookstoreの子book要素の中に、priceの属性が３５以上の要素の選択する |
 
-##### Wildcard
+#### Wildcard
 
 | Wildcard |     Description      |
 | :------: | :------------------: |
@@ -333,11 +331,11 @@ XPathは`XML Path Language`の略称
 |   @\*    | 任意なattribute node |
 |  node()  |      任意なnode      |
 
-##### 複数を選択
+#### 複数を選択
 
 `|`を利用する
 
-#### [Axes](https://developer.mozilla.org/ja/docs/Web/XPath/Axes)
+### [Axes](https://developer.mozilla.org/ja/docs/Web/XPath/Axes)
 
 |      AxisName      |                                               Result                                                |
 | :----------------: | :-------------------------------------------------------------------------------------------------: |
@@ -355,7 +353,7 @@ XPathは`XML Path Language`の略称
 | preceding-sibling  |     コンテクストノードと同じ親を持ち、ソース文書内でコンテクストノードの前に現れる全てのノード      |
 |        self        |                                       コンテクストノード自身                                        |
 
-#### [operator](https://www.w3schools.com/xml/xpath_operators.asp)
+### [operator](https://www.w3schools.com/xml/xpath_operators.asp)
 
 | Operator |     Description      |
 | :------: | :------------------: |
@@ -374,9 +372,9 @@ XPathは`XML Path Language`の略称
 |   and    |        同時に        |
 |   mod    |       modulus        |
 
-#### [Functions](https://developer.mozilla.org/ja/docs/Web/XPath/Functions)
+### [Functions](https://developer.mozilla.org/ja/docs/Web/XPath/Functions)
 
-#### [CSS3 VS XPath](https://gist.github.com/slotix/11f0930b2d46d2946249a10e6216735b#file-css3vsxpath-csv)
+### [CSS3 VS XPath](https://gist.github.com/slotix/11f0930b2d46d2946249a10e6216735b#file-css3vsxpath-csv)
 
 |          Goal          |       CSS3       |            XPath             |
 | :--------------------: | :--------------: | :--------------------------: |
@@ -391,9 +389,9 @@ XPathは`XML Path Language`の略称
 |      Next Element      |      p + \*      | //p/following-sibling:: *[0] |
 |    Previous Element    |   Not possible   | //p/preceding-sibling:: *[0] |
 
-### 7. ページやウィンドウ間などの移動
+## 7. ページやウィンドウ間などの移動
 
-#### ページ間の移動
+### ページ間の移動
 
 ```python
 driver.get(<URL>)
@@ -402,7 +400,7 @@ driver.back()
 driver.refresh()
 ```
 
-#### ウィンドウへ移動
+### ウィンドウへ移動
 
 ```python
 driver.switch_to_window("windowName")
@@ -418,7 +416,7 @@ for i in windows:
         break
 ```
 
-#### フレームへ移動
+### フレームへ移動
 
 ```python
 driver.switch_to_frame("frameName")
@@ -426,7 +424,7 @@ driver.switch_to_frame("frameName.0.child")
 driver.switch_to_default_content()  # 元へ戻る
 ```
 
-#### ポップアップダイアログに応える
+### ポップアップダイアログに応える
 
 ```python
 alert = driver.switch_to_alert()
@@ -435,15 +433,15 @@ alert.dismiss()  # Cancel
 print(alert.text)
 ```
 
-### 8. ユーザー入力（クリックや選択など）
+## 8. ユーザー入力（クリックや選択など）
 
-#### クリックする
+### クリックする
 
 ```python
 element.click()
 ```
 
-#### 文字列を入力する
+### 文字列を入力する
 
 ```python
 element.send_keys("文字列")
@@ -452,7 +450,7 @@ element.send_keys("文字列", Keys.RETURN)  # 続けて書く
 element.clear()  # クリアする（send_keysはappendのため、入力する前にクリアしてから入力するのが安心）
 ```
 
-#### select 要素内の「option」を選択する
+### select 要素内の「option」を選択する
 
 ![select](./imgs/15.select%20demo.png)
 
@@ -473,12 +471,12 @@ select.options # 選択できるオプション要素のリスト
 option_texts = [opt.text for opt in select.options]
 ```
 
-### 9. ActionChains
+## 9. ActionChains
 
 > マウスとキーボードの操作を模擬する際、ActionChainsを利用する  
 > ActionChainsは動作をリストに追加して、`perfom()`を実行してからリスト中の動作を順番に実行する。
 
-#### Chain
+### Chain
 
 ```python
 from selenium.webdriver import ActionChains
@@ -489,7 +487,7 @@ hidden_submenu = driver.find_element_by_css_selector(".nav #submenu1")
 ActionChains(driver).move_to_element(menu).click(hidden_submenu).perform()
 ```
 
-#### step by step
+### step by step
 
 ```python
 menu = driver.find_element_by_css_selector(".nav")
@@ -501,7 +499,7 @@ actions.click(hidden_submenu)
 actions.perform()
 ```
 
-#### methods
+### methods
 
 ![ActionChains](./imgs/16.ActionChains.png)
 
@@ -523,12 +521,12 @@ actions.perform()
 * send_keys(*keys_to_send)
 * send_keys_to_element(element,*keys_to_send)
 
-### 10. Wait
+## 10. Wait
 
 > 基本、seleniumは画面を読み込まれるまで（onloadイベントまで）待ってくる。  
 > ですが、*Ajax*、*アニメーション*、*サーバの反応*などさまざまな原因で待つが必要
 
-#### とりあえず待つ
+### とりあえず待つ
 
 ```python
 from time import sleep
@@ -552,7 +550,7 @@ seleniumはJavaScriptほどDOMを操作することはできない
 
 [GitHub上seleniumにアニメーションの実行をまつの議論](https://github.com/webdriverio/webdriverio/issues/3106)
 
-#### ポーリング時間指定（非明示的待機）
+### ポーリング時間指定（非明示的待機）
 
 ```python
 driver.implicitly_wait(seconds)
@@ -562,7 +560,7 @@ driver.implicitly_wait(seconds)
 > デフォルトは**0**  
 > 設定は一回だけで十分
 
-#### 条件を指定（明示的待機）
+### 条件を指定（明示的待機）
 
 ```python
 from selenium import webdriver
@@ -595,7 +593,7 @@ WebDriverWait(driver,
 
 [詳細はAPIを参照](https://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.support.expected_conditions)
 
-### 11. [ScreenShot](https://qiita.com/memakura/items/20a02161fa7e18d8a693#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88)
+## 11. [ScreenShot](https://qiita.com/memakura/items/20a02161fa7e18d8a693#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88)
 
 ```python
 driver.save_screenshot(filename)
@@ -615,7 +613,7 @@ img.save(filename)
 img.show()
 ```
 
-### 12. [Exception](https://selenium-python.readthedocs.io/api.html#module-selenium.common.exceptions)
+## 12. [Exception](https://selenium-python.readthedocs.io/api.html#module-selenium.common.exceptions)
 
 * **NoSuchElementException**
 * NoSuchFrameException
@@ -629,7 +627,7 @@ img.show()
 * WebDriverException
 * NoAlertPresentException
 
-### 13. JavaScriptの活用
+## 13. JavaScriptの活用
 
 ```python
 import datetime as dt
@@ -676,18 +674,18 @@ driver.execute_script(
 
 ![style](./imgs/22.change%20dom%20element's%20style.png)
 
-### 14. Page Object
+## 14. Page Object
 
-### 15. そのほか
+## 15. そのほか
 
-#### close() VS quit()
+### close() VS quit()
 
 > close(): Closes the current window
 > quit(): Closes the browser and **shuts down** the ChromiumDriver executable that is started when starting the ChromiumDriver
 
 ![quit](./imgs/19.quit.png)
 
-#### 「Chromeは自動テストソフトウェアによって制御されています」を非表示
+### 「Chromeは自動テストソフトウェアによって制御されています」を非表示
 
 ```python
 chrome_options = webdriver.ChromeOptions()
@@ -696,7 +694,7 @@ chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
 driver = webdriver.Chrome(options=chrome_options)
 ```
 
-#### cookies
+### cookies
 
 ```python
 driver.get_cookies()
@@ -707,7 +705,7 @@ driver.delete_cookie(keyname)
 
 ![add](./imgs/20.add_cookie.png)
 
-#### Headless Chrome
+### Headless Chrome
 
 > Chromeの画面を開かないままChromeが支持する機能を利用するのは`Headless Chrome`  
 > つまり、CLIとGUIの違い  
