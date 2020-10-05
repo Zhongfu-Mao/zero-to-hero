@@ -723,3 +723,53 @@ FAILED (expected failures=1, unexpected successes=1)
 
 ## VSCodeでUnitTestを実行
 
+ステップ１：  
+    Pythonファイルを作る。ファイルの中に`test`があるのを確保する。  
+    ※もっとも推薦されているは`test_*`のような形。(分かりやすい)
+    ![適当に作って](./imgs/24.create%20a%20file.png)
+    上の例の中から任意な物を選択して、コピーペーストする
+    ![どれでも良い](./imgs/25.choose%20a%20random%20example.png)
+ステップ２：  
+    `Ctrl+Shift+P`でコマンドパネルを召喚、`python:test`を入力し、`Discover Tests`を選択する
+    ![discover tests](./imgs/26.discover%20tests.png)
+    ワークスペースを選択する
+    ![select workspace](./imgs/27.select%20workspace.png)
+ステップ３：
+    ![no config file](./imgs/28.no%20config%20files%20warning.png)
+    `Enable and configure a Test Framework`を選択する
+ステップ４：  
+    フレームワーク、フォルダ、ファイルパターンを順次で選択する
+    ![select framework](./imgs/29.select%20framework.png)
+    ![select folder](./imgs/30.select%20folder.png)
+    ![select file pattern](./imgs/31.select%20file%20pattern.png)
+
+以上のステップを実行したら、サイドバーにtestのアイコンが出て来る  
+![icon](./imgs/32.sidebar.png)  
+クリックしたら、以下のパネルが出て来る
+![panel](./imgs/33.panel.png)
+ステップ１で作ったファイルを開くと
+![run test and debug test](./imgs/34.run%20test%20and%20debug%20test.png)  
+クラスとメソッドの上に`Run test|Debug test`が表示される
+
+そして、`.vscode`のフォルダに`settings.json`が自動的に作られる  
+![.vscode](./imgs/35.".vscode".png)  
+中身は以下となる  
+![setting.json](./imgs/36.setting.json.png)
+
+```json
+{
+    "python.testing.unittestArgs": [
+        "-v", //--verbose, 詳しい出力
+        "-s", //--start-directory
+        "./Python Files", //サーチするフォルダ
+        "-p", //--pattern
+        "test_*.py" //ステップ４で選択したファイルパターン
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true //ステップ４で選択したフレームワーク
+}
+```
+
+テストを実行したら、以下のような結果になる
+![test result](./imgs/37.test%20result.png)
