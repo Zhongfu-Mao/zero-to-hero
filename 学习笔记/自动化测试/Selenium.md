@@ -674,7 +674,7 @@ driver.execute_script(
 
 ![style](./imgs/22.change%20dom%20element's%20style.png)
 
-## 14. Page Object
+## 14. [Page Object](https://selenium-python.readthedocs.io/page-objects.html)
 
 ## 15. そのほか
 
