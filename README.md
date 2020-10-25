@@ -1,21 +1,19 @@
 # FULLSTACKへの道
 
-## 文字列処理
-
-* [x] manipulating string
-* [ ] string
-* [ ] re
-
 ## DataScience
 
-* [ ] IPython
-* [ ] Jupyter Notebook
+* [ ] IPython & Jupyter Notebook
 * [ ] Numpy
 * [ ] Pandas
 * [ ] MatPlotLib
 * [ ] SeaBorn
 * [ ] Plotly
 * [ ] Dash
+* [ ] 文字列処理
+  * [x] manipulating string
+  * [ ] string
+  * [ ] re
+  * [ ] Unicode
 
 ## NetWork
 
