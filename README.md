@@ -14,6 +14,13 @@
   * [ ] string
   * [ ] re
   * [ ] Unicode
+  * [ ] emoji
+
+## Python
+
+* [x] pip
+* [ ] os.path & pathlib
+* [ ] time & datetime & calendar & dateutil(3rd-party)
 
 ## NetWork
 
@@ -22,13 +29,13 @@
 * [ ] csv
 * [ ] json
 * [ ] xml
-* [ ] xlsx
+* [x] xlsx
 * [ ] yaml
 
 ## 自動化テスト
 
-* [ ] Selenium
-* [ ] UnitTest
+* [x] Selenium
+* [x] UnitTest
 * [ ] Data Driven Test
 * [ ] PyTest
 * [ ] RobotFramework
@@ -36,6 +43,21 @@
 ## FunctionalProgramming
 
 ## データ構造とアルゴリズム
+
+* [ ] enum
+* [ ] collections
+* [ ] array
+* [ ] heapq
+* [ ] bisect
+* [ ] queue
+* [ ] struct
+* [ ] weakref
+* [ ] copy
+* [ ] pprint
+* [ ] functools
+* [ ] itertools
+* [ ] operator
+* [ ] contextlib
 
 ## DesignPattern
 
