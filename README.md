@@ -1,8 +1,11 @@
-# FULLSTACKへの道
+# FullStackへの道
 
 ## DataScience
 
-* [ ] IPython & Jupyter Notebook
+* [ ] Jupyter
+  * [x] IPython
+  * [x] Magic Commands
+  * [ ] NoteBook & Lab
 * [ ] Numpy
 * [ ] Pandas
 * [ ] MatPlotLib
