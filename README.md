@@ -12,36 +12,34 @@
 * [ ] SeaBorn
 * [ ] Plotly
 * [ ] Dash
+* [ ] d3.js
 * [ ] 文字列処理
   * [x] manipulating string
   * [ ] string
-  * [ ] re
   * [ ] Unicode
   * [ ] emoji
+  * [ ] re
 
 ## Python
 
 * [x] pip
-* [ ] os.path & pathlib
+* [x] os.path & pathlib
 * [ ] time & datetime & calendar & dateutil(3rd-party)
+* [x] Tricks
+* [ ] sys & os
 
 ## NetWork
 
-## ファイル処理
+## 自動化
 
-* [ ] csv
-* [ ] json
-* [ ] xml
-* [x] xlsx
-* [ ] yaml
-
-## 自動化テスト
-
-* [x] Selenium
-* [x] UnitTest
-* [ ] Data Driven Test
-* [ ] PyTest
-* [ ] RobotFramework
+* [ ] テスト
+  * [x] Selenium
+  * [x] UnitTest
+  * [ ] Data Driven Test
+  * [ ] PyTest
+  * [ ] RobotFramework
+* [ ] Office
+  * [x] xlwings
 
 ## FunctionalProgramming
 
@@ -87,6 +85,8 @@
 * [ ] OpenCV
 
 ## PowerShell
+
+* [x] 基礎
 
 ## FrontEnd
 
