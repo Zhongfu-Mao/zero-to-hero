@@ -2,10 +2,9 @@
 
 ## DataScience
 
-* [ ] Jupyter
-  * [x] IPython
+* [x] Jupyter
+  * [x] IPython & NoteBook
   * [x] Magic Commands
-  * [ ] NoteBook & Lab
 * [ ] Numpy
 * [ ] Pandas
 * [ ] MatPlotLib
