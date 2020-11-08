@@ -12,12 +12,6 @@
 * [ ] Plotly
 * [ ] Dash
 * [ ] d3.js
-* [ ] 文字列処理
-  * [x] manipulating string
-  * [ ] string
-  * [ ] Unicode
-  * [ ] emoji
-  * [ ] re
 
 ## Python
 
@@ -26,6 +20,7 @@
 * [ ] time & datetime & calendar & dateutil(3rd-party)
 * [x] Tricks
 * [ ] sys & os
+* [ ] 文字列処理
 
 ## NetWork
 
