@@ -17,10 +17,10 @@
 
 * [x] pip
 * [x] os.path & pathlib
-* [ ] time & datetime & calendar & dateutil(3rd-party)
+* [x] time & datetime & calendar & dateutil(3rd-party)
 * [x] Tricks
 * [ ] sys & os
-* [ ] 文字列処理
+* [x] 文字列処理
 
 ## NetWork
 
