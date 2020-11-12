@@ -1,4 +1,4 @@
-# 关于Git和GitHub的一些学习网站
+# Git & GitHub
 
 [Pro Git](https://git-scm.com/book/zh/v2)
 
