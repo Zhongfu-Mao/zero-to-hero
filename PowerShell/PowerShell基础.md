@@ -40,6 +40,7 @@ help Get-WmiObject -Full
 Get-Help Get-Help -Detailed
 Get-Help Get-Service -ShowWindow
 help about*
+<cmdlet> -?
 get-help about_Functions_Advanced_Parameters -showWindow
 ```
 
