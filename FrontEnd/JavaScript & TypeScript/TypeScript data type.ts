@@ -181,3 +181,94 @@ function isNumber(x: any): x is number {
 function isString(x: any): x is string {
     return typeof x === "string";
 }
+
+/** タイプの結合と別名 */
+
+const sayHello = (name: string | undefined) => {
+
+};
+
+type EventNames = "click" | "scroll" | "mousemove";
+
+enum CarTransmission {
+    Automatic = 200,
+    Manual = 300
+}
+
+interface MotorCycle {
+    vType: "motorcycle";
+    make: number;
+}
+
+interface Car {
+    vType: "car";
+    transmission: CarTransmission;
+}
+
+interface Truck {
+    vType: "truck";
+    capacity: number;
+}
+
+type Vehicle = MotorCycle | Car | Truck;
+
+const EVALUATION_FACTOR = Math.PI;
+
+function evaluatePrice(vehicle: Vehicle) {
+    switch (vehicle.vType) {
+        case "car":
+            return vehicle.transmission * EVALUATION_FACTOR;
+        case "truck":
+            return vehicle.capacity * EVALUATION_FACTOR;
+        case "motorcycle":
+            return vehicle.make * EVALUATION_FACTOR;
+    }
+}
+
+const myTruck: Truck = { vType: "truck", capacity: 9.5 };
+evaluatePrice(myTruck);
+
+type PartialPointX = { x: number; };
+type Point = PartialPointX & { y: number; };
+
+let point: Point = {
+    x: 1,
+    y: 1
+}
+
+interface X {
+    c: string;
+    d: string;
+}
+
+interface Y {
+    c: number;
+    e: string;
+}
+
+type XY = X & Y;
+type YX = Y & X;
+
+let p: XY;
+let q: YX;
+
+p = { c: 6, d: "d", e: "e"}; // string & numbet -> never
+q = { c: "c", d: "d", e: "e"};
+
+interface D { d: boolean; }
+interface E { e: string; }
+interface F { f: number; }
+
+interface A { x: D; }
+interface B { x: E; }
+interface C { x: F; }
+
+type ABC = A & B & C;
+
+let abc: ABC = {
+    x: { // OK
+        d: true,
+        e: "hello",
+        f: 666
+    }
+}
