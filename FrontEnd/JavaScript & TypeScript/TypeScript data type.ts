@@ -100,3 +100,84 @@ function error(message: string): never { // Never
 function infiniteLoop(): never {
     while (true) {} // 戻り値は存在しない
 }
+
+interface Hero {
+    name: string;
+    power: Record<string, number>; // Record
+}
+
+const hero: Partial<Hero> = { // Partial
+    name: "Iron man"
+}
+
+/** 断言 */
+
+let someValue: any = "this is a string";
+let strLength1: number = (<string>someValue).length;  // データタイプ断言、方法1
+let strLength2: number = (someValue as string).length;  // データタイプ断言、方法2
+
+const a: number | undefined = undefined;
+const b: number = a!; // nullとundefinedを排除する
+
+/** タイプをガイド */
+
+//　方法１：`in`
+interface Admin {
+    name: string;
+    privileges: string[];
+}
+
+interface Employee {
+    name: string;
+    startDate: Date;
+}
+
+type UnknownEmployee = Employee | Admin;
+
+function printEmployeeInformation(emp: UnknownEmployee) {
+    console.log(`Name: ${emp.name}`);
+    if ("privileges" in emp) {
+        console.log(`Privileges: ${emp.privileges}`);
+    }
+    if ("startDate" in emp) {
+        console.log(`Start Date: ${emp.startDate}`);
+    }
+}
+
+//　方法２: `typeof`
+function padLeft(value: string, padding: string | number) {
+    if (typeof padding === "number") {
+        return Array(padding + 1).join(" ") + value;
+    }
+    if (typeof padding === "string") {
+        return padding + value;
+    }
+    throw new Error(`Expected string or number , get '${padding}'`)
+}
+
+// 方法３：　`instanceof`
+interface Padder {
+    getPaddingString(): string;
+}
+
+class SpaceRepeatingPadder implements Padder {
+    constructor(private numSpaces: number) {}
+    getPaddingString() {
+        return Array(this.numSpaces + 1).join(" ");
+    }
+}
+
+let padder: Padder = new SpaceRepeatingPadder(6);
+
+if (padder instanceof SpaceRepeatingPadder) {
+
+}
+
+// 方法4：自分で定義する
+function isNumber(x: any): x is number {
+    return typeof x === "number";
+}
+
+function isString(x: any): x is string {
+    return typeof x === "string";
+}
