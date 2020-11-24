@@ -1,15 +1,17 @@
 import json
-import re
-from pathlib import Path
+import subprocess
 
+subprocess.run([
+    "powershell",
+    "code",
+    "--list-extensions",
+    "> foo.txt"
+])
 
-path = Path.home() / ".vscode/extensions"
+with open("foo.txt", encoding="utf16") as f:
+    names = f.readlines()
 
-extensions = []
-for p in path.iterdir():
-    if str(p.name).startswith("."):  # .obsoleteを無視する
-        continue
-    extensions.append(re.split(r"-\d+\.\d+\.\d+", str(p.name))[0])
+names = [name.rstrip("\n") for name in names]
 
 with open("extensions.json", "w") as f:
-    json.dump({"recommendations": sorted(extensions)}, f, indent=2)
+    json.dump({"recommendations": names}, fp=f, indent=2)
