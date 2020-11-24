@@ -1,5 +1,6 @@
 import json
 import subprocess
+import os
 
 subprocess.run([
     "powershell",
@@ -15,3 +16,5 @@ names = [name.rstrip("\n") for name in names]
 
 with open("extensions.json", "w") as f:
     json.dump({"recommendations": names}, fp=f, indent=2)
+
+os.remove("foo.txt")
