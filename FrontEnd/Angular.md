@@ -63,13 +63,13 @@
     * *hero.component.ts* -> `@Input() name: string`
     * *hero.component.html* -> `<p>{{name}} hero works!</p>`
     * *app.component.html* -> `<app-hero [name]="hero"></app-hero>`
-    * *app.component.ts* -> `export class AppComponent {hero = 'Spiderman'}`
+    * *app.component.ts* -> `export class AppComponent { hero = 'Spiderman' }`
 * output binding
   * 例:
     * *hero.component.ts* -> `@Output() liked: new EventEmitter();`
     * *hero.component.html* -> `<button (click)="liked.emit()">Like</button>`
     * *app.component.html* -> `<app-hero [name]="hero" (liked)="onLike()"></app-hero>`
-    * *app.component.ts* -> `onLike() {window.alert(`I like ${this.hero}`);}`
+    * *app.component.ts* -> `export class AppComponent { onLike() {window.alert(`I like ${this.hero}`); }`
 
 ![Component inter-communication](https://www.infragistics.com/community/resized-image/__size/292x270/__key/communityserver-blogs-components-weblogfiles/dhananjay_5F00_kumar-componentcommunication/6507.img1.PNG)
 
