@@ -90,3 +90,5 @@
 * AfterContentChecked
 * AfterViewInit
 * AfterViewChecked
+
+## [ng-container, ng-content, ng-template](https://qiita.com/shibukawa/items/c8c7fd22c1054348db3a)
