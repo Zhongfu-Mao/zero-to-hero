@@ -2,6 +2,8 @@
 
 from collections import namedtuple
 
+import pytest
+
 
 Task = namedtuple('Task', ['summary', 'owner', 'done', 'id'])
 Task.__new__.__defaults__ = (None, None, False, None)
@@ -19,8 +21,9 @@ def test_asdict():
     assert t_dict == expected
 
 
+@pytest.mark.run_these_please
 def test_replace():
     t_before = Task('finish cooking', 'sanji', False)
     t_after = t_before._replace(id=10, done=True)
-    t_expected = Task('finish cooking', 'sanji', True, 10)
+    t_expected = Task('finish cooking', 'sanji', True, 11)
     assert t_after == t_expected
