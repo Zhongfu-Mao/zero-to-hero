@@ -1,0 +1,67 @@
+{
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "editor.acceptSuggestionOnEnter": "smart",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.factorypath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        // "**/*.js": {
+        //     "when": "$(basename).ts"
+        // },
+        "**/*.js.map": {
+            "when": "$(basename)"
+        },
+    },
+    "git.ignoreMissingGitWarning": true,
+    "python.pythonPath": "/opt/anaconda3",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "workbench.colorTheme": "Material Theme Palenight",
+    "workbench.iconTheme": "vscode-icons",
+    "window.zoomLevel": 2,
+    "terminal.integrated.shell.osx": "/bin/zsh",
+    "explorer.confirmDelete": false,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "terminal.integrated.inheritEnv": false,
+    "files.autoSave": "onFocusChange",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "python.languageServer": "Pylance",
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "max-line-length=100"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.showStartPage": false,
+    "python.defaultInterpreterPath": "/Library/Frameworks/Python.framework/Versions/3.8/bin/python3",
+    "[html]": {
+        "editor.suggest.insertMode": "replace",
+        "gitlens.codeLens.scopes": [
+            "document"
+        ],
+        "editor.formatOnSave": true
+    },
+    "terminal.integrated.fontFamily": "meslo lg m for powerline",
+    "terminal.integrated.fontSize": 14,
+    "editor.fontFamily": "'Fira Code',Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "git.suggestSmartCommit": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "jupyter.widgetScriptSources": [
+        "jsdelivr.com",
+        "unpkg.com"
+    ],
+    "jupyter.alwaysTrustNotebooks": true,
+    "jupyter.interactiveWindowMode": "perFile",
+    "powermode.enabled": true,
+    "powermode.presets": "fireworks",
+    "powermode.enableShake": false,
+    "powermode.explosionOffset": 0.5,
+    "powermode.explosionSize": 8,
+    "powermode.enableStatusBarComboTimer": false,
+    "powermode.enableStatusBarComboCounter": false,
+    "editor.renderWhitespace": "trailing",
+    "jupyter.askForKernelRestart": false,
+    "AREPL.max_string_length": 80,
+}
