@@ -77,6 +77,7 @@ git reset HEAD~1 # 回滚至HEAD的父提交
 git branch # 查看分支
 git branch <分支名> # 创建分支
 git branch -d <分支名> # 删除分支
+git branch -u origin/<分支名> <本地分支名>
 ```
 
 #### `checkout`
@@ -85,6 +86,8 @@ git branch -d <分支名> # 删除分支
 git checkout <分支名> # 切换到分支
 git checkout -b <分支名> # 创建分支同时切换过去
 git checkout <tag> # 切换Tag
+git checkout origin/<分支名> # 远程仓库的命名规范: <远程仓库名>/<分支名>
+git checkout -b <本地分支名> origin/<分支名> # 在本地创建分支追踪远程的分支
 ```
 
 #### `log`
@@ -136,6 +139,7 @@ git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引
 ```bash
 git rebase <分支名> # 把当前分支的工作移到别的分支
 git rebase -i HEAD~4 # 在交互式编辑(如vim)中提交记录
+git rebase <基准分支名> <移动分支名> # 把移动分支名移动到基准分支名下
 ```
 
 #### `revert`
@@ -255,6 +259,46 @@ git checkout HEAD^ # 将HEAD作为相对引用的参考
 git branch -f main HEAD~3 # 将 main 分支强制指向 HEAD 的第 3 级父提交
 
 # `~`和`^`可以链式使用
+```
+
+### Sharing and Updating Projects
+
+#### `fetch`
+
+> git fetch 完成了仅有的但是很重要的两步:  
+> 1.从远程仓库下载本地仓库中缺失的提交记录  
+> 2.更新远程分支指针(如 origin/master)  
+> `git fetch` 实际上将本地仓库中的远程分支更新成了远程仓库相应分支最新的状态。  
+> `git fetch` 通常通过互联网（使用 http:// 或 git:// 协议)与远程仓库通信。  
+> `git fetch` 并*不会*改变你本地仓库的状态。它*不会*更新你的 main 分支，*也不会*修改你磁盘上的文件。  
+> 可以将 `git fetch` 的理解为单纯的下载操作
+
+```bash
+git fetch # 下载所有的提交记录到各个远程分支
+git fetch origin <分支名>
+git fetch origin <source>:<destination> # destination分支不存在时会创建
+git fetch origin :<分支名> # 在本地创建一个新分支
+```
+
+#### `pull`
+
+> `git pull` == `git fetch` + `git merge`
+
+```bash
+git pull
+git pull --rebase # fetch+rebase
+git pull origin <source>:<destination>
+```
+
+#### `push`
+
+> `git push` 不带任何参数时的行为与 Git 的一个名为 `push.default` 的配置有关,它的默认值取决于你正使用的 Git 的版本
+
+```bash
+git push
+git push <remote> <place>
+git push origin <source>:<destination>
+git push origin :<分支名> # 删除远程仓库中的分支
 ```
 
 ## GitHub
