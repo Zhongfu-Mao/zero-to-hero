@@ -3,9 +3,11 @@
 ## 参考资料
 
 * [Pro Git](https://git-scm.com/book/zh/v2)
-* [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)
+* [x]  [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)
+    > `show solution`查看答案  
+    > `reset`重置
 * [try git](https://try.github.io)
-* [B站视频教程](https://www.bilibili.com/video/BV1tf4y1e7yt?p=1)
+* [x] [B站视频教程](https://www.bilibili.com/video/BV1tf4y1e7yt?p=1)
 * [官方文档](https://git-scm.com/docs)
 
 ## Git
@@ -63,6 +65,8 @@ git reset --hard 版本号 # 回滚至之前的版本
 
 git reflog
 git reset --hard 版本号 # 回滚至之后的版本
+
+git reset HEAD~1 # 回滚至HEAD的父提交
 ```
 
 ### Branching and Merging
@@ -97,11 +101,29 @@ git merge <分支名> # 合并分支
 
 ### `tag`
 
+> Tag并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置
+
 ```bash
+git tag <Tag名> [node] # 给node打tag,如果不提供node则使用HEAD指向的位置
 git tag -a <Tag名> -m 'message' # 创建本地Tag信息
 git tag -d <Tag名> # 删除Tag
 git push origin --tag # 将本地Tag信息推送到远程仓库
 git pull origin --tag # 更新本地Tag版本信息
+```
+
+### Inspection and Comparison
+
+#### `describe`
+
+```bash
+git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（HEAD）
+
+# 输出的结果是这样的：
+#   <tag>_<numCommits>_g<hash>
+#       * tag 表示的是离 ref 最近的标签
+#       * numCommits 是表示这个 ref 与 tag 相差有多少个提交记录
+#       * hash 表示的是你所给定的 ref 所表示的提交记录哈希值的前几位。
+# 当 ref 提交记录上有某个标签时，则只输出标签名称
 ```
 
 ### Patching
@@ -113,6 +135,19 @@ git pull origin --tag # 更新本地Tag版本信息
 
 ```bash
 git rebase <分支名> # 把当前分支的工作移到别的分支
+git rebase -i HEAD~4 # 在交互式编辑(如vim)中提交记录
+```
+
+#### `revert`
+
+```bash
+git revert HEAD # 撤销HEAD的更改,复制HEAD的父节点并指向它, 针对远程仓库
+```
+
+#### `cherry-pick`
+
+```bash
+git cherry-pick <node的哈希值>...# 选取想复制的node, 直接复制到当前HEAD
 ```
 
 ### Config
@@ -190,7 +225,7 @@ files/
 
 [各种语言的参考](https://github.com/github/gitignore)
 
-### 高级内容
+### 在树上移动
 
 #### HEAD
 
@@ -198,8 +233,29 @@ files/
 > HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。  
 > HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
 
-* 查看HEAD指向: `cat .git/HEAD`
-* 如果HEAD指向一个引用,查看其指向: `git symbolic-ref HEAD`
+```bash
+cat .git/HEAD # 查看HEAD指向
+git symbolic-ref HEAD # 如果HEAD指向一个引用,查看其指向
+git checkout <node的哈希值> # 移动HEAD的指向
+```
+
+#### 相对引用
+
+```bash
+# 操作符 (^): 把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交
+# 如果跟数字, 表示在两个父节点时的另一个
+git checkout main^ # 移动到main的父节点
+git checkout main^^ # 移动到main的第二个父节点
+
+git checkout <node的哈希值>
+git checkout HEAD^ # 将HEAD作为相对引用的参考
+
+
+# 操作符(~): 该操作符后面可以跟一个数字（可选，不跟数字时与 ^ 相同，向上移动一次），指定向上移动多少次
+git branch -f main HEAD~3 # 将 main 分支强制指向 HEAD 的第 3 级父提交
+
+# `~`和`^`可以链式使用
+```
 
 ## GitHub
 
