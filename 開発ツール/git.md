@@ -301,6 +301,34 @@ git push origin <source>:<destination>
 git push origin :<分支名> # 删除远程仓库中的分支
 ```
 
+## Git Svn
+
+### To clone repository from SVN
+
+```bash
+git svn clone "<URL>" --prefix=svn/ --trunk=trunk --branches=branches --tags=tags  --authors-file
+```
+
+### To pull in new commits from SVN
+
+```bash
+git stash
+git svn rebase
+git stash pop
+```
+
+### To ignore changes of something
+
+```bash
+git update-index --assume-unchanged db.sqlite3
+```
+
+### To push local commits into SVN
+
+```bash
+git svn dcommit
+```
+
 ## GitHub
 
 ### 上传
