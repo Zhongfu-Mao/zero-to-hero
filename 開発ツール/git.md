@@ -117,9 +117,15 @@ git pull origin --tag # 更新本地Tag版本信息
 #### `stash`
 
 ```bash
-git stash
+git stash           // create stash
+git stash push -m "message" // create stash with msg
+git stash apply         // to apply stash
+git stash apply stash@{index} // to apply  specific stash
+git stash list          //list stash
+git stash drop stash@{index}      //to delete stash
 git stash pop
-git stash clear
+git stash pop stash@{index} //stash pop = stash drop + stash apply
+git stash clear         //clear all your local stashed code
 ```
 
 ### Inspection and Comparison
