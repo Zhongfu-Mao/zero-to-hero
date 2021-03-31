@@ -102,7 +102,7 @@ git log
 git merge <分支名> # 合并分支
 ```
 
-### `tag`
+#### `tag`
 
 > Tag并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置
 
@@ -112,6 +112,14 @@ git tag -a <Tag名> -m 'message' # 创建本地Tag信息
 git tag -d <Tag名> # 删除Tag
 git push origin --tag # 将本地Tag信息推送到远程仓库
 git pull origin --tag # 更新本地Tag版本信息
+```
+
+#### `stash`
+
+```bash
+git stash
+git stash pop
+git stash clear
 ```
 
 ### Inspection and Comparison
