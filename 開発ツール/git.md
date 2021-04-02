@@ -42,6 +42,7 @@ git clone -b <Tag名> <地址> # 指定Tag下载代码
 
 ```bash
 git status
+git status -s # --short的缩写
 ```
 
 #### `add`
@@ -51,10 +52,25 @@ git add .
 git add <文件名>
 ```
 
+#### `rm`
+
+```bash
+git rm [<文件名> | 正则表达式]
+git rm -f [<文件名> | 正则表达式]# Force
+git rm --cached [<文件名> | 正则表达式] # 保留硬盘上的文件, 从git上删除
+```
+
+#### `mv`
+
+```bash
+git mv file_from file_to # 重命名文件
+```
+
 #### `commit`
 
 ```bash
 git commit -m "描述信息"
+git commit --amend
 ```
 
 #### `reset`
@@ -67,6 +83,13 @@ git reflog
 git reset --hard 版本号 # 回滚至之后的版本
 
 git reset HEAD~1 # 回滚至HEAD的父提交
+```
+
+#### `restore`
+
+```bash
+git restore <file> # 和`git checkout -- <file>`同样效果
+git restore --staged <file>
 ```
 
 ### Branching and Merging
@@ -88,13 +111,44 @@ git checkout -b <分支名> # 创建分支同时切换过去
 git checkout <tag> # 切换Tag
 git checkout origin/<分支名> # 远程仓库的命名规范: <远程仓库名>/<分支名>
 git checkout -b <本地分支名> origin/<分支名> # 在本地创建分支追踪远程的分支
+
+git checkout -- <file> # 撤销修改, 丢失所有本地修改
 ```
 
 #### `log`
 
 ```bash
 git log
+git log --status # 简要信息
+
+git log -p -<n> # --patch, 最近n次的差异
+git log --[since|until]=2.weeks # 可以使用相对日期(多少小时以前之类)和绝对日期
+git log --[before|after]="2020-01-01" # 可以使用相对日期(多少小时以前之类)和绝对日期
+
+git log --pretty=[oneline|short|full|fuller]
+git log --pretty=format:"格式化字符串"
+git log --pretty=format:"格式化字符串" --graph
+
+git log -- path/to/file
 ```
+
+| Specifier |   Description of Output   |
+| :-------: | :-----------------------: |
+|    %H     |        Commit Hash        |
+|    %h     |  Abbreviated commit hash  |
+|    %T     |         Tree hash         |
+|    %t     |   Abbreviated tree hash   |
+|    %P     |       Parent hashes       |
+|    %p     | Abbreviated parent hashes |
+|    %an    |        Author name        |
+|    %ae    |       Author email        |
+|    %ad    |        Author date        |
+|    %ar    |   Author date, relative   |
+|    %cn    |      Committer name       |
+|    %ce    |      Committer email      |
+|    %cd    |      Committer date       |
+|    %cr    | Committer date, relative  |
+|    %s     |          Subject          |
 
 #### `merge`
 
@@ -107,11 +161,17 @@ git merge <分支名> # 合并分支
 > Tag并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置
 
 ```bash
+git tag # listing existing tags
+git tag -l "v1.2.*" # 可以使用通配符
+
 git tag <Tag名> [node] # 给node打tag,如果不提供node则使用HEAD指向的位置
-git tag -a <Tag名> -m 'message' # 创建本地Tag信息
+git tag -a <Tag名> -m 'message' [node] # 创建本地Tag信息
 git tag -d <Tag名> # 删除Tag
+
 git push origin --tag # 将本地Tag信息推送到远程仓库
 git pull origin --tag # 更新本地Tag版本信息
+
+git show <Tag名>
 ```
 
 #### `stash`
@@ -200,6 +260,16 @@ git config --global user.name "Your Name"
 # 系统配置文件: /etc/.gitconfig
 git config --system user.email "for@example.com"
 git config --system user.name "Your Name"
+```
+
+#### 别名设置
+
+```bash
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.last 'log -1 HEAD'
 ```
 
 ### 免密码登陆
@@ -313,6 +383,16 @@ git push
 git push <remote> <place>
 git push origin <source>:<destination>
 git push origin :<分支名> # 删除远程仓库中的分支
+```
+
+#### `remote`
+
+```bash
+git remote
+git remote -v
+git remote show origin
+git remote rename name_from name_to
+git remote remove <remote>
 ```
 
 ## Git Svn
