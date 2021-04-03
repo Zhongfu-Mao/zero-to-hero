@@ -98,9 +98,14 @@ git restore --staged <file>
 
 ```bash
 git branch # 查看分支
+git branch --merged
+git branch --no-merged
+
 git branch <分支名> # 创建分支
 git branch -d <分支名> # 删除分支
 git branch -u origin/<分支名> <本地分支名>
+
+git branch --move bad-branch-name corrected-branch-name # 重命名分支
 ```
 
 #### `checkout`
@@ -113,6 +118,14 @@ git checkout origin/<分支名> # 远程仓库的命名规范: <远程仓库名>
 git checkout -b <本地分支名> origin/<分支名> # 在本地创建分支追踪远程的分支
 
 git checkout -- <file> # 撤销修改, 丢失所有本地修改
+```
+
+#### `switch`
+
+```bash
+git switch <branch>
+git switch -c <new-branch> # --create
+git switch - # Return to previously checked out branch
 ```
 
 #### `log`
@@ -214,6 +227,7 @@ git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引
 git rebase <分支名> # 把当前分支的工作移到别的分支
 git rebase -i HEAD~4 # 在交互式编辑(如vim)中提交记录
 git rebase <基准分支名> <移动分支名> # 把移动分支名移动到基准分支名下
+git rebase --onto master server client # 把从server开始分支出来的client移到master上
 ```
 
 #### `revert`
@@ -383,6 +397,10 @@ git push
 git push <remote> <place>
 git push origin <source>:<destination>
 git push origin :<分支名> # 删除远程仓库中的分支
+
+git branch --move master main # 重命名远程仓库的主分支名
+git push --set-upstream origin main
+git push origin --delete master
 ```
 
 #### `remote`
