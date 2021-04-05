@@ -225,7 +225,15 @@ git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引
 
 ```bash
 git rebase <分支名> # 把当前分支的工作移到别的分支
-git rebase -i HEAD~4 # 在交互式编辑(如vim)中提交记录
+git rebase -i HEAD~4 # 在交互式编辑(如vim, VSCode)中提交记录
+# d, drop = remove commit
+# x, exec = run command (the rest of the line) using shell
+# f, fixup = like "squash", but discard this commit's log message
+# s, squash = use commit, but meld into previous commit
+# e, edit = use commit, but stop for amending
+# r, reword = use commit, but edit the commit message
+# p, pick = use commit
+
 git rebase <基准分支名> <移动分支名> # 把移动分支名移动到基准分支名下
 git rebase --onto master server client # 把从server开始分支出来的client移到master上
 ```
