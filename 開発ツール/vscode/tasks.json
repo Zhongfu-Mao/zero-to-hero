@@ -1,0 +1,28 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Debug Complete Notification Balloon",
+            "type": "shell",
+            "command": [
+                "[reflection.assembly]::loadwithpartialname('System.Windows.Forms');",
+                "[reflection.assembly]::loadwithpartialname('System.Drawing');",
+                "$notify = new-object system.windows.forms.notifyicon;",
+                "$notify.icon = [System.Drawing.SystemIcons]::Information;",
+                "$notify.visible = $true;",
+                "$timeout=20000;",
+                "$title='INFO';",
+                "$message='Debug終了～';",
+                "$toolTipIcon=[system.windows.forms.tooltipicon]::Info;",
+                "$notify.showballoontip($timeout, $title, $message, $toolTipIcon);",
+            ]
+        },
+        {
+            "label": "Debug Complete Notification Window",
+            "type": "shell",
+            "command": "[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms');[System.Windows.Forms.MessageBox]::Show('デバッグ終了~','INFO')"
+        }
+    ]
+}
