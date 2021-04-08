@@ -191,13 +191,19 @@ git show <Tag名>
 
 ```bash
 git stash           // create stash
+git stash list          //list stash
+
 git stash push -m "message" // create stash with msg
+
 git stash apply         // to apply stash
 git stash apply stash@{index} // to apply  specific stash
-git stash list          //list stash
+
 git stash drop stash@{index}      //to delete stash
+# In Powershell, "{" and "}" need to be escaped with "`"
+
 git stash pop
 git stash pop stash@{index} //stash pop = stash drop + stash apply
+
 git stash clear         //clear all your local stashed code
 ```
 
