@@ -70,7 +70,8 @@ git mv file_from file_to # 重命名文件
 
 ```bash
 git commit -m "描述信息"
-git commit --amend
+git commit --amend //rewrite commit message without staging
+git commit --amend --no-edit
 ```
 
 #### `reset`
@@ -82,7 +83,7 @@ git reset --hard 版本号 # 回滚至之前的版本
 git reflog
 git reset --hard 版本号 # 回滚至之后的版本
 
-git reset HEAD~1 # 回滚至HEAD的父提交
+git reset HEAD~1 # 回滚至HEAD的父提交, can be applied to undo Merges
 ```
 
 #### `restore`
@@ -143,6 +144,8 @@ git log --pretty=format:"格式化字符串"
 git log --pretty=format:"格式化字符串" --graph
 
 git log -- path/to/file
+
+git log -S <searchTarget> --one-line
 ```
 
 | Specifier |   Description of Output   |
@@ -205,6 +208,8 @@ git stash pop
 git stash pop stash@{index} //stash pop = stash drop + stash apply
 
 git stash clear         //clear all your local stashed code
+
+git stash branch <newBranchName> //create branch from a stash
 ```
 
 ### Inspection and Comparison
@@ -232,13 +237,17 @@ git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引
 ```bash
 git rebase <分支名> # 把当前分支的工作移到别的分支
 git rebase -i HEAD~4 # 在交互式编辑(如vim, VSCode)中提交记录
-# d, drop = remove commit
-# x, exec = run command (the rest of the line) using shell
-# f, fixup = like "squash", but discard this commit's log message
-# s, squash = use commit, but meld into previous commit
-# e, edit = use commit, but stop for amending
-# r, reword = use commit, but edit the commit message
-# p, pick = use commit
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup <commit> = like "squash", but discard this commit's log message
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
 
 git rebase <基准分支名> <移动分支名> # 把移动分支名移动到基准分支名下
 git rebase --onto master server client # 把从server开始分支出来的client移到master上
