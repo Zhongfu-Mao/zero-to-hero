@@ -102,40 +102,74 @@
 
 > E省略时表示任意类型元素
 
-## 边框
+## 层叠, 优先级和继承
 
-### 基本属性
+### 层叠
 
-* border-width
-* border-color
-* border-style
+* 选择器和声明块一起组成了*规则集（ruleset）*
+* `@规则(at-rules)`是指用“@”符号开头的语法。比如@import规则或者@media查询。
+* 行内元素属于“带作用域的”声明，它会覆盖任何来自样式表或者`<style>`标签的样式。
+* 伪类选择器（如：hover）和属性选择器（如[type="input"]）与一个类选择器的优先级相同。通用选择器（＊）和组合器（>、+、~）对优先级没有影响。
+* 当给一些声明加上！important时，就会先比较来源，再使用常规的优先级规则。最终会让一切回到起点：一旦引入一个！important，就会带来更多的！important。
+* 通常最好让优先级尽可能低，这样当需要覆盖一些样式时，才能有选择空间。
+* 如果两个声明的来源和优先级相同，其中一个声明在样式表中出现较晚，或者位于页面较晚引入的样式表中，则该声明胜出。
 
-缩写语法:
+### 继承
 
-```css
-border: border-width border-style border-color;
-```
+* 但不是所有的属性都能被继承。默认情况下，只有特定的一些属性能被继承，通常是我们希望被继承的那些。它们主要是跟文本相关的属性：color、font、font-family、font-size、font-weight、font-variant、font-style、line-height、letter-spacing、text-align、text-indent、text-transform、white-space以及word-spacing。
+* 还有一些其他的属性也可以被继承，比如列表属性：list-style、list-style-type、list-style-position以及list-style-image。
 
-> 没有先后次序
-> 只有`border-style`必须
+### 特殊值
 
-TRBL原则:
+* 有两个特殊值可以赋给任意属性，用于控制层叠：`inherit`和`initial`。
+* 有时，你需要撤销作用于某个元素的样式。这可以用initial关键字来实现。
+* initial重置为属性的初始值，而不是元素的初始值。
 
-```css
-border-style: <all>;
-border-style: <horizontal> <vertical>;
-border-style: <top> <horizontal> <bottom>;
-border-style: <top> <right> <bottom> <left>;
-```
+### 简写属性
 
-[border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style)
+* 大多数简写属性可以省略一些值，只指定我们关注的值。但是要知道，这样做仍然会设置省略的值，即它们会被隐式地设置为初始值。这会默默覆盖在其他地方定义的样式。
+* 尤其对于较小的元素，左右的内边距最好大于上下内边距。这种样式很适合网页的按钮或者导航链接
 
-### [边框颜色](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color)
+## 相对单位
 
-### [图片边框](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-image)
+### 相对值的好处
 
-### [圆角边框](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-radius)
+* CSS为网页带来了后期绑定（late-binding）的样式：直到内容和样式都完成了，二者才会结合起来。
+* 响应式——在CSS中指的是样式能够根据浏览器窗口的大小有不同的“响应”。
+* 1in = 25.4mm = 2.54cm = 6pc = 72pt = 96px
+* CSS像素并不严格等于显示器的像素，尤其在高清屏（视网膜屏）下。
 
-### [盒子阴影](https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow)
+### em和rem
 
-## 背景
+* 1em等于当前元素的字号，其准确值取决于作用的元素
+* 浏览器会根据相对单位的值计算出绝对值，称作*计算值（computed value）*。
+* 对大多数浏览器来说，默认的字号为16px。准确地说，medium关键字的值是16px。
+* em用在内边距、外边距以及元素大小上很好，但是用在字号上就会很复杂。
+* 在文档中，根节点是所有其他元素的祖先节点。根节点有一个`伪类选择器（:root）`，可以用来选中它自己。这等价于类型选择器html，但是html的优先级相当于一个类名，而不是一个标签。
+* rem是root em的缩写。rem不是相对于当前元素，而是相对于根元素的单位
+* 拿不准的时候，用rem设置字号，用px设置边框，用em设置其他大部分属性
+
+### 视口的相对单位
+
+* 视口——浏览器窗口里网页可见部分的边框区域。它不包括浏览器的地址栏、工具栏、状态栏。
+* ❑ vh：视口高度的1/100。❑ vw：视口宽度的1/100。❑ vmin：视口宽、高中较小的一方的1/100（IE9中叫vm，而不是vmin）。❑ vmax：视口宽、高中较大的一方的1/100（本书写作时IE和Edge均不支持vmax）
+* 相对视口单位有一个不起眼的用途，就是设置字号
+* 这样做的好处在于元素能够在这两种大小之间平滑地过渡，这意味着不会在某个断点突然改变。当视口大小改变时，元素会逐渐过渡。
+* calc()函数内可以对两个及其以上的值进行基本运算
+
+### 无单位的数值和行高
+
+* 任何长度单位（如px、em、rem）都可以用无单位的值0，因为这些情况下单位不影响计算值，即0px、0%、0em均相等。
+* 一个无单位的0只能用于长度值和百分比，比如内边距、边框和宽度等，而不能用于角度值，比如度，或者时间相关的值，比如秒。
+* 当一个元素的值定义为长度（px、em、rem，等等）时，子元素会继承它的计算值。
+* 使用无单位的数值时，继承的是声明值，即在每个继承子元素上会重新算它的计算值。
+
+### 自定义属性（即CSS变量）
+
+* 变量名前面必须有两个连字符（--），用来跟CSS属性区分，剩下的部分可以随意命名
+* 变量必须在一个声明块内声明。
+* 调用函数`var()`就能使用该变量
+* `var()`函数接受第二个参数，它指定了备用值。如果第一个参数指定的变量未定义，那么就会使用第二个值。
+* 如果`var()`函数算出来的是一个非法值，对应的属性就会设置为其初始值。
+* 自定义属性的声明能够层叠和继承：可以在多个选择器中定义相同的变量，这个变量在网页的不同地方有不同的值。
+* 自定义属性就像作用域变量一样，因为它的值会被后代元素继承。
