@@ -120,6 +120,23 @@ public class LinkedList<E> {
         return retNode.element;
     }
 
+    public void removeElement(E element) {
+        Node prev = dummyHead;
+        while (prev.next != null) {
+            if (prev.next.element.equals(element)) {
+                break;
+            }
+            prev = prev.next;
+        }
+
+        if (prev.next != null) {
+            Node delNode = prev.next;
+            prev.next = delNode.next;
+            delNode.next = null;
+            size--;
+        }
+    }
+
     public E removeFirst() {
         return remove(0);
     }
