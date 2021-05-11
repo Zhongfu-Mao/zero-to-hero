@@ -11,6 +11,14 @@ public class Array<E> {
         this(10);
     }
 
+    public Array(E[] array) {
+        data = (E[]) new Object[array.length];
+        for (int i = 0; i < array.length; i++) {
+            data[i] = array[i];
+        }
+        size = array.length;
+    }
+
     public int getSize() {
         return size;
     }
@@ -115,6 +123,16 @@ public class Array<E> {
         if (index != -1) {
             remove(index);
         }
+    }
+
+    public void swap(int index1, int index2) {
+        if (index1 < 0 || index1 >= size || index2 < 0 || index2 >= size) {
+            throw new IllegalArgumentException("Index is illegal");
+        }
+
+        E temp = data[index1];
+        data[index1] = data[index2];
+        data[index2] = temp;
     }
 
     @Override
