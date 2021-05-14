@@ -1,36 +1,9 @@
-# PowerShell 7の世界へようこそ
+# PowerShell 7
 
-cmd + .NET + C# = windows PowerShell
+> cmd + .NET + C# = PowerShell
+> PowerShell is an **Object-Oriented** programming or scripting language, and it is based on .NET.
 
-## 参考元
-
-### ビデオ
-
-[Youtube](https://www.youtube.com/watch?v=6CRTahGYnws&list=PL6D474E721138865A&index=1)
-[PowerShell 3.0 Basic](https://channel9.msdn.com/series/GetStartedPowerShell3/01)
-[PowerShell 3.0 Advanced](https://channel9.msdn.com/Series/advpowershell3/01)
-
-### 文書
-
-[日本語](https://docs.microsoft.com/ja-jp/powershell/)
-[変遷](https://ja.wikipedia.org/wiki/PowerShell#%E5%A4%89%E9%81%B7)
-
-### [フォーラム](https://powershell.org)
-
-### 管理者権限で開く方法
-
-```powershell
-start-process powershell -verb runas
-```
-
-### ISE(Integrated Script Environment)
-
-> 新しい機能もう追加しないので`VSCode+Powershell Extension`を利用するのをおすすめ
-> 公式ExtensionにはVSCodeの`Color Theme`も付いている、実際の効果はISE以上
-
-### CMDやBASHとの１番の違いー**オブジェクト指向**
-
-## 基本
+## Basic
 
 ### Help
 
@@ -44,7 +17,7 @@ help about*
 get-help about_Functions_Advanced_Parameters -showWindow
 ```
 
-### 実用的
+### Useful
 
 ```powershell
 Get-PSDrive
@@ -179,7 +152,7 @@ Get-CimInstance -ClassName Win32_BIOS
 
 ## Script
 
-### コメント
+### comment
 
 VSCodeに`comment-help`を入力したら、以下のようなコメントブロックが出てくる
 
@@ -201,11 +174,11 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 #>
 ```
 
-### 変数
+### variable
 
 #### [type](https://renenyffenegger.ch/notes/Windows/PowerShell/language/type/index)
 
-##### よく使われているタイプ
+##### types
 
 [string]    Fixed-length string of Unicode characters
 [char]      A Unicode 16-bit character
@@ -294,14 +267,3 @@ Get-Service | Write-Host
 Import-Module <ModuleName.psm1> -Force -Verbose
 $env:PSModulePath -split ";"
 ```
-
-### PowerShell 7
-
-```powershell
-1..100 | ForEach-Object -Parallel {
-    Start-Sleep 1
-    Write-Host -NoNewline "$_ "
-} -ThrottleLimit 100
-```
-
-## 面白そう
