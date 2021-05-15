@@ -75,8 +75,10 @@ Enter-PSSession -ComputerName localhost
 ### Format-*
 
 ```powershell
+# Format-Wide
 Get-Process | Format-Wide
 Get-Process | Format-Wide -Property Id -Column 3
+# Format-Table
 Get-Process | Select-Object -Property Name, Id | Format-Table -AutoSize
 Get-Process | Format-Table -Property Id, VM, @{
     n="PM(MB)"
@@ -172,6 +174,14 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 .NOTES
     General notes
 #>
+```
+
+### region
+
+```powershell
+#region 
+
+#endregion
 ```
 
 ### variable
