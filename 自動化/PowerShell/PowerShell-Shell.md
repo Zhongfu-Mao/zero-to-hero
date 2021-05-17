@@ -1,11 +1,6 @@
-# PowerShell 7
+# PowerShell: As a shell language
 
-> cmd + .NET + C# = PowerShell
-> PowerShell is an **Object-Oriented** programming or scripting language, and it is based on .NET.
-
-## Basic
-
-### Help
+## help
 
 ```powershell
 Update-Help -Force
@@ -17,7 +12,7 @@ help about*
 get-help about_Functions_Advanced_Parameters -showWindow
 ```
 
-### Useful
+## Useful
 
 ```powershell
 Get-PSDrive
@@ -34,7 +29,7 @@ Invoke-Item
 Get-Alias -Definition Get-Process
 ```
 
-### Pipeline
+## Pipeline
 
 ```powershell
 'hello world' | Get-Member
@@ -61,7 +56,7 @@ Stop-Computer -WhatIf
 Get-Service | Stop-Service -Confirm
 ```
 
-### 別のプログラムを起動させる
+## 別のプログラムを起動させる
 
 ```powershell
 calc
@@ -70,7 +65,7 @@ mspaint.exe
 Start-Process chrome.exe
 ```
 
-### Remote
+## Remote
 
 ```powershell
 Invoke-Command -ScriptBlock { Get-ChildItem }
@@ -78,7 +73,7 @@ Enable-PSRemoting
 Enter-PSSession -ComputerName localhost
 ```
 
-### Format-*
+## Format-*
 
 ```powershell
 # Format-Wide
@@ -97,14 +92,14 @@ Get-Process | Format-Table Name, @{
 Import-Csv .\cgs_20200202.txt | Format-Table -AutoSize -Wrap
 ```
 
-### Filter
+## Filter
 
 ```powershell
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running'}
 Get-Service | Where-Object -FilterScript { $_.Status -eq 'running' -and $_.Name -like '*code*'}
 ```
 
-### Session
+## Session
 
 ```powershell
 New-PSSession -ComputerName localhost
@@ -113,7 +108,7 @@ Exit-PSSession
 Remove-PSSession
 ```
 
-### Verbose
+## Verbose
 
 ```powershell
 Get-Command -Verb Write
@@ -124,7 +119,7 @@ $VerbosePreference = "silentlycontinue"
 Write-Verbose "What happens this time"
 ```
 
-### Job
+## Job
 
 ```powershell
 Start-Job -ScriptBlock {Get-ChildItem}
@@ -139,145 +134,9 @@ Get-Job -Name Job7
 Receive-Job -Name Job7
 ```
 
-### Module
+## Module
 
 ```powershell
 Get-Module -ListAvailable
 Import-Module
-```
-
-### WMI && CIM
-
-WMI: Windows Management Instrumentation
-CIM: Common Information Model
-
-> PowerShell3.0以降、WMIの使用はもう推薦しない
-> [link](https://docs.microsoft.com/en-us/powershell/module/Microsoft.PowerShell.Management/Get-WmiObject)
-
-```powershell
-Get-CimInstance -ClassName Win32_BIOS
-```
-
-## Script
-
-### comment
-
-VSCodeに`comment-help`を入力したら、以下のようなコメントブロックが出てくる
-
-```powershell
-<#
-.SYNOPSIS
-    Short description
-.DESCRIPTION
-    Long description
-.EXAMPLE
-    PS C:\> <example usage>
-    Explanation of what the example does
-.INPUTS
-    Inputs (if any)
-.OUTPUTS
-    Output (if any)
-.NOTES
-    General notes
-#>
-```
-
-### region
-
-```powershell
-#region 
-
-#endregion
-```
-
-### type
-
-[string]    Fixed-length string of Unicode characters
-[char]      A Unicode 16-bit character
-[byte]      An 8-bit unsigned character
-[int]       32-bit signed integer
-[long]      64-bit signed integer
-[bool]      Boolean True/False value
-[decimal]   A 128-bit decimal value
-[single]    Single-precision 32-bit floating point number
-[double]    Double-precision 64-bit floating point number
-[DateTime]  Date and Time
-[xml]       Xml object
-[array]     An array of values
-[hashtable] Hashtable object
-
-```powershell
-$x = 'hello'
-$y = 'world'
-$a = "$x + $y"
-$b = '`$x + `$y'
-$a
-$b
-Write-Host "hello" -ForegroundColor Red -BackgroundColor Yellow
-$foo = Read-Host "Enter a interger"
-$foo
-
-$str = [string]"hello"
-$today = Get-Date
-$today.ToSingle()
-
-123456.789 -as [int]
-123456.789 -is [int]
-123456.789 -isnot [int]
-```
-
-### string
-
-### Array
-
-### Hashtable
-
-### Function
-
-```powershell
-function Get-OSInfo {
-    param (
-        $computer_name = "localhost"
-    )
-    Get-WmiObject -class win32_bios -ComputerName $computer_name
-}
-```
-
-### If
-
-### Switch
-
-```powershell
-$computer_name = Read-Host "Please give me a computer name"
-switch ($computer_name) {
-    'localhost' {
-        Write-Host "Local Machine Selected"
-     }
-    Default {
-        Write-Host "Unknown Computer"
-    }
-}
-```
-
-### While, Do..While
-
-### foreach
-
-```powershell
-$services = Get-Service
-foreach ($service in $services) {
-    Write-Host $service
-}
-Get-Service | Write-Host
-```
-
-### Try Catch
-
-### モジュール
-
-拡張子は`.psm1`
-
-```powershell
-Import-Module <ModuleName.psm1> -Force -Verbose
-$env:PSModulePath -split ";"
 ```
