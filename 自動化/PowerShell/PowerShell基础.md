@@ -39,15 +39,21 @@ Get-Alias -Definition Get-Process
 ```powershell
 'hello world' | Get-Member
 Get-Service | Get-Member
+
 Get-Service | Stop-Service
 Get-Service | Stop-Process -WhatIf
+
 Get-ChildItem | Out-GridView
+
 Get-Service | Export-Csv service.csv
 Get-Service | Export-Clixml service.xml
 Get-Process | Export-Clixml a.xml
+
 Get-Service | ConvertTo-Json
 Get-Service | ConvertTo-Html | Out-File test.html
+
 Get-Process | Sort-Object -Property VM -Descending
+
 Get-Service -DisplayName *bi* | Stop-Service -WhatIf
 Get-Service -DisplayName *bi* | Stop-Service -Confirm
 Get-Service | Stop-Service -WhatIf
@@ -184,11 +190,7 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 #endregion
 ```
 
-### variable
-
-#### [type](https://renenyffenegger.ch/notes/Windows/PowerShell/language/type/index)
-
-##### types
+### type
 
 [string]    Fixed-length string of Unicode characters
 [char]      A Unicode 16-bit character
@@ -223,6 +225,8 @@ $today.ToSingle()
 123456.789 -is [int]
 123456.789 -isnot [int]
 ```
+
+### string
 
 ### Array
 
