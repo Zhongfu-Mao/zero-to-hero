@@ -1,6 +1,6 @@
 # PowerShell: As a Scripting Language
 
-## comment
+## Comment
 
 VSCodeに`comment-help`を入力したら、以下のようなコメントブロックが出てくる
 
@@ -22,7 +22,7 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 #>
 ```
 
-## region
+## Region
 
 ```powershell
 #region 
@@ -30,7 +30,7 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 #endregion
 ```
 
-## type
+## Type
 
 [string]    Fixed-length string of Unicode characters
 [char]      A Unicode 16-bit character
@@ -46,17 +46,9 @@ VSCodeに`comment-help`を入力したら、以下のようなコメントブロ
 [array]     An array of values
 [hashtable] Hashtable object
 
-```powershell
-$x = 'hello'
-$y = 'world'
-$a = "$x + $y"
-$b = '`$x + `$y'
-$a
-$b
-Write-Host "hello" -ForegroundColor Red -BackgroundColor Yellow
-$foo = Read-Host "Enter a interger"
-$foo
+> PowerShell is a type-promiscuous language, somewhat like JavaScript
 
+```powershell
 $str = [string]"hello"
 $today = Get-Date
 $today.ToSingle()
@@ -64,13 +56,58 @@ $today.ToSingle()
 123456.789 -as [int]
 123456.789 -is [int]
 123456.789 -isnot [int]
+
+[string] | Get-Member -Static
+
+$s = 'one', 'two', 'three'
+[string]::Join(' + ', $s)
+
+"0x{0:x}" -f [int][char] 'a'
 ```
 
-## string
+## String
+
+> There are four kinds of string literals in PowerShell:  
+> single-quoted strings, double-quoted strings,  
+> single-quoted here-strings, and double-quoted here-strings  
+
+```powershell
+$str1 = 'Single Quoted'
+$str2 = 'Double Quoted'
+
+$strh1 = @'
+Single
+Quoted
+'@
+
+$strh2 = @"
+Double
+Quoted
+"@
+```
+
+> It’s recommended to use single-quoted strings and here-strings, unless you’re explicitly using variable expansion in the strings  
+> In PowerShell, a string is a sequence of **16-bit Unicode** characters and is directly implemented using the .NET System.String type.  
+> In almost all modern languages, strings are immutable. The biggest exception to this we’re aware of is Apple’s new language **Swift**. Probably due to the need for backward compatibility with Objective-C, Swift’s strings are **mutable**.  
+> Double-quoted strings (sometimes called expandable strings) support variable substitution.  
+> Arguments to commands without explicit quotes are treated as though they were in double quotes, so variables will be expanded in that situation as well.  
+> A here-string is used to embed large chunks of text inline in a script  
+> Here-strings start with `@<quote><newline>` and end with `<newline><quote>@`  
 
 ## Array
 
+> There’s no array literal notation in PowerShell.  
+> The simplest way to build array is to use the comma operator `(,)`.  
+> Attempts to assign outside the bounds of an array will result in a range error. This is because PowerShell arrays are based on .NET arrays and their size is fixed.  
+> You can add elements through array concatenation using the plus `(+)` or plus-equals `(+=)` operators.  
+
 ## Hashtable
+
+> The hashtable starts with the token `@{` and ends with `}`.  
+> Each member of the key-value pair of the hashtable has its own line. There’s no need to use a semicolon `(;)` between key-value pairs.  
+> PowerShell treats hashtables like scalar objects  
+> In PowerShell, the foreach loop will run only once because the hashtable isn’t considered an enumerable, at least not by default.  
+> Ordered hashtable is created by adding `[ordered]` cast before `@{}`
 
 ## Function
 

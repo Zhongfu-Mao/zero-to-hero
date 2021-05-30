@@ -1,6 +1,6 @@
 # PowerShell: As a shell language
 
-## help
+## Help
 
 ```powershell
 Update-Help -Force
@@ -12,24 +12,49 @@ help about*
 get-help about_Functions_Advanced_Parameters -showWindow
 ```
 
+## Notice
+
+* The Powershell escape character is a **backtick(`)**, not a backslash
+
+## Alias
+
+> Aliases in PowerShell are limited to aliasing the command name only. Unlike in other systems such as Ksh, Bash, and Zsh, PowerShell aliases **can’t include parameters**  
+> PowerShell v6 for Linux and macOS removes these aliases(dir, ls etc.) to avoid confusion with native commands.
+
+```powershell
+Get-Command [Alias]
+```
+
 ## Useful
 
 ```powershell
 Get-PSDrive
 Get-PSSnapin
+
 Get-ChildItem Variable:
+
 Set-ExecutionPolicy RemoteSigned
+
 Get-EventLog -LogName Security -Newest 50
 $env:COMPUTERNAME
 $PSVersionTable
+
 Expand-Archive <filename> -DestinationPath
+
 Start-Sleep
+
 Get-Process | Out-GridView -PassThru
+
 Invoke-Item
+
 Get-Alias -Definition Get-Process
+
+Write-Output -- -InputObject  # Everything after `--` will be treated as an argument
 ```
 
 ## Pipeline
+
+`Command [Switch parameter] [Parameter with argument] Pipe operator Command [Positional argument]`
 
 ```powershell
 'hello world' | Get-Member
@@ -61,7 +86,12 @@ Get-Service | Stop-Service -Confirm
 ```powershell
 calc
 notepad.exe
+notepad foo.txt | Sort-Object
+
 mspaint.exe
+
+powershell { Get-Process *code } | Format-Table name, handles
+
 Start-Process chrome.exe
 ```
 
@@ -69,8 +99,11 @@ Start-Process chrome.exe
 
 ```powershell
 Invoke-Command -ScriptBlock { Get-ChildItem }
+
 Enable-PSRemoting
+
 Enter-PSSession -ComputerName localhost
+Exit-PSSession
 ```
 
 ## Format-*
