@@ -25,6 +25,14 @@ get-help about_Functions_Advanced_Parameters -showWindow
 Get-Command [Alias]
 ```
 
+## Cmdlet
+
+* Cmdlets are .NET Framework class objects and not just stand-alone executables.
+* Cmdlets can be easily constructed from as few as a dozen lines of code.
+* Parsing, error presentation, and output formatting are not handled by cmdlets. It is done by the Windows PowerShell runtime.
+* Cmdlets process works on objects not on text stream and objects can be passed as output for pipelining.
+* Cmdlets are record-based as they process a single object at a time.
+
 ## Useful
 
 ```powershell
@@ -173,3 +181,46 @@ Receive-Job -Name Job7
 Get-Module -ListAvailable
 Import-Module
 ```
+
+## Special Variables
+
+| Operator             | Description                                                                                    |
+| :------------------- | :--------------------------------------------------------------------------------------------- |
+| `$$`                 | Last token in the last line received by the session.                                           |
+| `$?`                 | The execution status(TRUE or FALSE) of the last operation.                                     |
+| `$^`                 | The first token in the last line received by the session.                                      |
+| `$_`                 | Same as $PSItem.                                                                               |
+| `$ARGS`              | An array of arguments                                                                          |
+| `$CONSOLEFILENAME`   | The path of the console file (.psc1) that was most recently used in the session.               |
+| `$ERROR`             | An array of error objects that represent the most recent errors.                               |
+| `$EVENT`             | The event that is being processed.                                                             |
+| `$EVENTARGS`         | The first event argument derives from EventArgs of the event been processed.                   |
+| `$EVENTSUBSCRIBER`   | The event subscriber of the event that is being processed.                                     |
+| `$EXECUTIONCONTEXT`  | The execution context of the PowerShell host.                                                  |
+| `$FALSE`             | FALSE.                                                                                         |
+| `$FOREACH`           | The enumerator (not the resulting values) of a ForEach loop.                                   |
+| `$HOME`              | The full path of the user's home directory.                                                    |
+| `$HOST`              | An object that represents the current host application for PowerShell.                         |
+| `$INPUT`             | An enumerator that enumerates all input that is passed to a function.                          |
+| `$LASTEXITCODE`      | Represents the exit code of the last Windows-based program that was run.                       |
+| `$MATCHES`           | Works with the -match and -notmatch operators.                                                 |
+| `$MYINVOCATION`      | Populated only for scripts, function, and script blocks.                                       |
+| `$NESTEDPROMPTLEVEL` | Represents the current prompt level.                                                           |
+| `$NULL`              | NULL or empty value.                                                                           |
+| `$PID`               | The process identifier (PID) of current PowerShell session.                                    |
+| `$PROFILE`           | The full path of the PowerShell profile for the current user and the current host application. |
+| `$PSCMDLET`          | An object that represents the cmdlet or advanced function that is being run.                   |
+| `$PSCOMMANDPATH`     | The full path and file name of the script that is being run.                                   |
+| `$PSCULTURE`         | The name of the culture currently in use in the operating system.                              |
+| `$PSDEBUGCONTEXT`    | While debugging, contains information about the debugging environment.                         |
+| `$PSHOME`            | The full path of the installation directory for PowerShell.                                    |
+| `$PSITEM`            | Same as $_. Contains the current object in the pipeline object.                                |
+| `$PSSCRIPTROOT`      | The directory from which a script is being run.                                                |
+| `$PSSENDERINFO`      | Information about the user who started the PSSession                                           |
+| `$PSUICULTURE`       | The name of the UI culture that is currently in use in the operating system.                   |
+| `$PSVERSIONTABLE`    | A read-only hash table about the version of PowerShell in the current session.                 |
+| `$SENDER`            | The object that generated this event.                                                          |
+| `$SHELLID`           | The identifier of the current shell.                                                           |
+| `$STACKTRACE`        | A stack trace for the most recent error.                                                       |
+| `$THIS`              | The object that is being extended in a script block.                                           |
+| `$TRUE`              | TRUE.                                                                                          |
