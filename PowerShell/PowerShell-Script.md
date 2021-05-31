@@ -109,6 +109,48 @@ Quoted
 > In PowerShell, the foreach loop will run only once because the hashtable isn’t considered an enumerable, at least not by default.  
 > Ordered hashtable is created by adding `[ordered]` cast before `@{}`
 
+## Operator
+
+* Arithmetic operators: `+`, `-`, `*`, `/`, `%`
+* Assignment operators: `=`, `+=`, `-=`, `*=`, `/*`, `%=`
+* Comparison operators:
+  * default(case-insensitive): `-eq`, `-ne`, `-gt`, `-ge`, `-lt`, `-le`
+  * case-sensitive: `-ceq`, `-cne`, `-cgt`, `-cge`, `-clt`, `-cle`
+  * case-insensitive: `-ieq`, `-ine`, `-igt`, `-ige`, `-ilt`, `-ile`
+* Containment operators:
+  * default(case-insensitive): `-contains`, `-notcontains`, `-in`, `-notin`
+  * case-sensitive: `-ccontains`, `-cnotcontains`, `-cin`, `-cnotin`
+  * case-insensitive: `-icontains`, `-inotcontains`, `-iin`, `-inotin`
+* Pattern-matching and text-manipulation operators:
+  * default(case-insensitive): `-like`, `-notlike`, `-match`, `-notmatch`, `-replace`, `-split`
+  * case-sensitive: `-clike`, `-cnotlike`, `-cmatch`, `-cnotmatch`, `-creplace`, `-csplit`
+  * case-insensitive: `-ilike`, `-inotlike`, `-imatch`, `-inotmatch`, `-ireplace`, `-isplit`
+  * wildcard: `*`, `?`, `[<char> - <char>]`, `[<char><char>]`
+* Logical and bitwise operators:
+  * logical: `-and`, `-or`, `-not`, `-xor`, `-shl`, `-shr`
+  * bitwise: `-band`, `-bor`, `-bnot`, `-bxor`
+* `Where()` and `ForEach()` methods
+
+```powershell
+$a, $b = $b, $a # Like Python & JavaScript
+
+$data = Get-Content -Path data.txt | Foreach-Object {
+    $e=@{}, $e.level, [int] $e.lower, [int] $e.upper = -split $PSItem
+    $e
+}
+```
+
+| Character sequence | Description                                                                       |
+| :----------------- | :-------------------------------------------------------------------------------- |
+| `$number`          | Substitutes the last submatch matched by group number.                            |
+| `${name}`          | Substitutes the last submatch matched by a named capture of the form (`?<name>`). |
+| `$$`               | Substitutes a single "$" literal.                                                 |
+| `$&`               | Substitutes a copy of the entire match itself.                                    |
+| <code> $` </code>  | Substitutes all the text from the argument string before the matching portion.    |
+| <code> $' </code>  | Substitutes all the text of the argument string after the matching portion.       |
+| `$+`               | Substitutes the last submatch captured.                                           |
+| `$_`               | Substitutes the entire argument string.                                           |
+
 ## Function
 
 ```powershell
