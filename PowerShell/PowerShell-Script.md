@@ -73,7 +73,7 @@ $s = 'one', 'two', 'three'
 
 ```powershell
 $str1 = 'Single Quoted'
-$str2 = 'Double Quoted'
+$str2 = "Double Quoted"
 
 $strh1 = @'
 Single
@@ -112,33 +112,31 @@ Quoted
 ## Operator
 
 * Arithmetic operators: `+`, `-`, `*`, `/`, `%`
-* Assignment operators: `=`, `+=`, `-=`, `*=`, `/*`, `%=`
-* Comparison operators:
-  * default(case-insensitive): `-eq`, `-ne`, `-gt`, `-ge`, `-lt`, `-le`
-  * case-sensitive: `-ceq`, `-cne`, `-cgt`, `-cge`, `-clt`, `-cle`
-  * case-insensitive: `-ieq`, `-ine`, `-igt`, `-ige`, `-ilt`, `-ile`
-* Containment operators:
-  * default(case-insensitive): `-contains`, `-notcontains`, `-in`, `-notin`
-  * case-sensitive: `-ccontains`, `-cnotcontains`, `-cin`, `-cnotin`
-  * case-insensitive: `-icontains`, `-inotcontains`, `-iin`, `-inotin`
-* Pattern-matching and text-manipulation operators:
-  * default(case-insensitive): `-like`, `-notlike`, `-match`, `-notmatch`, `-replace`, `-split`
-  * case-sensitive: `-clike`, `-cnotlike`, `-cmatch`, `-cnotmatch`, `-creplace`, `-csplit`
-  * case-insensitive: `-ilike`, `-inotlike`, `-imatch`, `-inotmatch`, `-ireplace`, `-isplit`
-  * wildcard: `*`, `?`, `[<char> - <char>]`, `[<char><char>]`
-* Logical and bitwise operators:
-  * logical: `-and`, `-or`, `-not`, `-xor`, `-shl`, `-shr`
-  * bitwise: `-band`, `-bor`, `-bnot`, `-bxor`
-* `Where()` and `ForEach()` methods
 
+* Assignment operators: `=`, `+=`, `-=`, `*=`, `/*`, `%=`
 ```powershell
 $a, $b = $b, $a # Like Python & JavaScript
-
 $data = Get-Content -Path data.txt | Foreach-Object {
     $e=@{}, $e.level, [int] $e.lower, [int] $e.upper = -split $PSItem
     $e
 }
 ```
+
+* Comparison operators:
+  * default(case-insensitive): `-eq`, `-ne`, `-gt`, `-ge`, `-lt`, `-le`
+  * case-sensitive: `-ceq`, `-cne`, `-cgt`, `-cge`, `-clt`, `-cle`
+  * case-insensitive: `-ieq`, `-ine`, `-igt`, `-ige`, `-ilt`, `-ile`
+
+* Containment operators:
+  * default(case-insensitive): `-contains`, `-notcontains`, `-in`, `-notin`
+  * case-sensitive: `-ccontains`, `-cnotcontains`, `-cin`, `-cnotin`
+  * case-insensitive: `-icontains`, `-inotcontains`, `-iin`, `-inotin`
+
+* Pattern-matching and text-manipulation operators:
+  * default(case-insensitive): `-like`, `-notlike`, `-match`, `-notmatch`, `-replace`, `-split`
+  * case-sensitive: `-clike`, `-cnotlike`, `-cmatch`, `-cnotmatch`, `-creplace`, `-csplit`
+  * case-insensitive: `-ilike`, `-inotlike`, `-imatch`, `-inotmatch`, `-ireplace`, `-isplit`
+  * wildcard: `*`, `?`, `[<char> - <char>]`, `[<char><char>]`
 
 | Character sequence | Description                                                                       |
 | :----------------- | :-------------------------------------------------------------------------------- |
@@ -150,6 +148,12 @@ $data = Get-Content -Path data.txt | Foreach-Object {
 | <code> $' </code>  | Substitutes all the text of the argument string after the matching portion.       |
 | `$+`               | Substitutes the last submatch captured.                                           |
 | `$_`               | Substitutes the entire argument string.                                           |
+
+* Logical and bitwise operators:
+  * logical: `-and`, `-or`, `-not`, `-xor`, `-shl`, `-shr`
+  * bitwise: `-band`, `-bor`, `-bnot`, `-bxor`
+
+* `Where()` and `ForEach()` methods
 
 ## Function
 
