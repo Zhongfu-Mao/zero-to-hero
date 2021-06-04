@@ -14,3 +14,9 @@
 * `⌘` + `W`: Close
 * `⌘` + `P`: Quit
 * `⌘` + `⌫`: Move to trash
+
+## Commands
+
+```bash
+sudo spctl --master-disable # Enable app install from any source
+```
