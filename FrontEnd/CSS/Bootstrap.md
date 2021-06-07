@@ -181,3 +181,185 @@
    <div class="c col-3 ml-auto">第三列</div>
 </div>
 ```
+
+## 内容排版
+
+### 标题类
+
+1. `<h1>`~`<h6>`标签以外的元素标签，可以调用`.h1~6`实现对应标题效果
+```html
+<p class="h1">Bootstrap</p>
+<div class="h2">Bootstrap</div>
+```
+2. 通过`.text-muted`样式，可以构建大标题的附属小标题
+```html
+<p class="h1">
+  Bootstrap <small class="text-muted">V4.X</small>
+</p>
+<div class="h2">
+  Bootstrap <small class="text-muted">V4.X</small>
+</div>
+```
+3. 还有一种更大型，更加醒目的标题方式：`.display-1~4`
+```html
+<h1 class="display-1">Bootstrap</h1>
+<h2 class="display-1">Bootstrap</h2>
+<h3 class="display-1">Bootstrap</h3>
+<h4 class="display-1">Bootstrap</h4>
+```
+
+### 文本类
+
+1. 想要指定一些段落中的重要内容，可以使用`.lead`强调
+```html
+<p class="lead">
+  测试
+</p>
+```
+2. 常用的文本内联元素，来自HTML5：`<mark>`,`<del>`,`<s>`,`<ins>`,`<u>`,`<small>`,`<strong>`,`<em>`
+3. 可以使用`.mark`,`.small`等方式实现对应的效果
+```html
+<p>测<span class="mark">试</span>一下</p>
+<p class="small">测试</p>
+```
+4. 使用`.title`,`<abbr>`缩略语给文本做提示
+```html
+<p><abbr title="这是一个提示!">提示</abbr></p>
+```
+5. 使用`.blockquote`设置来源备注或者引用
+```html
+<blockquote class="blockquote">
+  <p>测试</p>
+</blockquote>
+```
+6. 使用`.blockquote-footer`设置底部备注来源
+```html
+<blockquote class="blockquote">
+  <p>Winter is coming！</p>
+  <footer class="blockquote-footer">
+    ——《Game of Throne》
+  </footer>
+</blockquote>
+```
+7. 可以对内容进行居中对齐`.text-center`或居右对齐`.text-right`
+```html
+<blockquote class="blockquote text-center">
+```
+
+### 列表类
+
+1. 使用`.list-unstyled`样式可以将列表初始化
+```html
+<ul class="list-unstyled">
+  <li>A 班</li>
+  <li>B 班</li>
+  <li>C 班
+    <ul>
+      <li>张三</li>
+      <li>李四</li>
+      <li>王五</li>
+      <li>马六</li>
+    </ul>
+  </li>
+  <li>D 班</li>
+</ul>
+```
+2. 使用`.list-inline`,`.list-inline-item`结合实现多列并排列表
+```html
+<ul class="list-inline">
+  <li class="list-inline-item">A班</li>
+  <li class="list-inline-item">B班</li>
+  <li class="list-inline-item">C班</li>
+  <li class="list-inline-item">D班</li>
+</ul>
+```
+3. 使用`dl`,`dt`和`dd`可以实现水平描述，使用`.text-truncate`可以省略溢出
+```html
+<div class="container">
+  <dl class="row">
+    <dt class="c col-sm-3">列表标题</dt>
+    <dd class="c col-sm-9">一个关于描述列表的内容</dd>
+    <dt class="c col-sm-3">列表标题</dt>
+    <dd class="c col-sm-4 text-truncate">一个关于描述列表的内容，
+                          但是这个稍微长了一点点以至于换行!</dd>
+  </dl>
+</div>
+```
+
+## 代码与图文
+
+### 代码样式
+
+1. 使用`<code>`标签元素，可以将编程代码放入其中，但还是要手动转义特殊符号;
+```html
+<code>
+  &lt;div&gt;
+</code>
+```
+2. 使用`<pre>`标签元素，配合`<code>`可以实现代码块的效果;
+```html
+<pre class="pre-scrollable" style="width: 500px;">
+  <code>
+    &lt;div&gt;
+      &lt;span&gt;这是一个代码块效果!&lt;span&gt;
+    &lt;div&gt;
+  </code>
+</pre>
+```
+3. 可以在代码区域设置`.pre-scrollable`样式，实现固定区域滚动，默认高350px; 
+```html
+<pre class="pre-scrollable" style="width: 500px;">
+```
+4. 使用`<var>`标签元素标识变量部分;
+```html
+<var>y</var> = <var>m</var> + <var>b</var>
+<var>y = m + b</var>
+```
+5. 使用`<kbd>`标签元素标识键盘输入;
+```html
+<kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>c</kbd>
+```
+6. 使用<samp>标签元素标识这是一个示例;
+```html
+<samp>这是一段代码</samp>
+```
+
+### 图文样式
+
+1. 给图片添加一个`.img-fluid`样式或设置`max-width:100%; height:auto`;
+```html
+<img src="img/heart.png" class="img-fluid" alt="缩略图">
+```
+2. 给小图片加上一个缩略图的样式`.img-thumbnail`，设置一个空心边框;
+```html
+<img src="img/heart.png" class="img-thumbnail" alt="缩略图">
+```
+3. 通过设置`.float-left`和`.float-right`来设置图片的左右浮动;
+```html
+<img src="img/heart.png" class="float-left" alt="左浮动">
+<img src="img/heart.png" class="float-right" alt="右浮动">
+```
+4. 通过`.d-block`设置为区块，再通过margin左右auto方式`.mx-auto`实现居中;
+```html
+<img src="img/heart.png" class="mx-auto d-block">
+```
+5. 因为图片本身是内联块属性，所以，直接在父层用`.text-center`也可以实现居中;
+```html
+<div class="text-center">
+  <img src="img/heart.png">
+</div>
+```
+6. 使用HTML5新标签`<picture>`来实现响应式图片设置;
+```html
+<picture>
+  <source srcset="img/banner2.png" media="(max-width:800px)">
+  <img src="img/banner.png" alt="大图">
+</picture>
+```
+7. 使用`figure`和`figcaption`实现图文组合显示;
+```html
+<figure class="figure">
+  <img src="img/heart.png" class="figure-img" alt="图文组合">
+  <figcaption class="figure-caption text-right">图片一枚</figcaption>
+</figure>
+```
