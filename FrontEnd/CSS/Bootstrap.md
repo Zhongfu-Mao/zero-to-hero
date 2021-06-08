@@ -363,3 +363,304 @@
   <figcaption class="figure-caption text-right">图片一枚</figcaption>
 </figure>
 ```
+
+## 表格样式
+
+1. 使用`.table`给表格设置一个基类，这是表格的基本样式;
+```html
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>姓名</th>
+      <th>性别</th>
+      <th>成绩</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>张三</td>
+      <td>男</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>李四</td>
+      <td>女</td>
+      <td>69</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>王五</td>
+      <td>男</td>
+      <td>97</td>
+    </tr>
+  </tbody>
+</table>
+```
+2. 使用`.table-dark`样式，启用颜色反转对比效果;
+```html
+<table class="table table-dark">
+```
+3. 在`<thead>`使用`.thead-light`或`.thead-dark`实现浅黑或深灰色调的标头;
+```html
+<thead class="thead-light">
+```
+4. 使用`.table-striped`实现数据表的条纹状显示;
+```html
+<table class="table table-striped">
+```
+5. 条纹状显示也适用于反转色调上;
+```html
+<table class="table table-dark table-striped">
+```
+6. 默认情况下，边框是不完全的，使用`.table-bordered`设置表格边框;
+```html
+<table class="table table-bordered">
+```
+7. 表格边框也可以作用域反转色调上;
+```html
+<table class="table table-bordered table-dark">
+```
+8. 使用`.table-borderless`设置无边框;
+```html
+<table class="table table-borderless">
+```
+9. 无边框效果也可以作用于反转色调上;
+```html
+<table class="table table-borderless table-dark">
+```
+10. 使用`.table-hover` 实现一行悬停效果;
+```html
+<table class="table table-hover">
+```
+11. 行悬停效果也可以作用于反转色调上;
+```html
+<table class="table table-hover table-dark">
+```
+12. 使用`.table-sm` 实现紧缩型表格，反转色调依然支持;
+```html
+<table class="table table-sm">
+```
+13. 使用`.table-success` 等语义化实现`<tr>`或`<td>`、`<th>`等效果，反转色调通用;
+```html
+<tr class="table-success>
+```
+> `.table-*`包括: active, primary, seconday, danger, warning, info, light, dark
+14. 使用`.table-responsive` 实现溢出时出现底部滚动条;
+```html
+<table class="table table-responsive">
+```
+15. 使用`.table-responsive-sm` 实现只有小于 768px 溢出时出现底部滚动条;
+```html
+<table class="table table-responsive-sm">
+```
+
+## 边框和颜色
+
+### 边框样式
+
+1. 使用.border给元素增加相应的边框，默认是淡灰色;
+2. 如果颜色太淡，可以使用`.border-*`设置想要的场景;
+3. `.border-*`，包含:primary、secondary、success、danger、warning、info、light、dark 和 white;
+```html
+<img src="img/img1.png" alt="border" class="border-success border">
+<img src="img/img1.png" alt="border" class="border-success border-top">
+<img src="img/img1.png" alt="border" class="border-success border-bottom">
+<img src="img/img1.png" alt="border" class="border-success border-left">
+<img src="img/img1.png" alt="border" class="border-success border-right">
+```
+4. 使用`.border-0`消减四周的边框，或使用`.border-*-0`消减某一边的边框;
+```html
+<img src="img/img1.png" alt="border" class="... border-0">
+<img src="img/img1.png" alt="border" class="... border-top-0">
+<img src="img/img1.png" alt="border" class="... border-bottom-0">
+<img src="img/img1.png" alt="border" class="... border-left-0">
+<img src="img/img1.png" alt="border" class="... border-right-0">
+```
+5. 使用`.rounded`和`.rounded-*`实现各种方位圆角;
+```html
+<img src="img/img2.png" alt="圆角" class="rounded">
+<img src="img/img2.png" alt="圆角" class="rounded-top">
+<img src="img/img2.png" alt="圆角" class="rounded-bottom">
+<img src="img/img2.png" alt="圆角" class="rounded-left">
+<img src="img/img2.png" alt="圆角" class="rounded-right">
+<img src="img/img2.png" alt="圆角" class="rounded-cicle">
+<img src="img/img2.png" alt="圆角" class="rounded-pill">
+<img src="img/img2.png" alt="圆角" class="rounded-0">
+```
+6. 使用`.rounded-sm`和`.rounded-lg`实现圆角半径大小;
+```html
+<img src="img/img2.png" alt="圆角" class="rounded-sm">
+<img src="img/img2.png" alt="圆角" class="rounded-lg">
+```
+
+### 颜色样式
+
+1. 使用.text-*将文本设置成指定的颜色，比如:text-success;
+```html
+<span class="text-primary">Bootstrap</span>
+<span class="text-secondary">Bootstrap</span>
+<span class="text-success">Bootstrap</span>
+<span class="text-danger">Bootstrap</span>
+<span class="text-warning">Bootstrap</span>
+<span class="text-info">Bootstrap</span>
+<span class="text-dark">Bootstrap</span>
+<span class="text-body">Bootstrap</span>
+<span class="text-muted">Bootstrap</span>
+<span class="text-light bg-dark">Bootstrap</span>
+<span class="text-white bg-dark">Bootstrap</span>
+<span class="text-black-50">Bootstrap</span>
+<span class="text-white-50 bg-dark">Bootstrap</span>
+```
+2. 使用`.text-*`也可以实现悬停和焦点的超链接样式，white和muted不支持;
+```html
+<a href="#" class="text-primary">Bootstrap</span>
+<a href="#" class="text-secondary">Bootstrap</span>
+<a href="#" class="text-success">Bootstrap</span>
+<a href="#" class="text-danger">Bootstrap</span>
+<a href="#" class="text-warning">Bootstrap</span>
+<a href="#" class="text-info">Bootstrap</span>
+<a href="#" class="text-dark">Bootstrap</span>
+<a href="#" class="text-body">Bootstrap(no)</span>
+<a href="#" class="text-muted">Bootstrap(no)</span>
+<a href="#" class="text-light bg-dark">Bootstrap</span>
+<a href="#" class="text-white bg-dark">Bootstrap</span>
+<a href="#" class="text-black-50">Bootstrap</span>
+<a href="#" class="text-white-50 bg-dark">Bootstrap</span>
+```
+3. 使用`.bg-*`可以实现背景色;
+
+## 公共样式
+
+1. 使用`.close`和`&times`构建一个关闭按钮;
+```html
+<button type="button" class="close">
+  <span>&times;<span>
+</button>
+```
+2. 使用`.clearfix`给浮动的区域的父元素添加，实现清理浮动的功能;
+```html
+<style>
+  div.border {
+    width: 200px;
+    height: 200px;
+  }
+</style>
+
+<div class="clearfix">
+  <div class="float-left border border-success">left</div>
+  <div class="float-right border border-success">right</div>
+</div>
+
+<div class="border border-warning">both</div>
+```
+3. 使用`.float-left`、`.float-right`、`.float-none`实现浮动效果;
+4. 还可以使用`.float-*-left`等来实现不同屏幕的浮动效果;
+```html
+<div class="float-md-left border border-success">left</div>
+<div class="float-md-right border border-success">right</div>
+```
+5. 使用`.text-hide`来隐藏元素标签内容，但本身还存在保持SEO优化;
+```html
+<h1 class="text-hide" style="background:url('img/img1.png');">Bootstrap</h1>
+```
+6. 使用`.overflow-auto`和`.overflow-hidden`来设置区域显示方式;
+```html
+<div class="overflow-auto">...</div>
+<div class="overflow-hidden">...</div>
+```
+7. 使用`.visible`和`.invisible`来设置内容可见或不可见;
+```html
+<div class="visible">Bootstrap</div>
+<div class="invisible">Bootstrap</div>
+```
+8. 使用`.align-*`来设置内容文本的对齐方式;
+```html
+<span class="align-baseline">baseline基准</span>
+<span class="align-text-top">text-top文本底部</span>
+<span class="align-top">top顶部</span>
+<span class="align-middle">middle垂直居中</span>
+<span class="align-bottom">bottom底部</span>
+<span class="align-text-bottom">text-bottom文本底部</span>
+
+<table class="table table-bordered" style="height: 200px;">
+  <tbody>
+    <tr>
+      <td class="align-baseline">baseline</td>
+      <td class="align-top">top</td>
+      <td class="align-middle">middle</td>
+      <td class="align-bottom">bottom</td>
+      <td class="align-text-top">text-top</td>
+      <td class="align-text-bottom">text-bottom</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+> 垂直对齐仅影响内联inline、内联块inline-block、内联表inline-table和表格单元格table cell元素
+
+9. 使用`.p-*`来设置内边距(padding)，范围在0-5之间和auto;
+```html
+<span class="p-5">Bootstrap</span>
+```
+10. 使用`.m-*`来设置外边距(margin)，范围在0-5之间和auto;
+```html
+<span class="m-5">Bootstrap</span>
+```
+11.  使用`.pt-*`或`mt-*`单独设置边缘的距离，这里的t是top;
+12. 其它的还有b(bottom)、l(left)、r(right)等;
+13. 使用`.px-*`或`mx-*`设置左右边缘的距离，这里的x表示(left、right);
+14. 使用`.py-*`或`my-*`设置上下边缘的距离，这里的y表示(top、bottom);
+15. 使用`.pt-*-5`，*可以是md、lg等响应式的方式来设置边缘;
+16. 使用`.w-*`设置元素的长度，包括25%、50%、75%、100%和auto;
+```html
+<div class="border border-success">
+  <div class="p-3 h-25 bg-info d-inline-bolck">25%</div>
+  <div class="p-3 h-50 bg-info d-inline-bolck">50%</div>
+  <div class="p-3 h-75 bg-info d-inline-bolck">75%</div>
+  <div class="p-3 h-100 bg-info d-inline-bolck">100%</div>
+  <div class="p-3 h-auto bg-info d-inline-bolck">auto</div>
+</div>
+```
+17. 使用`.h-*`设置元素的高度，包括25%、50%、75%、100%和auto;
+18. 使用`.mw-*`和`.mh-*`设置 max-width 和 max-height;
+19. 使用`.vw-*`和`.vh-*`设置相对于窗口的大小;
+20. 使用`.shadow-*`实现元素的阴影效果;
+```html
+<div class="shadow-none mb-5">Bootstrap</div>
+<div class="shadow-sm mb-5">Bootstrap</div>
+<div class="shadow mb-5">Bootstrap</div>
+<div class="shadow-lg mb-5">Bootstrap</div>
+```
+21. 使用`.d-*`来设置元素的display模式：none、inline、inline-block、block、table、table-row
+22. flex、inline-flex这些常用的均为display可以设置的模式;
+23. 也可以通过`.d-md-*`中的md设置响应式的媒体查询效果;
+24. 使用`.embed-responsive`实现嵌入响应式，比如`<iframe>`、`<embed>`等;
+25. 使用`.embed-responsive-16by9`实现响应式比例，还可以21:9，4:3，1:1;
+```html
+<div class="embed-responsive embed-responsive-16by9">
+  <iframe src="http://www.google.com"></iframe>
+</div>
+```
+26. 使用`.text-*`设置文本的对齐方式，有left、center、right;
+27. 也可以设置`.text-md-*`实现响应式的媒体查询效果;
+28. 使用`.text-warp`和`.text-nowarp`实现文本溢出时是否换行;
+29. 使用`.text-break` 对于很长的字符串，且中间没有空格实现换行;
+30. 使用`.text-lowercase` 设置小写，`.text-uppercase` 设置大写，以及 `.text-capitalize` 设置首字母大写;
+31. 使用`.font-weight-bold` 加粗、`.font-weight-normal` 正常、 `.font-weight-light` 纤细、`.font-weight-italic` 倾斜;
+32. 使用`.text-monospace` 设置等宽字体;
+33. 使用`.text-reset` 实现字体颜色的重置;
+```html
+<div class="text-muted">
+  Bootstrap <a href="#" class="text-reset">V5.0</a>
+</div>
+```
+34. 使用`.text-decoration-none` 删除超链接下划线;
+```html
+<a href="#" class="text-decoration-none">Bootstrap</a>
+```
+
+## Flex弹性布局
+
