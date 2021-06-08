@@ -155,6 +155,74 @@ $data = Get-Content -Path data.txt | Foreach-Object {
 
 * `Where()` and `ForEach()` methods
 
+* Operator for working with types: `<value> is <type>`, `<expr> -isnot <type>`, `<expr> -as <type>`
+
+* Unary operators: 
+  * `-not <value>`, `+ <value>`, `- <value>`, `|cast| <value>`
+  * `-- <assignableExpr>`, `<assignableExpr> --`
+  * `++ <assignableExpr>`, `<assignableExpr> ++`
+
+* Grouping expression and subexpression operators: 
+  * simple parenthetical expression: `(<pipeline>)`
+  * subexpression: `$(<statementList>)`, `@(<statementList>)`
+```powershell
+$($c=$p=1; while($c -lt 100) {$c; $c, $p =($c+$p), $c}).count
+```
+> By enclosing the statements in `$(<statement>)`, you can retrieve the result of the enclosed collection of statements as an array.  
+> Array expression `@(...)` is shorthand for `[object[]] $(...)`  
+
+* Array Operator:
+  * Comma operator: `<value1>, <value2>, <value3>`
+  * Range operator: `<lowerBound>..<upperBound>`
+  * indexing and slicing: `<valueExpression>[<valueExpression>]`
+
+* Property and method operators:
+  * Property operators: `<value>.<memberNameExpr>`, `<typeValue>::<memberNameExpr>`
+  * Method operators: `<value>.<memberNameExpr>(<arguments>)`, `<typeValue>::<memberNameExpr>(<arguments>)`
+
+```powershell
+$t = [string]
+$t::join('+', (1, 2, 3))
+
+using namespace System.Windows.Forms
+$form = [Form] @{
+    Text = 'My First Form'
+}
+$button = [Button] @{
+    Text = 'Push Me!'
+    Dock = 'Fill'
+}
+$button.add_Click{
+    $form.Close()
+}
+$form.Controls.Add($button)
+$form.ShowDialog()
+
+[math]::sin.Invoke(3.14)
+```
+
+* Format operator: `<formatSpecificationString> -f <argumentList>`
+
+```powershell
+'{2} {1} {0}' -f 1, 2, 3
+
+'|{0, 10}|0x{1:x}|{2, -10}|' -f 10, 20, 30
+```
+
+* Redirection operators: `<pipeline> > <outputFile>`, `<pipeline> >> <outputFile>`, `<pipeline> 2> <errorFile>`, `<pipeline> 2>> <errorFile>`, `<pipeline> 2>&1`
+  * `*`: All output
+  * `1`: Success output
+  * `2`: Error
+  * `3`: Warning messages
+  * `4`: Verbose output
+  * `5`: Debug messages
+  * `6`: Information messages
+
+> The `>` operator will overwrite any previous contents of the file.  
+> Use `>>` (or `n>>`) to append to the chosen output file.  
+> Under the covers, redirection is done using the `Out-File` cmdlet  
+> Sometimes you want to discard output or errors. In PowerShell, you do this by redirecting to $null.
+
 ## Function
 
 ```powershell
