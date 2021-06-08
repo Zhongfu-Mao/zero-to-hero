@@ -664,3 +664,104 @@
 
 ## Flex弹性布局
 
+1. 使用`.d-flex`和`.d-inline-flex`开启flex布局样式，支持`.d-*-flex`响应式媒体查询
+2. `.flex-row`可以呈现子元素水平方向的位置，默认居左并从左到右显示(1,2,3);
+```html
+<div class="d-flex flex-row">
+  <div class="p-2">项目1</div>
+  <div class="p-2">项目2</div>
+  <div class="p-2">项目3</div>
+</div>
+```
+3. `.flex-row-reverse`让子元素水平方向的位置居右并从左到右显示(3,2,1);支持响应式媒体查询`.flex-*-row`;
+4. `.flex-column`实现子元素垂直效果，并从上往下显示(1,2,3);
+5. `.flex-column-reverse`实现子元素垂直效果，并从上往下显示(3,2,1);支持响应式媒体查询`.flex-*-column`;
+6. `.justify-content-start(end、center、between、around)`实现主轴内容对齐;支持媒体查询:`justify-content-*-start`;
+7. `.align-items-start(end、center、baseline、stretch)`实现副轴项目对齐;支持媒体查询:`align-items-*-start`;
+8. `.align-self-start(end、center、baseline、stretch)`实现单项目对齐;
+9. 使用`.flex-fill`强制让每个元素项目占据相等的水平宽度;支持媒体查询:`flex-*-fill`;
+10. 同时设置`.flex-fill`的项目等比例分割宽度，适合做导航项目;如果其中有没有设置的则会被设置的填充宽度;
+11. 使用`.flex-grow-*`，*表示0或1，也能实现`.flex-fill`的功能，设置1即可;支持媒体查询:`flex-*-grow`;
+12. 使用`.flex-shrink-*`，*表示0或1，表示是否强制更换到新行中;支持媒体查询:`flex-shrink-*`;
+13. 使用`.mr-auto`等对齐方式，对flex元素进行浮动对齐;
+14. 对于垂直方向，也可以使用`.mb-auto` 和`.mt-auto` 来设置对象方向;
+15. 使用`.flex-wrap`(包裹)和`.flex-nowrap`(不包裹，默认)来设置子元素项目;
+16. 使用`.flex-wrap-reverse`进行项目倒序排序;支持媒体查询:`.flex-*-wrap`;
+17. 使用`.order-*`设置子元素项目的排序顺序;支持媒体查询:`.order-*-*`;
+
+## 警告提示框
+
+### 警告框样式
+
+1. 使用`.alert`设置警告框基础样式，可以设置警告框颜色;
+```html
+<div class="alert alert-success">Bootstrap</div>
+<div class="alert alert-primary">Bootstrap</div>
+<div class="alert alert-secondary">Bootstrap</div>
+<div class="alert alert-danger">Bootstrap</div>
+<div class="alert alert-warning">Bootstrap</div>
+<div class="alert alert-info">Bootstrap</div>
+<div class="alert alert-light">Bootstrap</div>
+<div class="alert alert-dark">Bootstrap</div>
+```
+2. 在使用了警告框的元素内部设置超链接`.alert-link`，会搭配相应的颜色;
+```html
+<div class="alert alert-success">
+  Bootstrat <a href="#" class="alert-link">V5.0</a>
+</div>
+```
+3. 使用`.alert-heading`可以设置继承颜色，alert本身也可以设置水平线段落等;
+```html
+<div class="alert alert-success">
+  <h4 class="alert-heading">Bootstrap</h4>
+  <hr>
+  <p>前端框架之一</p>
+</div>
+```
+
+### 警告框组件
+
+1. 在组件一栏，可以和浏览器实现交互功能，比如警告框的关闭效果;
+```html
+<div class="alert alert-warning alert-dismissible fade show">
+  警告⚠️：请不要使用IE
+  <button class="close" date-dismiss="alert">&times;</button>
+</div>
+```
+2. `data-dismiss="alert"`实现父元素关闭;
+3. `.fade`、 `.show` 实现了关闭后的淡出效果;
+
+## 徽章和面包屑导航
+
+### 徽章样式
+
+1. 使用`.badge`设置徽章基础样式，并使用`.badge-success`等设置徽章颜色;
+```html
+<h4>Bootstrap <span class="badge badge-success">V5.0</span></h1>
+...
+```
+2. 使用`.badge-pill`将徽章设置成椭圆胶囊式;
+```html
+<h3>Bootstrap
+  <span class="badge badge-info badge-pill">V5.0</span>
+</h3>
+```
+3. 在超链接使用徽章，鼠标悬停时会有换色效果;
+```html
+<h3>Bootstrap
+  <a href="#" class="badge badge-success badge-pill">V5.0</a>
+</h3>
+```
+
+### 面包屑导航
+
+1. 使用`.breadcrumb`设置一个层次导航;
+```html
+<nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Library</a></li>
+    <li class="breadcrumb-item active">Bootstrap</li>
+  </ol>
+</nav>
+```
