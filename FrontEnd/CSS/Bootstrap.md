@@ -765,3 +765,363 @@
   </ol>
 </nav>
 ```
+
+## 按钮和按钮组
+
+### 按钮样式
+
+* 使用`.btn`和`.btn-*`实现按钮的预设样式;
+
+  ```html	
+   <button type="button" class="btn btn-primary">Bootstrap</button>
+  ```
+
+* `.btn`不单单在`<button>`元素下使用，也可以在`<a>`、`<input>`下使用;
+
+  ```html
+  <a href="#" class="btn btn-success">Bootstrap</a>
+  <input type="submit" class="btn btn-danger" value="Bootstrap">
+  ```
+
+* 使用`.btn .btn-outline-*`可以实现按钮的轮廓效果;
+* 使用`.btn-lg`、`.btn-sm`可以实现按钮尺寸的大和小;
+* 使用`.btn-block`将按钮进行block区块设置;
+* 使用`.active`启用按钮(默认)，使用`.disabled`禁用按钮，特别注意`<a>`的禁用;
+* 添加`data-toggle="button"`实现按钮切换效果，使用`.active`可以默认按下;
+
+### 按钮组样式
+
+* 使用`.btn-group` 实现传统方案的复选框和单选框样式;
+
+  ```html
+  <div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input type="checkbox" checked>Python
+    </label>
+    
+    <label class="btn btn-secondary">
+      <input type="checkbox">JavaScript
+    </label>
+    
+    <label class="btn btn-secondary">
+      <input type="checkbox">Java
+    </label>
+  </div>
+  
+  <div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" checked>Python
+    </label>
+    
+    <label class="btn btn-seconday">
+      <input type="radio" name="options">JavaScript
+    </label>
+    
+    <label class="btn btn-secondary">
+    	<input type="radio" name="options">Java
+    </label>
+  </div>
+  ```
+
+  
+
+* 使用`.btn-group` `.btn-group-toggle`实现全新方案的复选框和单选框;
+
+* 使用`.btn-group`构建普通的按钮组;
+
+* 使用`.btn-toolbar`构建分页工具类;
+
+  ```html
+  <div class="btn-toolbar">
+    <div class="btn-group mr-2">
+      <button type="button" class="btn-secondary">1</button>
+      <button type="button" class="btn-secondary">2</button>
+      <button type="button" class="btn-secondary">3</button>
+      <button type="button" class="btn-secondary">4</button>
+      <button type="button" class="btn-secondary">5</button>
+    </div>
+    
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary">6</button>
+      <button type="button" class="btn btn-secondary">7</button>
+      <button type="button" class="btn btn-secondary">8</button>
+      <button type="button" class="btn btn-secondary">9</button>
+    </div>
+  </div>
+  ```
+
+  
+
+* 使用`.btn-group-lg`和`.btn-group-sm`实现大尺寸和小尺寸;
+
+* 使用`.btn-group-vertical`设置垂直按钮组;
+
+
+
+## 卡片
+
+* 卡片是一个内容扩展管理器，可以包含图片、列表、文本、链接等多种组合;
+
+* 先使用`.card` 来构建卡片，然后可以使用`.card-body` 建立卡片主体内容;
+
+* 卡片主体标题可以使用`.card-title`(标题)`.card-subtitle`(小标题)等;
+
+* 卡片主体使用`.card-text`代表文本内容;
+
+* 卡片主体使用`.card-link`代表超链接;
+
+* 使用`.card-img-top`可以设计一个带主题图片的内容管理器;
+
+  ```html
+  <div class="card" style="width: 300px">
+    <img class="card-img-top" src="img/bt.png" alt="bt">
+    <div class="card-body">
+      Bootstrap
+    </div>
+  </div>
+  ```
+
+* 使用`.card-header`设置一个列表组的标头;
+
+  ```html
+  <div class="card" style="width: 300px">
+    <div class="card-header">
+      Title
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Item 1</li>
+      <li class="list-group-item">Item 2</li>
+      <li class="list-group-item">Item 3</li>
+    </ul>
+  </div>
+  ```
+
+* 使用`.card-footer`配合`.card-header`，负责页眉页脚;
+
+* 卡片默认是100%显示的，可以使用栅格系统嵌套来固定卡片的布局;
+
+* 也可以使用.w-25、.w-50、w-75、w-100 来设置卡片的显示百分比;
+
+* 卡片支持文本的整体对齐和局部的对齐方式，采用`.text-center` 等;
+
+*  卡片使用`.card-header-tabs`可以配合列表`ul`实现导航功能;
+
+  ```html
+  <div class="card text-center" style="width: 500px">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-items">
+          <a href="#" class="nav-link active">主页</a>
+        </li>
+        <li class="nav-items">
+          <a href="#" class="nav-link">内容</a>
+        </li>
+        <li class="nav-items">
+          <a href="#" class="nav-link">关于</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      ...
+    </div>
+  </div>
+  ```
+
+* 将ul中的类改成按钮式`.nav-pills .card-header-pills`实现按钮导航;
+
+* 卡片中`.card-img`插入一个整体的图片，再配合`.card-img-overlay`实现背景;
+
+* 卡片通过内部栅格，也可以实现左右水平排列的图文显示;
+
+* 卡片可以定制自己的背景、颜色、边框
+
+* 在`.card`元素外层，构建一个`.card-group`分组，可以紧紧将每个卡片贴在一起;
+
+* `.card-group`本身就具有栅格系统，但会紧贴对应的`.card-deck`提供间隙;
+
+## 列表组
+
+* 列表组ul使用`.list-group`,li使用`.list-group-item`实现项目
+* 使用`.active`在项目中实现首选项、使用`.disabled`在项目中实现禁用
+* 将ul、li替换成div、a实现列表组的功能，需配合`.list-group-item-action`;
+* 使用`.list-group-flush`实现紧贴效果，就是外围无边框;
+* 使用`.list-group-horizontal`实现水平排列效果
+* `.list-group-horizntal-*`，`*`号可以表示md,sm,lg,xl等屏幕响应式
+* 列表语境颜色显示`.list-group-item-*`，`*`表示颜色;
+* 可以将`.badge` 徽章引入到列表组里，并进行适当的排版布局;
+
+## 分页和进度条
+
+### 分页
+
+* 使用`.pagination`和`.page-items`、`.page-link`构建一个列表模式分页
+
+  ```html
+  <ul class="pagination">
+    <li class="page-item"><a href="#" class="page-link">首页</a></li>
+    <li class="page-item"><a href="#" class="page-link">1</a></li>
+    <li class="page-item"><a href="#" class="page-link">2</a></li>
+    <li class="page-item"><a href="#" class="page-link">3</a></li>
+    <li class="page-item"><a href="#" class="page-link">4</a></li>
+    <li class="page-item"><a href="#" class="page-link">尾页</a></li>
+  </ul>
+  ```
+
+* 在li标签下使用`.disabled`可以禁用某个分页项目;
+
+* 直接将a标签替换为span标签，直接使链接失效但不会显示禁用的灰色样式;
+
+* 通过`.pagination-lg`(或其它)来实现，分页样式的大小;
+
+* 通过`.justify-content-center`(或其它)来实现，分页对齐方式;
+
+### 进度条
+
+* 使用`.progress`和`.progress-bar`构建一个进度条
+
+  ```html
+  <div class="progress">
+    <div class="progress-bar" style="width: 25%"></div>
+  </div>
+  ```
+
+* 使用.w-50样式，也可以实现项目进度，只不过数值有局限;
+
+* 设置进度条高度，使用普通高度样式即可;
+
+* 在进度条项目中，可以设置进度条的颜色;
+
+  ```html
+  <div class="progress">
+    <div class="progress-bar w-50 bg-danger"></div>
+  </div>
+  ```
+
+* 使用`.progress-bar-striped`实现条纹进度条;
+
+* 在条纹进度条的基础上，使用`.proress-bar-animated`实现动画效果;
+
+## 大块屏和旋转特效
+
+### 大块屏
+
+* 大块屏`.jumbotron` 是为了展示一些核心内容或广告内容的区域;
+
+  ```html
+  <div class="jumbotron">
+    <h1 class="display-4">Bootstrap</h1>
+    <p class="text-muted">这里是标题简介</p>
+    <hr/>
+    <p class="lead">这里是各种内容的区域</p?
+    <p class="lead">
+    	<button class="btn btn-success btn-lg">按钮</button>
+    </p>
+  </div>
+  ```
+
+### 旋转特效
+
+* 使用`.spinner-border`实现类似loading...的旋转特效
+
+* 使用`.text-success`(或其它)给旋转特效增加各种颜色;
+
+* 使用`.spinner-grow`可以实现渐变式loading...特效;
+
+* 使用`.m-[1-5]`外边距来调整距离，如果精确就用普通的CSS;
+
+* 通过`.spinner-broder-sm`或`.spinner-grow-sm`实现特效尺寸的大小;
+
+* 通过`.text-center`，将特效当作文本进行左中右排列，flex方式雷同;
+
+* 结合button按钮和文本，实现禁用状态下的loading...;
+
+  ```html
+  <button class="btn btn-info" disabled>
+    <div class="spinner-border spinner-border-sm"></div>
+    <span>Loading...</span>
+  </button>
+  ```
+
+## 轮播效果
+
+* 一个经典的例子：
+
+  ```html
+  <div class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="img/1.png" class="w-100" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="img/2.png" class="w-100" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="img/3.png" class="w-100" alt="">
+      </div>
+    </div>
+  </div>
+  ```
+
+* 给轮播幻灯片两侧加上切换按钮:
+
+  ```html
+  <div class="carousel slide" data-ride="carousel">
+  	...
+    <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#carousel" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+  ```
+
+* 给轮播幻灯片底部加上切换按钮:
+
+  ```html
+  <div id="carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carousel" data-slide-to="0" class="active"></li>
+      <li data-target="#carousel" data-slide-to="1"></li>
+      <li data-target="#carousel" data-slide-to="2"></li>
+    </ol>
+    ...
+  </div>
+  ```
+
+* 给轮播幻灯片底加上一些字符说明:
+
+  ```html
+  <div class="carousel-item active">
+    <img src="img/1.png" class="w-100" alt="">
+    <div class="carousel-caption">
+      <h5>Bootstrap</h5>
+    </div>
+  </div>
+  ```
+
+* 给轮播幻灯片设置渐进式轮播效果:`class="carousel slide carousel-fade"`
+
+* 通过JS控制，来设置轮播的各项数值，代替`data-ride="carousel"`:
+
+  ```javascript
+  $('.carousel').carousel({
+    interval: 500
+  })
+  ```
+
+* 通过JS控制，使用按钮来控制轮播器的各项操作:
+
+  ```javascript
+  $('.button').click(function() {
+    $('.carousel').carousel('cycle');
+    $('.carousel').carousel('pause');
+    $('.carousel').carousel('prev');
+    $('.carousel').carousel('next');
+    $('.carousel').carousel(<slide-number>);
+  })
+    
+  ```
+
+
+
