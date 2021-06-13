@@ -1,12 +1,58 @@
 # Bootstrap 4.x + 5.x
 
+- [Bootstrap 4.x + 5.x](#bootstrap-4x--5x)
+  - [布局系统](#布局系统)
+    - [介绍](#介绍)
+    - [栅格系统](#栅格系统)
+  - [对齐和排列](#对齐和排列)
+    - [栅格对齐](#栅格对齐)
+    - [栅格排列](#栅格排列)
+  - [内容排版](#内容排版)
+    - [标题类](#标题类)
+    - [文本类](#文本类)
+    - [列表类](#列表类)
+  - [代码与图文](#代码与图文)
+    - [代码样式](#代码样式)
+    - [图文样式](#图文样式)
+  - [表格样式](#表格样式)
+  - [边框和颜色](#边框和颜色)
+    - [边框样式](#边框样式)
+    - [颜色样式](#颜色样式)
+  - [公共样式](#公共样式)
+  - [Flex弹性布局](#flex弹性布局)
+  - [警告提示框](#警告提示框)
+    - [警告框样式](#警告框样式)
+    - [警告框组件](#警告框组件)
+  - [徽章和面包屑导航](#徽章和面包屑导航)
+    - [徽章样式](#徽章样式)
+    - [面包屑导航](#面包屑导航)
+  - [按钮和按钮组](#按钮和按钮组)
+    - [按钮样式](#按钮样式)
+    - [按钮组样式](#按钮组样式)
+  - [卡片](#卡片)
+  - [列表组](#列表组)
+  - [分页和进度条](#分页和进度条)
+    - [分页](#分页)
+    - [进度条](#进度条)
+  - [大块屏和旋转特效](#大块屏和旋转特效)
+    - [大块屏](#大块屏)
+    - [旋转特效](#旋转特效)
+  - [轮播效果](#轮播效果)
+  - [折叠菜单](#折叠菜单)
+  - [下拉菜单](#下拉菜单)
+  - [悬浮提示和点击提示](#悬浮提示和点击提示)
+    - [悬浮提示](#悬浮提示)
+    - [点击提示](#点击提示)
+  - [表单](#表单)
+  - [导航栏](#导航栏)
+
 ## 布局系统
 
 ### 介绍
 
-1. 对于容器布局，Bootstrap4.x 提供了.container 和.container-fluid 两种;
+1. 对于容器布局，Bootstrap4.x 提供了`.container` 和`.container-fluid` 两种;
 2. 这两种样式是启用布局栅格系统最基本的要素;
-3. .contianer 是固体自适应方式，.container-fluid 是流体 100%自适应方式;
+3. `.contianer` 是固体自适应方式，`.container-fluid` 是流体 100%自适应方式;
 4. 容器布局可以嵌套，但一般来说，不推荐且很少使用到:
 5. 自适应对应的响应式方式如下 media:
 
@@ -1122,6 +1168,286 @@
   })
     
   ```
+
+## 折叠菜单
+
+* 使用`.collapse`构建一个最简单的折叠菜单效果：
+
+  ```html
+  <div>
+    <button class="btn btn-success" data-toggle="collapse" href="#collapseText">
+      按钮
+    </button>
+  </div>
+  
+  <div class="collapse border border-success" id="collapseText">
+    <p>被切换的文本</p>
+  </div>
+  
+  <div>占位文本</div>
+  ```
+
+* 使用`.multi-collapse`实现一个按钮控制多个折叠菜单：
+
+  ```html
+  <div>
+    <button class="btn btn-success" data-toggle="collapse" href="#collapseText1">
+      按钮1
+    </button>
+    <button class="btn btn-success" data-toggle="collapse" href="#collapseText2">
+      按钮2
+    </button>
+    <button class="btn btn-success" data-toggle="collapse" href=".multi-collapse">
+      按钮3
+    </button>
+  </div>
+  
+  <div class="collapse multi-collapse border border-success" id="collapseText1">
+    <p>被切换的文本1</p>
+  </div>
+  <div class="collapse multi-collapse border border-success" id="collapseText2">
+    <p>被切换的文本2</p>
+  </div>
+  ```
+
+* 使用`.accordion`实现手风琴效果：
+
+  ```html
+  <div class="accordion w-50" id="accordion">
+    <div class="card">
+      <button class="btn btn-link" data-toggle="collapse" data-toggle="#collapseText1">
+        按钮1
+      </button>
+    	<div class="collapse show border border-bottom-0 border-left-0 border-right-0"
+      	   id="collapseText1" data-parent="#accordion">
+      	<p>被切换的文本1</p>
+    	</div>
+    </div>
+    
+    <div class="card">
+      <button class="btn btn-link" data-toggle="collapse" data-toggle="#collapseText2">
+        按钮2
+      </button>
+    	<div class="collapse show border border-bottom-0 border-left-0 border-right-0"
+      	   id="collapseText2" data-parent="#accordion">
+      	<p>被切换的文本2</p>
+    	</div>
+    </div>
+    
+    <div class="card">
+      <button class="btn btn-link" data-toggle="collapse" data-toggle="#collapseText3">
+        按钮3
+      </button>
+    	<div class="collapse show border border-bottom-0 border-left-0 border-right-0"
+      	   id="collapseText3" data-parent="#accordion">
+      	<p>被切换的文本3</p>
+    	</div>
+    </div>
+  </div>
+  ```
+
+* 使用JS控制按钮触发：
+
+  ```javascript
+  $('.btn').click(function() {
+    $('.collapse').collapse('show')
+    $('.collapse').collapse('hide')
+    $('.collapse').collapse('toggle')
+    $('.collapse').collapse('dispose')
+  })
+  ```
+
+## 下拉菜单
+
+* 下拉菜单组件依赖于Popper.js，而Bootstrap组件包里没有这个文件;
+
+* 但组件包里bootstrap.bundle.js已经包含了这个组件功能，使用这个即可;
+
+* 只要将将bootstrap.bundle.js替代掉bootstrap.js即可;
+
+* 使用`.dropdown`等系列样式，来构建下拉菜单效果;
+
+  ```html
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+    	下拉菜单
+    </button>
+    <div class="dropdown-menu">
+      <a href="#" class="dropdown-item">菜单1</a>
+      <a href="#" class="dropdown-item">菜单2</a>
+      <a href="#" class="dropdown-item">菜单3</a>
+      <a href="#" class="dropdown-item">菜单4</a>
+    </div>
+  </div>
+  ```
+
+* 使用`.dropdown-divider`给菜单项目之间增加一条分割线;
+
+  ```html
+  <a href="#" class="dropdown-item">菜单1</a>
+  <div class="dropdown-divider"></div>
+  <a href="#" class="dropdown-item">菜单2</a>
+  ```
+
+* 使用`.dropdown-toggle-split`实现分裂式按钮下拉菜单;
+
+  ```html
+  <div class="dropdown btn-group">
+  	<button class="btn btn-secondary">下拉菜单</button>
+    <button class="btn btn-secondary dropdown-toggle
+                   dropdown-toggle-split" data-toggle="dropdown"></button>
+     <div class="dropdown-menu">
+  		...
+    </div>
+  </div>
+  ```
+
+* 使用`.dropup`可以将下拉菜单向上展开，会根据上下区域调整;
+
+* 使用`.dropright`、`dropleft`可以将下拉菜单向右、向左展开;
+
+* 使用`.dropdown-menu-right` 可以设置菜单向右对齐;
+
+## 悬浮提示和点击提示
+
+### 悬浮提示
+
+* 同上，依赖Popper.js
+
+* 悬停提示，必须要脚本端进行绑定才能执行效果;
+
+  ```html
+  <script>
+  	$('[data-toggle="tooltip"]').tooltip();
+  </script>
+  
+  //bottom、top、left 和 right，提示位置
+  <button class="btn btn-secondary" data-toggle="tooltip"
+          title="底部提示" data-placement="bottom">
+     悬停提示
+  </button>
+  ```
+
+* 通过JS脚本方式控制提示的各种行为操作
+
+  ```javascript
+  $('#button').click(function () {
+    //显示
+  	$('[data-toggle="tooltip"]').tooltip('show');
+    //隐藏
+    $('[data-toggle="tooltip"]').tooltip('hide');
+    //切换
+    $('[data-toggle="tooltip"]').tooltip('toggle');
+  });
+  ```
+
+### 点击提示
+
+* 点击提示也需要脚本支持
+
+  ```html
+  <script>
+    $('[data-toggle="popover"]').popover();
+  </script>
+  
+  //bottom、top、left 和 right，提示位置
+  <button class="btn btn-secondary" data-toggle="popover"
+          title="底部提示" data-placement="bottom" data-content="点击提示效果">
+     悬停提示
+  </button>
+  ```
+
+* 默认情况下，离开触发环境不会自动隐藏，需要设置`data-trigger="focus"`
+
+* 类似的用JS控制
+
+## 表单
+
+* 使用`.form-control`、`form-check-input`构建一个登录页面;
+
+  ```html
+  <form action="">
+     <div class="form-group">
+  		 <label for="email">请输入邮件地址:</label>
+       <input type="text" id="email" class="form-control">
+     </div>
+  	 <div class="form-group">
+  	 	 <label for="password">请输入密码:</label>
+  		 <input type="text" id="password" class="form-control">
+     </div>
+     <div class="form-check">
+       <input type="checkbox" id="check" class="form-check-input">
+  		 <label for="check">是否保存</label>
+    </div>
+  </form>
+  ```
+
+* 表单控件中`<input>`、`<textarea>`、`<select>`统一采用`.form-control`
+
+* 对于file上传控件，单独使用`.form-control-file`样式;
+
+* `.form-control-sm`(xl,lg)支持放大和缩小操作;
+
+* 使用`.form-control-plaintext`和只读属性`readonly`实现只读效果;
+
+* 使用栅格布局，再使用label元素下的`.col-form-label`实现对齐;
+
+* 使用`.form-control-range`构建一个输入范围;
+
+* 使用`.form-check`系列样式设计复选框和单选框;
+
+  ```html
+  <form action="">
+      <div class="form-check">
+  				<input type="checkbox" class="form-control-input" id="check">
+  				<label for="check" class="form-check-label">复选框</label>
+      </div>
+  		<div class="form-check">
+  				<input type="radio" class="form-control-input" id="radio">
+        	<label for="radio" class="form-check-label">单选框</label>
+      </div>
+  </form>
+  ```
+
+* 使用`.form-check-inline`实现单选框和复选框水平排列;
+
+  ```html
+  <form action="" class="form-check-inline">
+  ```
+
+* 表单需要在提交前验证，如果出现不合法或合法，显示不同的样式;
+
+* 使用`.is-valid`和`.is-invalid`实现成功或失败;
+
+* 对于提示文本，使用`.valid-feedback`和`.invalid-feedback`;
+
+## 导航栏
+
+* 导航栏是一种响应式的组件，主要使用`.navbar-toggler`来实现;
+
+  ```html
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+     <span class="navbar-brand">Logo</span>
+     <button class="navbar-toggler" data-toggle="collapse"
+                                        data-target="#navbar">
+       <span class="navbar-toggler-icon"></span>
+     </button>
+     <div class="collapse navbar-collapse" id="navbar">
+       <ul class="navbar-nav">
+  				<li class="nav-item active"><a href="#" class="nav-link">首页</a></li>
+  				<li class="nav-item"><a href="#" class="nav-link">列表</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">图文</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">关于</a></li>
+  			</ul>
+    </div>
+  </nav>
+  ```
+
+* 如果不想使用`ul>li`这种方式实现导航列表，可以使用`div>a`;
+
+* 如果你想给导航栏增加文本，使用`.navbar-text`;
+
+* 导航栏可以设置主题配色，主要修改`.navbar-dark`和`.bg-dark`两个样式;
 
 
 
