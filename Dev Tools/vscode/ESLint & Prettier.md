@@ -41,6 +41,20 @@ npm i -D eslint prettier eslint-plugin-prettier eslint-config-prettier eslint-pl
    
    ```
 
+5. VSCode的ESLint插件默认不检查typescript，需要添加设置项
+
+   ```json
+   {
+     "eslint.validate": [
+       "javascript",
+       "javascriptreact",
+       "vue",
+       "html",
+       "typescript"
+     ]
+   }
+   ```
+
    
 
 
