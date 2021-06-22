@@ -79,3 +79,22 @@
   * 例:`npm_package_name`可以拿到`name`的值
   * 嵌套的值可以通过添加下划线拿到
 
+## `package.json`
+
+### version
+
+| Value       | Description                               |
+| :---------- | :---------------------------------------- |
+| `~version`  | "Approximately equivalent to version"[^1] |
+| `^version`  | "Compatible with version"[^2]             |
+| `version`   | Must match version exactly                |
+| `>version`  | Must be greater than version              |
+| `>=version` | etc                                       |
+| `<version`  |
+| `<=version` |
+| `1.2.x`     | 1.2.0, 1.2.1, etc., but not 1.3.0         |
+| `*`         | Matches any version                       |
+| `latest`    | Obtains latest release                    |
+
+[^1]: will update you to all future patch versions, without incrementing the **minor** version. ~1.2.3 will use releases from 1.2.3 to <1.3.0.
+[^2]: will update you to all future minor/patch versions, without incrementing the **major** version. ^2.3.4 will use releases from 2.3.4 to <3.0.0.
