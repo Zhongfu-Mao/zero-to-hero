@@ -81,6 +81,16 @@
 
 ## `package.json`
 
+### 创建
+
+```bash
+npm init [-y | --yes]
+
+npm set init.author.email <new_value> # 更改默认值
+```
+
+
+
 ### version
 
 | Value       | Description                               |
