@@ -23,7 +23,7 @@ javascript: window.location.href = window.location.href.replace(/github(1s)?.com
 
 ## DevTools
 
-### console
+* console:
 
 ```javascript
 document.querySelector();
@@ -48,3 +48,15 @@ console.timeEnd([label]);
 console.trace();
 console.warn(object [, object, ...]);
 ```
+
+* 隐身模式:隐身模式或私有模式会使用单独的用户配置文件，在浏览器重新启动之后不会保留 `Cookie，localStorage`或缓存文件之类的数据。每个会话都会以干净的状态开始，所以非常适合测试登录功能、首次渲染性能和PWA程序。
+* 自动启动DevTools:
+  * Windows系统下可以创建快捷方式:`"C:\Program Files\Google\Chrome\Application\chrome.exe" --incognito --auto-open-devtools-for-tabs http://localhost:8000`
+    * `--incognito` :以隐身模式开始
+    * `--auto-open-devtools-for-tabs`: 启动 `DevTools`
+    * `--allow-insecure-localhost`: 忽略 `localhost` 域上的 `SSL` 错误
+    * `--disable-extentions` :禁用影响渲染的 `Chrome` 扩展，例如广告拦截器
+    * `--window-size=<width>,<height>`: 设置初始窗口大小
+    * `--window-position=<x>,<y>` :设置初始窗口位置
+    * `--user-data-dir="<dir>"`: 设置用户配置文件目录。
+
