@@ -26,8 +26,18 @@ javascript: window.location.href = window.location.href.replace(/github(1s)?.com
 * console:
 
 ```javascript
-document.querySelector();
-$(); // do the same
+$(); // document.querySelector()
+$$(); // document.querySelectorAll()
+$x(<XPath表达式>); 
+$0-$4; // 五个最近在元素面板选择过的DOM元素的历史记录，$0是最新的记录
+$_; // 最近一次计算过的表达式的值
+dir(<object>); // console.dir()
+dirxml(<node>); // console.dirxml()
+clear();
+copy(<object>); // 复制到剪切板
+getEventListeners(<node>);
+monitor(<function>);
+monitorEvents(<node>[, events]);
 
 console.assert(expression, object);
 console.clear();
