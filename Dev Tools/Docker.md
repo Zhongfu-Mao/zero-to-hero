@@ -153,6 +153,52 @@ docker save
 docker load
 ```
 
+## 操作容器
+
+### 启动与终止
+
+```bash
+docker run ubuntu:18.04 /bin/echo 'Hello world'
+
+docker run -t -i ubuntu:18.04 /bin/bash
+# -t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上
+# -i 让容器的标准输入保持打开
+
+docker container start [container ID or NAMES]# 启动已终止的容器
+docker container stop [container ID or NAMES]# 中止运行中的容器
+# 只启动一个终端的容器可以用`exit`或者`Ctrl+d`来退出
+
+docker run -d ubuntu:18.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+# -d 以deamon状态运行
+# 用`docker container logs [container ID or NAMES]`查看输出
+```
+
+### 进入容器
+
+```bash
+docker exec -it
+# 只用 -i 参数时，由于没有分配伪终端，界面没有我们熟悉的 Linux 命令提示符，但命令执行结果仍然可以返回
+# 当 -i -t 参数一起使用时，则可以看到我们熟悉的 Linux 命令提示符
+
+# exec与attach的区别:
+# 	exec退出后不会导致容器的停止而attach会
+```
+
+### 导出和导入
+
+```bash
+docker export [container ID or NAMES]
+docker import [container ID or NAMES]
+```
+
+### 删除
+
+```bash
+docker container rm [container ID or NAMES]
+
+docker container prune # 清理所有终止的容器
+```
+
 
 
 ## 技巧
