@@ -191,6 +191,12 @@ docker export [container ID or NAMES]
 docker import [container ID or NAMES]
 ```
 
+### 检视
+
+```bash
+docker inspect [container ID or NAME]
+```
+
 ### 删除
 
 ```bash
@@ -199,7 +205,157 @@ docker container rm [container ID or NAMES]
 docker container prune # 清理所有终止的容器
 ```
 
+## 数据管理
 
+### 数据卷
+
+* 数据卷 可以在容器之间共享和重用
+
+* 对 数据卷 的修改会立马生效
+
+* 对 数据卷 的更新，不会影响镜像
+
+* 数据卷 默认会一直存在，即使容器被删除
+
+  ```bash
+  docker volume create my-vol #创建
+  docker volume ls # 列举
+  docker volume inspect my-vol # 查看
+  docker volume rm my-vol # 删除
+  docker volume prune # 清理
+  ```
+
+### 挂载主机目录
+
+```bash
+docker run -d -P \
+    --name web \
+    # -v /src/webapp:/usr/share/nginx/html:ro \
+    --mount type=bind,source=/src/webapp,target=/usr/share/nginx/html,readonly \
+    nginx:alpine
+```
+
+## 使用网络
+
+### 外部访问容器
+
+* `-P`:随机映射一个端口到内部容器开放的网络端口
+* `-p`
+  * 指定要映射的端口,一个指定端口只能绑定一个容器
+  * `hostPort:containerPort`:`docker run -d -p 80:80 nginx:alpine`
+  * `ip:hostPort:containerPort`:`docker run -d -p 127.0.0.1:80:80 nginx:alpine`
+  * `ip::containerPort`:`docker run -d -p 127.0.0.1::80 nginx:alpine`(本地主机自动分配一个端口)
+* 使用`docker port`或者`docker inspect`查看端口配置
+
+### 网络互联
+
+```bash
+docker network create -d bridge my-net
+# 创建
+# -d 指定网络类型
+
+docker run -it --rm --name busybox1 --network my-net busybox sh
+# 加入
+```
+
+# Docker Compose
+
+> `Compose` 定位是 「定义和运行多个 Docker 容器的应用（Defining and running multi-container Docker applications）」
+
+`Compose` 中有两个重要的概念：
+
+- 服务 (`service`)：一个应用的容器，实际上可以包括若干运行相同镜像的容器实例。
+- 项目 (`project`)：由一组关联的应用容器组成的一个完整业务单元
+
+> `docker-compose`命令使用Python编写
+>
+> `docker compose`命令使用Go重写,作为docker cli的子命令,成为`Compose V2`
+>
+> [Compose V2 beta | Docker Documentation](https://docs.docker.com/compose/cli-command/)
+
+### 命令
+
+```bash
+docker-compose [-f=<arg>...] [options] [COMMAND] [ARGS...]
+```
+
+### Compose模板文件
+
+```yaml
+version: '3'
+services:
+
+  webapp:
+    build:
+      context: ./dir
+      cache_from:
+      	- alpine:latest
+      	- corp/web_app:3.14
+      dockerfile: Dockerfile-alternate
+      args:
+        buildno: 1
+    depends_on:
+    	- db
+       
+  db:
+  	image: "mongo:${MONGO_VERSION}" # 支持读取变量
+  	
+dns: 8.8.8.8
+
+dns:
+  - 8.8.8.8
+  - 114.114.114.114
+  
+env_file: .env
+
+env_file:
+  - ./common.env
+  - ./apps/web.env
+  - /opt/secrets.env 
+  
+environment:
+  RACK_ENV: development
+  SESSION_SECRET:
+
+environment:
+  - RACK_ENV=development
+  - SESSION_SECRET
+  
+expose:
+ - "3000"
+ - "8000"
+ 
+mysql:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+  secrets:
+    - db_root_password
+    - my_other_secret
+
+secrets:
+  my_secret:
+    file: ./my_secret.txt
+  my_other_secret:
+    external: true
+    
+volumes:
+ - /var/lib/mysql
+ - cache/:/tmp/cache
+ - ~/configs:/etc/configs/:ro
+ 
+entrypoint: /code/entrypoint.sh
+user:ngix
+working_dir: /code
+domainname: my_website.com
+hostname: test
+mac_address: 08-00-27-00-0C-0A
+privileged: true
+restart: always
+read_only: true
+stdin_open: true
+tty: true
+```
 
 ## 技巧
 
