@@ -128,6 +128,24 @@ str: 'labor''s day'
 # 转换后
 { str: 'labor\'s day' }
 
+# 复杂的键可以用`?`来标注
+? !!python/tuple [0,0]
+: The Hero
+? !!python/tuple [0,1]
+: Treasure
+? !!python/tuple [1,0]
+: Treasure
+? !!python/tuple [1,1]
+: The Dragon
+# 转化后
+{
+	(0, 1): 'Treasure', 
+	(1, 0): 'Treasure', 
+	(0, 0): 'The Hero', 
+	(1, 1): 'The Dragon'
+}
+
+
 # 锚点&和别名*，可以用来引用。
 defaults: &defaults
   adapter:  postgres
@@ -162,4 +180,38 @@ test:
 
 
 
-### PyYAMLを利用して処理する
+### PyYAML
+
+> **It is not safe to call `yaml.load` with any data received from an untrusted source! `yaml.load` is as powerful as `pickle.load` and so may call any Python function.** 
+
+| YAML tag                              | Python type         |
+| ------------------------------------- | ------------------- |
+| Standard YAML tags                    |                     |
+| !!null                                | None                |
+| !!bool                                | bool                |
+| !!int                                 | int                 |
+| !!float                               | float               |
+| !!binary                              | Bytes               |
+| !!timestamp                           | datetime.datetime   |
+| !!set                                 | set                 |
+| !!                                    | str                 |
+| !!seq                                 | list                |
+| !!map                                 | dict                |
+| Python-specific tags                  |                     |
+| !!python/none                         | None                |
+| !!python/bool                         | bool                |
+| !!python/bytes                        | bytes               |
+| !!python/str, !!python/unicode        | str                 |
+| !!python/int, !!python/long           | int                 |
+| !!python/float                        | float               |
+| !!python/complex                      | complex             |
+| !!python/list                         | list                |
+| !!python/tuple                        | tuple               |
+| !!python/dict                         | dict                |
+| Complex Python tags                   |                     |
+| !!python/name:module.name             | module.name         |
+| !!python/module:package.module        | package.module      |
+| !!python/object:module.Class          | Module.cls instance |
+| !!python/object/new:module.Class      | Module.cls instance |
+| !!python/object/apply:module.function | value of f(...)     |
+
