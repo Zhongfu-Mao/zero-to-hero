@@ -307,6 +307,127 @@ MySQL支持多种数据类型，主要有数值类型、日期/时间类型和�
 
 ## 函数
 
+### 数学函数
+
+* ABS(X)
+* PI()
+* SQRT(X)
+* MOD(X, Y)
+* CEIL(X), CEILING(X)
+* FLOOR(X)
+* RAND(), RAND(X)
+* ROUND(X), ROUND(X,Y), TRUNCATE(X,Y)
+* SIGN(X)
+* POW(X, Y), POWER(X,Y)
+* EXP(X)
+* LOG(X),LOG10(X)
+* RADIANS(X),DEGREES(X)
+* SIN(X),ASIN(X)
+* COS(X),ACOS(X)
+* TAN(X),ATAN(X)
+
+### 字符串函数
+
+* CHAR_LENGTH(str)
+* LENGTH(str)
+* CONCAT(s1,s2,...), CONCAT_WS(x,s1,s2,...)
+* INSERT(s1,x,len,s2)
+* LOWER(str),LCASE(str)
+* UPPER(str),UCASE(str)
+* LEFT(s, n), RIGHT(s, n)
+* LPAD(s1, len, s2), RPAD(s1, len, s2)
+* LTRIM(s),RTRIM(s),TRIM(s)
+* TRIM(s1 FROM s)
+* REPEAT(s, n)
+* SPACE(n),REPLACE(s,s1,s2)
+* STRCMP(s1, s2)
+* SUBSTRING(s, n, len), MID(s, n, len)
+* LOCATE(str1, str), POSITION(str1 IN str), INSTR(str, str1)
+* REVERSE(s)
+* ELT(N, str1, str2, str3,... strN)
+* FIELD(s, s1, s2,...sN)
+* FIND_IN_SET(s1, s2)
+* MAKE_SET(x, s1, s2,...sN)
+
+### 日期和时间函数
+
+#### 获取
+
+* CURDATE(), CURRENT_DATE()
+* CURTIME(), CURRENT_TIME()
+* CURRENT_TIMESTAMP(), LOCALTIME(), NOW(), SYSDATE()
+* UNIX_TIMESTAMP(), UNIX_TIMESTAMP(date)
+* FROM_UNIXTIME(timestamp)
+* UTC_DATE()
+* UTC_TIME()
+* MONTH(date)
+* MONTHNAME(date)
+* DAYNAME(date), DAYOFWEEK(date), WEEKDAY(date)
+* WEEK(date), WEEKOFYEAR(date)
+* DAYOFYEAR(date), DAYOFMONTH(date)
+* YAER(date)
+* QUARTER(date)
+* MINUTE(time)
+* SECOND(time)
+* EXTRACT(type FROM date)
+* TIME_TO_SEC(time)
+* SEC_TO_TIME(seconds)
+
+#### 计算
+
+* DATE_ADD(date, INTERVAL expr type)
+* ADDDATE(date, INTERVAL expr type)
+* DATE_SUB(date, INTERVAL expr type)
+* SUBDATE(date, INTERVAL expr type)
+* ADDTIME(date, expr)
+* SUBTIME(date, expr)
+* DATE_DIFF(date1, date2)
+
+#### 格式化
+
+* DATE_FORMAT(date, format)
+* TIME_FORMAT(time, format)
+* GET_FORMAT(val_type, format_type)
+
+### 条件判断函数
+
+* IF(expr, v1, v2)
+* IFNULL(v1, v2)
+* CASE　WHEN v1 THEN r1 [WHEN v2 THEN r2]… ELSE rn+1] END
+
+### 系统信息函数
+
+* VERSION()
+* CONNECTION_ID()
+* USER()
+* CURRENT_USER()
+* SYSTEM_USER()
+* SESSION_USER()
+* CHARSET(str)
+* COLLATION(str)
+* LAST_INSERT_ID()
+
+### MySQL 8 新增函数
+
+* MD5(str)
+* SHA(str)
+* SHA2(str, hash_length)
+* window ... AS (ORDER BY ...)
+
+### 其它函数
+
+* FORMAT(x, n)
+* CONV(N, from_base, to_base)
+* INET_ATON(expr)
+* GET_LOCK(str, timeout)
+* RELEASE_LOCK(str)
+* IS_FREE_LOCK(str)
+* IS_USED_LOCK(str)
+* BENCHMARK(count, expr)
+* CONVERT(... USING ...)
+* CAST(x, AS type)
+* CONVERT(x, type)
+
 
 
 
