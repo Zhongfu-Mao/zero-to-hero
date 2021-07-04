@@ -428,7 +428,63 @@ MySQL支持多种数据类型，主要有数值类型、日期/时间类型和�
 * CAST(x, AS type)
 * CONVERT(x, type)
 
+## 查询数据
 
+```mysql
+SELECT
+	{ * | <字段列表> | DISTINCT 字段名 | 聚合函数() AS 别名}
+FROM
+	<表1>[,<表2>...]
+[WHERE <表达式> [ANY|SOME|ALL|IN|EXISTS 子查询]]
+[GROUP BY <字段>]
+[HAVING <条件表达式> [{<operator> <expression>}...]]
+[ORDER BY <字段列表> [DESC]]
+[LIMIT [<位置偏移量>,] <行数> | LIMIT <行数> OFFSET <位置偏移量>]
+[UNION [ALL] 别的查询];
+```
 
+## 插入,更新和删除
 
+### 插入
 
+```mysql
+INSERT INTO
+	table_name [(column_list)]
+VALUES
+	(value_list)[, (value_list2)...];
+```
+
+### 更新
+
+```mysql
+UPDATE
+	table_name
+SET
+	column_name=value[,column_name2=value2...]
+WHERE
+	(condition);
+```
+
+### 删除
+
+```mysql
+DELETE FROM
+	table_name
+[WHERE (condition)];
+
+TRUNCATE TABLE table_name; # 删除表中所有记录
+```
+
+### 为表增加计算列
+
+```mysql
+col_name data_type [GENERATED ALWAYS] AS (expression)
+	[VIRTUAL | STORED] [UNIQUE [KEY]] [COMMENT comment]
+	[NOT NULL | NULL] [[PRIMARY] KEY]
+```
+
+> 在MySQL 8.0中，CREAE TABLE和ALTER TABLE中都支持增加计算列
+
+## 索引
+
+> 索引是一个单独的、存储在磁盘上的数据库结构，包含着对数据表里所有记录的引用指针
