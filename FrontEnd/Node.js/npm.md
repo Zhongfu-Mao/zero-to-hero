@@ -107,23 +107,24 @@ npm set init.author.email <new_value> # 更改默认值
 
 ```json
 {
-  "name": "package.json", # 项目名称
-  "version": "1.0.0", # 项目版本（格式：大版本.次要版本.小版本）
-  "description": "", # 项目描述
-  "main": "index.js", # 入口文件
-  "scripts": { # 指定运行脚本命令的 npm 命令行缩写
+  "name": "package.json", // 项目名称
+  "version": "1.0.0", // 项目版本（格式：major.minor.patch）
+  // name和version组成npm内部的唯一标识符,如果不想发布的话可以不填
+  "description": "", // 项目描述
+  "main": "index.js", // 入口文件
+  "scripts": { // 指定运行脚本命令的 npm 命令行缩写
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [], # 关键词, 会在`npm search`中列出
-  "author": "", # 作者
-  "license": "ISC" # 许可证
+  "keywords": [], // 关键词, 会在`npm search`中列出
+  "author": "", // 作者
+  "license": "ISC" // 许可证
 	"engine": {
     "node": ">= 10.12.0",
     "npm": ">= 6.9.0"
   },
 	"os": ["darwin", "linux", "!win32"],
-	"cpu": ["x64", "!arm"],
-	"private": true, # npm拒绝发布私有模块
+	"cpu": ["x64", "!arm"], // `process.arch`查看CPU架构
+	"private": true, // npm拒绝发布私有模块
 
 }
 ```
