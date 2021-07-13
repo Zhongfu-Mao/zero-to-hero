@@ -12,6 +12,43 @@
   >
   > 它们还会处理空格、编码地址等，但规范中并没有说明这些事情应该由客户端完成。
 
+* 要想在PowerShell中正确使用curl，需要输入它的全名，包括扩展名：“curl.exe”。
+* curl假定你会传给它一个有效的URL，它只对格式进行有限的检查，以提取执行操作所需要的信息
+* 为方便起见，curl还允许用户省略URL的scheme部分。curl会根据主机名的第一部分猜测要使用哪种协议。这是一种非常基本的猜测，因为它只检查主机名的第一部分是否与一组协议中的某个协议匹配，并假定你打算使用的就是这个协议。
+* 对于具有目录概念的协议，可以在URL尾部以一个斜杠表示它是目录，而不是文件。
+* 手册页的Web版本（https://curl.haxx.se/docs/manpage.html）
+* curl支持的协议:DICT、FILE、FTP、FTPS、GOPHER、HTTP、HTTPS、IMAP、IMAPS、LDAP、LDAPS、POP3、POP3S、RTMP、RTSP、SCP、SFTP、SMB、SMTP、SMTPS、TELNET和TFTP。
+* TLS是传输层安全（Transport Layer Security）的简写，这项技术之前叫作SSL
+* curl支持很多协议的TLS版本。HTTP有HTTPS、FTP有FTPS、LDAP有LDAPS、POP3有POP3S、IMAP有IMAPS、SMTP有SMTPS
+
+## URL通配
+
+### 数值范围
+
+```bash
+# 使用[M-N:step]语法指定数值范围
+curl -O http://example.com/[1-100:2].png
+```
+
+### 字母范围
+
+```bash
+curl -O http://example.com/section[a-z].html
+```
+
+### 列表
+
+```bash
+# 要放在花括号中
+curl -O http://example.com/{one, two, three, alpha, beta}.html
+```
+
+### 组合
+
+```bash
+curl -O http://example.com/{web, mail}-log[0-6].txt
+```
+
 ## 命令行参数
 
 ## **-A**
@@ -232,7 +269,7 @@
 
 上面命令将带宽限制在每秒 200K 字节。
 
-## **-o**
+## **-o(--output)**
 
 `-o`参数将服务器的回应保存成文件，等同于`wget`命令。
 
@@ -251,6 +288,24 @@
 > ```
 
 上面命令将服务器回应保存成文件，文件名为`bar.html`。
+
+`-O`只用于单个下载，如果你要下载多个URL，则需要使用多个-O
+
+```bash
+curl -O -O http://example.com/1 http://example.com/2
+```
+
+使用`--remote-name-all`选项让`-O`成为所有给定URL的默认操作方式。
+
+## --retry-delay
+
+>  curl在开始重试传输前会先等待一秒，对于后续的重试，等待时间加倍，直到达到10分钟，然后剩余的重试延迟就是10分钟。
+>
+> --retry-delay选项可以禁用这种指数退避算法，并设置自己的重试延迟。
+>
+> --retry-max-time选项可以限制所有重试的总时间。
+>
+> --max-time选项用于指定单个传输允许的最长时间。
 
 ## **-s**
 
@@ -277,6 +332,13 @@
 > ```
 
 上面命令没有任何输出，除非发生错误。
+
+## --trace-ascii, --trace-time
+
+作为`-v`的补充
+
+* --trace-ascii [filename]选项可以将完整的跟踪信息保存在指定的文件中，也可以使用’-'（单个减号）代替文件名，将内容打印到stdout
+* --trace-time如果使用了这个选项，则所有的输出信息前面都会被加上高精度的时间戳。它可以与常规的-v和--verbose选项以及--trace和--trace-ascii选项一起使用
 
 ## **-u**
 
@@ -315,6 +377,32 @@ curl 能够识别 URL 里面的用户名和密码。
 > ```bash
 > $ curl --trace - https://www.example.com
 > ```
+
+## -w(--write-out)
+
+* --write-out（或-w）会在传输任务完成后打印一些信息
+
+* 如果将一个字符串传给这个选项，那么这个字符串就会被打印出来
+
+  ```bash
+  curl -w "formatted string" http://example.com
+  ```
+
+  
+
+* 如果在字符串前面加上’@'，那么curl就会从指定文件中读取字符串
+
+  ```bash
+  curl -w @filename http://example.com/
+  ```
+
+  
+
+* 如果使用’-’作为文件名，那么curl就会从标准输入（stdin）读取字符串
+
+  ```bash
+  curl -w @- http://example.com/
+  ```
 
 ## **-x**
 
