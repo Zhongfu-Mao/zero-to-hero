@@ -31,7 +31,7 @@
 * `--save`参数
   * `npm install packageName --save`
   * 缩写`-S`
-  * 与默认情况效果相同
+  * 与默认情况效果相同(npm@5以后)
 * `--save-dev`参数
   * `npm install packageName --save-dev`
   * 缩写`-D`
@@ -51,6 +51,14 @@
   * 只有dependencies字段中的依赖包会被安装，devDependencies中的依赖包不会被安装
 * `--only=dev`参数
   * 只有devDependencies字段中的依赖包会被安装，dependencies字段中的依赖包不会被安装
+
+### 变体
+
+```bash
+npm install package-name@tag
+npm install package-name@version
+npm install package-name@version-range # 例: express@">4.1.0<5.0"
+```
 
 ## npm脚本
 
@@ -108,12 +116,18 @@ npm set init.author.email <new_value> # 更改默认值
 ```json
 {
   "name": "package.json", // 项目名称
-  "version": "1.0.0", // 项目版本（格式：major.minor.patch）
+  "version": "4.21.0", // 项目当前版本（格式：major.minor.patch）
   // name和version组成npm内部的唯一标识符,如果不想发布的话可以不填
   "description": "", // 项目描述
+  "dist-tags": {
+    	"latest": "5.0.0",
+    	"stable": "4.21.0",
+  },// 列出符号标签帮助用户选择版本
   "main": "index.js", // 入口文件
   "scripts": { // 指定运行脚本命令的 npm 命令行缩写
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "rsync --archive --delete local-dir user@host:/path/to/dest-dir",
+    "prepublish": "npm run test"
   },
   "keywords": [], // 关键词, 会在`npm search`中列出
   "author": "", // 作者
@@ -163,5 +177,18 @@ npm set <key>=<value> [<key>=<value> ...]
 npm get [<key> [<key> ...]]
 
 alias: c
+```
+
+### outdated
+
+```bash
+npm outdated
+```
+
+### update
+
+```bash
+npm update express
+npm update # 升级所有npm outdated中列出的包
 ```
 
