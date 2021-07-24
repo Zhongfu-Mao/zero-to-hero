@@ -24,6 +24,18 @@ app.get("/", (req, res) => {
 app.listen(3000, () => console.log("app listening on port 3000!"));
 ```
 
+## express-generator
+
+```bash
+npm install express-generator@4.x
+
+npx express-generator@4.x --view=hbs --git .
+
+npm uninstall express-generator # 初始化以后卸载掉
+```
+
+
+
 ## 处理静态资源
 
 ```js
