@@ -41,4 +41,17 @@ npm install -g --unsafe-perm node-red
   }
   ```
 
-  
+## NodeRED 2.0
+
+[Version 2.0 released : Node-RED (nodered.org)](https://nodered.org/blog/2021/07/20/version-2-0-released)
+
+主要的变化:
+
+* node.js>12.17.x
+* `node-red admin init`指令
+* Monaco Text Editor
+* 函数Node默认支持外部模块引用,且支持CommonJS`cjs`和ES6模块`mjs`
+* `RBE`Node被重命名为`Filter`
+* 移除`tail`Node
+* Flow Debugger
+* Flow Linter(nrlint)
