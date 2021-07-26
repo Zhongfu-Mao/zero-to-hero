@@ -44,7 +44,7 @@ The C# compiler (named Roslyn) used by the dotnet CLI tool converts your C# sour
 ## C# 7.0
 
 * Released in March 2017
-* Binary literals and digit separators
+* Binary literals and digit separators(`_`)
 * Pattern matching
 * `out` variables
 * Tuples 
@@ -83,6 +83,7 @@ The C# compiler (named Roslyn) used by the dotnet CLI tool converts your C# sour
 * Minimal-code console apps(top-level program)
 * Records
 * Enhanced pattern matching
+* target-typed new: exp`XmlDocument xml = new()`
 
 ## 指定版本
 
@@ -121,3 +122,112 @@ SDK默认采用最近的主版本(如9.0),如果想使用次版本,需要在项�
 ## 关键字
 
 * 一共104个
+
+## 数据类型
+
+* 字符类型: `char`
+
+* 字符串类型:`string`
+
+  * 三种类型
+    * Literal String: `""`
+    * Verbatim String: `@""`(类似Python的raw string)
+    * Interpolated string: `$""`(类似Python的f-string,和PowerShell中一样)
+  * 特殊变量
+    * `string.Empty`
+
+* 数字类型
+
+  * 有符号整数
+    * 有符号字节型:`byte`
+    * 有符号短整型:`short`
+    * 有符号整数型:`int`
+    * 有符号长整型:`long`
+  * 无符号整数
+    * 无符号字节型:`sbyte`
+    * 无符号短整型:`ushort`
+    * 无符号整数型:`uint`
+    * 无符号长整型:`ulong`
+  * 实数
+    * 单精度浮点型:`float`
+    * 双精度浮点型:`double`
+      * `double.Nan`
+      * `double.Epsilon`
+      * `double.Infinity`
+    * Decimal类型:`decimal`(配合`M`后缀使用)
+
+* 布尔类型:`bool`
+
+  * `true`
+  * `false`
+
+* 任意类型:`object`(类似TypeScript的`any`)
+
+* 任意动态类型:`dynamic`
+
+* 空类型:`null`
+
+* 可空类型(nullable)
+
+  ```csharp
+  #nullable disable
+  // 在文件的首行声明启用或禁用
+  #nullable enable
+  ```
+
+  
+
+* 列表类型
+
+## 运算符
+
+* `??`: null-coalescing operator
+* `?.`: null-conditional operator
+
+## 操作符
+
+* `sizeof()`
+* `default()`
+
+## I/O
+
+* Console
+
+  * 常规写法
+
+  ```c#
+  using System;
+  
+  Console.Write();
+  Console.WriteLine();
+  
+  Console.Read();
+  Console.ReadLine();
+  ```
+
+  * 简化写法
+
+  ```c#
+  using static System.Console;
+  
+  Write();
+  WriteLine();
+  
+  Read();
+  ReadLine();
+  ```
+
+  * **key input**
+
+  ```c#
+  Write("Press any key combination: ");
+  ConsoleKeyInfo key = ReadKey();
+  WriteLine();
+  WriteLine("Key: {0}, Char: {1}, Modifiers: {2}",
+      arg0: key.Key,
+      arg1: key.KeyChar,
+      arg2: key.Modifiers);
+  ```
+
+  
+
