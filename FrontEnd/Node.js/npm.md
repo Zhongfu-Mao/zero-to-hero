@@ -63,21 +63,59 @@ npm install package-name@version-range # 例: express@">4.1.0<5.0"
 ## npm脚本
 
 * 定义:在`package.json`文件中用`scripts`字段定义
+
+* 命名规则:
+
+  ```json
+  {
+      "scripts": {
+          "build:dev": "...", // 开发环境
+          "build:prod": "..." // 生产环境
+      }
+  }
+  ```
+
+  通过前缀来区分
+
 * 查看:用`npm run`查看当前项目中的所有脚本
+
 * 原理:
   * 每当执行`npm run`就会自动新建一个Shell来执行命令
   * 新建的Shell,会将当前目录的`node_modules/.bin`子目录加入`PATH`变量
   * 执行结束后,会将`PATH`恢复原样
+  
 * 通配符:
   * `*`表示任意文件名
   * `**`表示任意一层子目录
   * 必要的话用`\`转义
+  
+* 二进制命令简化:NPM 中所有依赖的 `node_modules/.bin` 都可以在脚本中直接访问，就像在路径中被引用的一样
+
+  ```json
+  {
+      "scripts": {
+          "lint": "./node_modules/.bin/eslint .",
+      }
+  }
+  // 此写法与上面效果相同
+  {
+      "scripts": {
+          "lint": "eslint ."
+      }
+  }
+  ```
+
 * 传参:
   * 需要用`--`分割来标明
   * 例:`npm run lint -- --reporter checkstyle > checkstyle.xml`
-* 执行顺序:
+  
+* 执行多个脚本:
   * 如果是并行执行（即同时的平行执行），可以使用`&`符号
+  
+    > 注意：这仅适用于 Unix 环境。在 Windows 中，它将按顺序运行。
+  
   * 如果是继发执行（即只有前一个任务成功，才执行下一个任务），可以使用`&&`符号
+  
 * 钩子:
   * 有`pre`和`post`两个钩子
   * 举例:
@@ -93,15 +131,80 @@ npm install package-name@version-range # 例: express@">4.1.0<5.0"
     * prestart，poststart
     * prerestart，postrestart
   * 自定义的脚本命令也可以加上`pre`和`post`钩子
+  
 * 简写:
-  * `npm start`是`npm run start`的简写
-  * `npm stop`是`npm run stop`的简写
-  * `npm test`是`npm run test`的简写
-  * `npm restart`是`npm run stop && npm run restart && npm run start`的简写
+
+  ```bash
+  // 一组的都一样效果
+  npm run-script start
+  npm run start
+  npm start
+  
+  npm run stop
+  npm stop
+  
+  npm run-script test
+  npm run test
+  npm test
+  npm t
+  
+  npm run stop && npm run restart && npm run start
+  npm restart
+  ```
+
 * 变量:
   * 通过`npm_package_`前缀可以拿到`package.json`里面的字段
   * 例:`npm_package_name`可以拿到`name`的值
   * 嵌套的值可以通过添加下划线拿到
+  
+* 静默消息:
+
+  ```bash
+  # 减少错误日志
+  npm run <script> --silent
+  
+  npm run <script> -s
+  
+  # 脚本名不存在时不报错
+  npm run <script> --if-present
+  ```
+
+* 日志等级:
+
+  ```bash
+  "silent", "error", "warn", "notice", "http", "timing", "info", "verbose", "silly".
+  ```
+
+  * 默认值为"notice"
+
+  * 可以使用`--loglevel <loglevel>`来明确定义运行命令时使用的日志级别
+
+  * 简化:
+
+    ```bash
+    -s, --silent, --loglevel silent
+    -q, --quiet, --loglevel warn
+    -d, --loglevel info
+    -dd, --verbose, --loglevel verbose
+    -ddd, --loglevel silly
+    ```
+
+* 从文件中引用路径
+
+  ```json
+  {
+      "scripts": {
+          "hello:js": "node scripts/helloworld.js",
+          "hello:bash": "bash scripts/helloworld.sh",
+          "hello:cmd": "cd scripts && helloworld.cmd"
+      }
+  }
+  ```
+
+  * 使用`node <path.js>`来执行JS文件
+  * 使用`node <path.sh>`来执行bash文件
+
+  > 值得注意的是，如果是 cmd 或 bat 文件， 则需要先 cd 导航到对应的文件夹目录，不能像 sh， js 文件一样，直接执行，否则会报错。
 
 ## `package.json`
 
