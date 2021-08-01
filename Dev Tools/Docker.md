@@ -15,7 +15,8 @@
 ### 容器
 
 * Docker容器和虚拟机之间一个关键的区别就是，容器是被设计成运行单个进程的
-* 容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的 命名空间。因此容器可以拥有自己的 root 文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间
+* 容器的实质是被namespace和Cgroup限制的**进程**
+* 与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的 命名空间。因此容器可以拥有自己的 root 文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间
 * 每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层
 
 ### 仓库
@@ -39,6 +40,12 @@
 
 ## 使用镜像
 
+### 查找
+
+```bash
+docker search <镜像名> [-f starts=100]
+```
+
 ### 获取
 
 ```bash
@@ -48,6 +55,8 @@ docker pull [选项] [<域名/IP>[:端口号]/]仓库名[:标签]
 ### 列出
 
 ```shell
+docker images
+docker image list
 docker image ls
 
 docker system df # 查看镜像,容器,数据卷所占空间
@@ -64,10 +73,19 @@ docker image ls --filter [since | before | label=]
 docker image ls --format "{{.ID}}: {{.Repository}}"
 ```
 
+### 检视
+
+```bash
+docker image inspect <镜像ID或镜像名>
+
+docker history <镜像ID或镜像名> # 查看构建层的详细
+```
+
 ### 删除
 
 ```shell
 docker image rm [选项] <镜像1> [<镜像2> ...]
+docker rmi [选项] <镜像1> [<镜像2> ...]
 # <镜像> 可以是 镜像短 ID、镜像长 ID、镜像名 或者 镜像摘要
 
 docker image rm $(docker image ls -q -f before=mongo:3.2) # 配合ls
@@ -164,43 +182,71 @@ docker run -t -i ubuntu:18.04 /bin/bash
 # -t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上
 # -i 让容器的标准输入保持打开
 
-docker container start [container ID or NAMES]# 启动已终止的容器
-docker container stop [container ID or NAMES]# 中止运行中的容器
-# 只启动一个终端的容器可以用`exit`或者`Ctrl+d`来退出
-
 docker run -d ubuntu:18.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
 # -d 以deamon状态运行
-# 用`docker container logs [container ID or NAMES]`查看输出
+# 用`docker container logs [container ID/nameS]`查看输出
+
+docker [container] start [container ID/nameS] # 启动已终止的容器
+docker [container] stop [container ID/nameS] # 中止运行中的容器
+docker [container] restart [container ID/nameS] # 重启运行中的容器
+docker [container] pause [container ID/nameS] # 挂起运行中的容器
+docker [container] unpause [container ID/nameS] # 恢复挂起的容器
+# 只启动一个终端的容器可以用`exit`或者`Ctrl+d`来退出
 ```
+
+> `docker run`和`docker container run`等价
 
 ### 进入容器
 
 ```bash
-docker exec -it
+docker exec -it <container ID/name>
 # 只用 -i 参数时，由于没有分配伪终端，界面没有我们熟悉的 Linux 命令提示符，但命令执行结果仍然可以返回
 # 当 -i -t 参数一起使用时，则可以看到我们熟悉的 Linux 命令提示符
 
+docker container attach <container ID/name>
 # exec与attach的区别:
-# 	exec退出后不会导致容器的停止而attach会
+# 	`Ctrl+C`后exec退出后不会导致容器的停止而attach会
+# 	如果在attach的情况下不停止容器的运行需要`Ctrl+P+Ctrl+Q`
+```
+
+### 文件复制
+
+```bash
+docker cp <container ID/name:path> <localPath>
+docker cp <localPath> <container ID/name:path>
 ```
 
 ### 导出和导入
 
 ```bash
-docker export [container ID or NAMES]
-docker import [container ID or NAMES]
+docker export [container ID/name] -o <tarFileName>
+docker export [container ID/name] > [tarFileName] # 重定向
+
+docker import [tarFileName] [container ID/name]
 ```
 
-### 检视
+### 检视与查看
 
 ```bash
-docker inspect [container ID or NAME]
+docker inspect <container ID/name>
+
+docker diff <container ID/name> # 查看容器内的文件变化(容器和镜像的文件系统)
+docker logs <container ID/name>
+docker stats <container ID/name> # 动态显示容器资源消耗
+docker port <container ID/name> # 列出容器的端口和宿主机的映射
+docker top <container ID/name>
+
+docker events # 输出docker服务的事件(容器的启动/停止/关闭)
+
+docker container ls [-a]
+
+docker container logs <container ID/name> [-t | --tail <line number>] [-f | --follow]
 ```
 
 ### 删除
 
 ```bash
-docker container rm [container ID or NAMES]
+docker [container] rm [-f] <container ID/nameS> # 容器处于运行状态时需要force
 
 docker container prune # 清理所有终止的容器
 ```
@@ -258,7 +304,7 @@ docker run -it --rm --name busybox1 --network my-net busybox sh
 # 加入
 ```
 
-# Docker Compose
+## Docker Compose
 
 > `Compose` 定位是 「定义和运行多个 Docker 容器的应用（Defining and running multi-container Docker applications）」
 
@@ -354,7 +400,7 @@ privileged: true
 restart: always
 read_only: true
 stdin_open: true
-tty: true
+tty: true # TeleTYpewriter
 ```
 
 ## 技巧
