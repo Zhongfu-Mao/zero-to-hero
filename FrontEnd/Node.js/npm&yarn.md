@@ -1,4 +1,4 @@
-## 包
+# 包
 
 > 包实际上是一个存档文件，即一个目录直接打包为．zip或tar.gz格式的文件，安装后解压还原为目录
 
@@ -13,6 +13,8 @@
 ❑ doc：用于存放文档的目录。
 
 ❑ test：用于存放单元测试用例的代码。
+
+# npm
 
 ## install命令
 
@@ -294,4 +296,38 @@ npm outdated
 npm update express
 npm update # 升级所有npm outdated中列出的包
 ```
+
+# yarn
+
+## 安装
+
+```bash
+npm install -g yarn # 实际安装的是1.X Classic版本
+cd ~/path/to/project
+yarn set version berry # 使用yarn 2
+yarn set version latest # 升级yarn自身
+```
+
+## yarn和npm命令对比
+
+| npm                          | yarn                         |
+| ---------------------------- | ---------------------------- |
+| npm help                     | yarn help                    |
+| npm init                     | yarn init                    |
+| npm install / npm i          | yarn install / yarn          |
+| (N/A)                        | yarn install --flat          |
+| (N/A)                        | yarn install --har           |
+| (N/A)                        | yarn install --no-lockfile   |
+| (N/A)                        | yarn install --pure-lockfile |
+| npm uninstall /un            | yarn remove                  |
+| npm i <模块名> --global/-g   | yarn global add              |
+| npm i <模块名> --save/-S     | yarn add xxx                 |
+| npm i <模块名> --save-dev/-D | yarn add <模块名> -d         |
+| npm run <命令>               | yarn <命令>                  |
+| npm update                   | yarn update                  |
+| upm update -g                | yarn global update           |
+| npm cache clean              | yarn cache clean             |
+| npm upgrade                  | yarn upgrade                 |
+
+[yarn CLI](https://yarnpkg.com/cli/install)
 
