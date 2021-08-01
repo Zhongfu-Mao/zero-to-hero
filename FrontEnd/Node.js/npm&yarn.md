@@ -268,6 +268,50 @@ npm set init.author.email <new_value> # 更改默认值
 [^1]: will update you to all future patch versions, without incrementing the **minor** version. ~1.2.3 will use releases from 1.2.3 to <1.3.0.
 [^2]: will update you to all future minor/patch versions, without incrementing the **major** version. ^2.3.4 will use releases from 2.3.4 to <3.0.0.
 
+## npx
+
+### 调用项目安装的模块
+
+> npx 想要解决的主要问题，就是调用项目内部安装的模块
+
+```bash
+# 以执行项目内部测试工具Mocha为例
+# 方法1: 在`package.json`的`scripts`字段里面定义
+# 方法2: 在项目的根目录下执行
+node-modules/.bin/mocha --version
+# 方法3: 使用npx
+npx mocha --version
+```
+
+其原理便是到`node_modules/.bin`路径和环境变量`$PATH`里面,检查命令是否存在
+
+如果不存在,则会在安装后执行
+
+### 避免全局安装模块
+
+```bash
+npx create-react-app my-react-app
+```
+
+上面代码运行时，npx 将`create-react-app`下载到一个临时目录，使用以后再删除。
+
+所以，以后再次执行上面的命令，会重新下载`create-react-app`
+
+```bash
+# 允许指定版本
+npx uglify-js@3.1.0 main.js -o ./dist/main.js
+```
+
+### 参数
+
+* `-p --package <package>`: 指定安装的包,只在安装多个包时有必要使用
+* `--no-install`:只执行命令不安装
+* `--cache <path>`:指定npm缓存位置
+* `--userconfig <path>`:指定用户设置文件位置
+* `--shell <string>`:如果指定则用shell运行
+* `--ignore-existing`:不去检查`$PATH`或`node_modules/.bin`中是否存在再下载
+* `-q --quiet`:npx自身的输出不会输出,子命令中的输出依旧会被显示
+
 ## [npm CLI命令](https://docs.npmjs.com/cli/v7/commands)
 
 ### npm-config
