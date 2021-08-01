@@ -162,6 +162,22 @@ LABEL <key>=<value> <key>=<value> ...
 
 ```shell
 docker build [选项] <上下文路径/URL>
+
+# 常见选项:
+#    --build-arg: 设置构建时的变量
+#    --no-cache: 默认false, 设置该选项则不使用Build Cache构建镜像
+#    --pull: 默认false, 设置该选项则总是尝试pull镜像的最新版本
+#    --compress: 默认false, 设置该选项则使用gzip压缩构建的上下文
+#    --disable-content-trust: 默认true, 设置该选项则使用gzip压缩构建的上下文
+#    --file, -f: Dockerfile的完整路径,默认值为"PATH/Dockerfile"
+#    --isolation: 默认`--isolation="default"`,即Linux命名空间; 别的选项还有`process`和`hyperv`
+#    --label: 为生成的镜像设置metadata
+#    --squash: 默认false,设置该选项则将构建出的多个层压缩为一个新层,但是将无法在多个镜像之间共享新层(实质上是创建了新的image同时保留原有的image)
+#    --tag, -t: 镜像的名字及tag,通常为`name:tag`或者`name`格式;可以在一次构建中为一个镜像设置多个tag
+#    --network: 在构建过程中为RUN指令设置网络模式
+#    --quiet, -q: 默认false, 设置该选项则不输出编译过程,构建成功时输出镜像ID
+#    --force-rm: 默认false, 设置该选项则总是删除中间环节的容器
+#    --rm: 默认true, 即构建成功后删除中间环节的容器
 ```
 
 ### 导入导出
