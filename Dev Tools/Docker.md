@@ -212,6 +212,12 @@ docker [container] unpause [container ID/nameS] # 恢复挂起的容器
 
 > `docker run`和`docker container run`等价
 
+| 命令        | 默认信号 | 默认信号值 |
+| ----------- | -------- | ---------- |
+| kill        | TERM     | 15         |
+| docker kill | KILL     | 9          |
+| docker stop | TERM     | 15         |
+
 ### 进入容器
 
 ```bash
@@ -244,7 +250,9 @@ docker import [tarFileName] [container ID/name]
 ### 检视与查看
 
 ```bash
-docker inspect <container ID/name>
+docker inspect <container ID/name> # 以JSON格式访问Docker的内部元数据,包括容器的IP地址
+docker inspect <container ID/name> | head # 使用管道过滤
+# 镜像和容器的元数据有所不同,例如:容器将具有镜像缺乏（一个镜像是无状态的）的运行时字段，如“State”
 
 docker diff <container ID/name> # 查看容器内的文件变化(容器和镜像的文件系统)
 docker logs <container ID/name>
@@ -266,6 +274,36 @@ docker [container] rm [-f] <container ID/nameS> # 容器处于运行状态时需
 
 docker container prune # 清理所有终止的容器
 ```
+
+## Docker Machine
+
+使用Docker Machine是管理远程机器上Docker安装的官方解决方案
+
+> Docker Machine主要是一个便利程序。它将大量配置外部宿主机的指令包装起来，然后将它们转换为一些易于上手使用的命令
+
+```bash
+docker-machine create --driver virtualbox host1
+# 使用docker-machine的`create`子命令来创建新的宿主机,并通过`--driver`标志来指定它的类型,宿主机被命名为`host1`
+
+$(docker-machine env host1) # 设置`DOCKER_HOST`环境变量,这会设置Docker命令运行时默认的宿主机
+```
+
+### 子命令
+
+| 子命令  | 行为                              |
+| ------- | --------------------------------- |
+| create  | 创建一台新的机器                  |
+| ls      | 列出Docker宿主机                  |
+| stop    | 停止机器                          |
+| start   | 启动机器                          |
+| restart | 重启机器                          |
+| rm      | 销毁一台机器                      |
+| kill    | "杀死"一台机器                    |
+| inspect | 以JSON格式返回机器的元数据        |
+| config  | 返回连接机器所需的配置信息        |
+| ip      | 返回一台机器的IP地址              |
+| url     | 返回一台机器上Docker守护进程的URL |
+| upgrade | 将宿主机上的Docker升级到最新版本  |
 
 ## 数据管理
 
