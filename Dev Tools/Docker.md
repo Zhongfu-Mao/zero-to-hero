@@ -110,8 +110,11 @@ CMD <command> <par1> <par2> ...
 
 ENTRYPOINT command par1 par2
 # 或者 ENTRYPOINT ["exec", "par1", "par2"]
-# ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数。
+# ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数
 # 一个Dockerfile中只有一条CMD和ENTRYPOINT，如果有多条只执行最后一条
+# 入口点总会在镜像启动之后运行，即使命令被提供给`docker run`调用
+# 如果用户尝试传入一条命令，它将会作为参数被传给入口点，然后取代在CMD指令部分定义的默认值
+# 用户只能通过显式地传入一个`--entrypoint`标志给`docker run`命令来覆盖入口点
 
 COPY [--chown=<user>:<group>] ["<src1>",... "<dst>"]
 ADD [--chown=<user>:<group>] <src> <dest> # src可以是URL或者tar文件(tar文件会自动解压为文件目录)
@@ -200,13 +203,13 @@ docker run -t -i ubuntu:18.04 /bin/bash
 
 docker run -d ubuntu:18.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
 # -d 以deamon状态运行
-# 用`docker container logs [container ID/nameS]`查看输出
+# 用`docker container logs [container ID/NAMES]`查看输出
 
-docker [container] start [container ID/nameS] # 启动已终止的容器
-docker [container] stop [container ID/nameS] # 中止运行中的容器
-docker [container] restart [container ID/nameS] # 重启运行中的容器
-docker [container] pause [container ID/nameS] # 挂起运行中的容器
-docker [container] unpause [container ID/nameS] # 恢复挂起的容器
+docker [container] start [container ID/NAMES] # 启动已终止的容器
+docker [container] stop [container ID/NAMES] # 中止运行中的容器
+docker [container] restart [container ID/NAMES] # 重启运行中的容器
+docker [container] pause [container ID/NAMES] # 挂起运行中的容器
+docker [container] unpause [container ID/NAMES] # 恢复挂起的容器
 # 只启动一个终端的容器可以用`exit`或者`Ctrl+d`来退出
 ```
 
@@ -221,56 +224,56 @@ docker [container] unpause [container ID/nameS] # 恢复挂起的容器
 ### 进入容器
 
 ```bash
-docker exec -it <container ID/name>
+docker exec -it <container ID/NAMES>
 # 只用 -i 参数时，由于没有分配伪终端，界面没有我们熟悉的 Linux 命令提示符，但命令执行结果仍然可以返回
 # 当 -i -t 参数一起使用时，则可以看到我们熟悉的 Linux 命令提示符
 
-docker container attach <container ID/name>
+docker container attach <container ID/NAMES>
 # exec与attach的区别:
 # 	`Ctrl+C`后exec退出后不会导致容器的停止而attach会
-# 	如果在attach的情况下不停止容器的运行需要`Ctrl+P+Ctrl+Q`
+# 	如果在attach的情况下不停止容器的运行需要 `Ctrl+P`+`Ctrl+Q`
 ```
 
 ### 文件复制
 
 ```bash
-docker cp <container ID/name:path> <localPath>
-docker cp <localPath> <container ID/name:path>
+docker cp <container ID/NAMES:path> <localPath>
+docker cp <localPath> <container ID/NAMES:path>
 ```
 
 ### 导出和导入
 
 ```bash
-docker export [container ID/name] -o <tarFileName>
-docker export [container ID/name] > [tarFileName] # 重定向
+docker export [container ID/NAMES] -o <tarFileName>
+docker export [container ID/NAMES] > [tarFileName] # 重定向
 
-docker import [tarFileName] [container ID/name]
+docker import [tarFileName] [container ID/NAMES]
 ```
 
 ### 检视与查看
 
 ```bash
-docker inspect <container ID/name> # 以JSON格式访问Docker的内部元数据,包括容器的IP地址
-docker inspect <container ID/name> | head # 使用管道过滤
+docker inspect <container ID/NAMES> # 以JSON格式访问Docker的内部元数据,包括容器的IP地址
+docker inspect <container ID/NAMES> | head # 使用管道过滤
 # 镜像和容器的元数据有所不同,例如:容器将具有镜像缺乏（一个镜像是无状态的）的运行时字段，如“State”
 
-docker diff <container ID/name> # 查看容器内的文件变化(容器和镜像的文件系统)
-docker logs <container ID/name>
-docker stats <container ID/name> # 动态显示容器资源消耗
-docker port <container ID/name> # 列出容器的端口和宿主机的映射
-docker top <container ID/name>
+docker diff <container ID/NAMES> # 查看容器内的文件变化(容器和镜像的文件系统)
+docker logs <container ID/NAMES>
+docker stats <container ID/NAMES> # 动态显示容器资源消耗
+docker port <container ID/NAMES> # 列出容器的端口和宿主机的映射
+docker top <container ID/NAMES>
 
 docker events # 输出docker服务的事件(容器的启动/停止/关闭)
 
 docker container ls [-a]
 
-docker container logs <container ID/name> [-t | --tail <line number>] [-f | --follow]
+docker container logs <container ID/NAMES> [-t | --tail <line number>] [-f | --follow]
 ```
 
 ### 删除
 
 ```bash
-docker [container] rm [-f] <container ID/nameS> # 容器处于运行状态时需要force
+docker [container] rm [-f] <container ID/NAMESS> # 容器处于运行状态时需要force
 
 docker container prune # 清理所有终止的容器
 ```
