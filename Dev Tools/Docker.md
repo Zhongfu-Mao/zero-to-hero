@@ -1,58 +1,98 @@
-## 基础
+# 基础知识
 
-### 用途
+## 什么是Docker
 
-* Docker为软件行业所做的尝试正是集装箱化为航运行业所做的：通过标准化减少本地差异的成本。
-* Docker的用处包括了软件原型、软件打包、减少测试和调试环境成本以及启用DevOps实践，例如持续交付（continuous delivery，CD）。
+Docker 使用 Google 公司推出的**Go语言**进行开发实现，基于 Linux 内核的 **cgroup**，**namespace**，以及 OverlayFS 类的 Union FS 等技术，对进程进行封装隔离，属于 **操作系统层面的虚拟化技术**。
 
-### 镜像
+Docker为软件行业所做的尝试正是集装箱化为航运行业所做的：通过标准化减少本地差异的成本。
+
+Docker的用处包括了软件原型、软件打包、减少测试和调试环境成本以及启用DevOps实践，例如持续交付（continuous delivery，CD）。
+
+## Docker VS Virtual Machine
+
+* 传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程
+* 容器内的应用进程直接运行于宿主的内核，容器内没有自己的内核，而且也没有进行硬件虚拟, 因此容器要比传统虚拟机更为轻便
+* Docker容器和虚拟机之间一个关键的区别就是，容器是被设计成运行单个进程的
+
+## Docker的优缺点
+
+### 优点
+
+* 更高效的利用系统资源
+* 更快的启动时间
+* 一致的运行环境
+* 持续交付和部署
+* 更轻松的迁移
+* 更轻松的维护和拓展
+
+### 缺点
+
+
+
+## 镜像
 
 * **Docker 镜像** 是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像 **不包含** 任何动态数据，其内容在构建之后也不会被改变。
 * Docker镜像是运行容器的模板。这与程序可执行文件与运行进程的差异类似。运行中的容器的变更可以作为新的镜像进行提交并打标签。
 * 镜像创建自分层文件系统，减少了Docker镜像在宿主机上的空间占用
 * 镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。
+* 镜像的唯一标识是其 ID 和摘要，而一个镜像可以有多个标签
 
-### 容器
+## 容器
 
-* Docker容器和虚拟机之间一个关键的区别就是，容器是被设计成运行单个进程的
-* 容器的实质是被namespace和Cgroup限制的**进程**
+* 镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的 类 和 实例 一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等
 * 与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的 命名空间。因此容器可以拥有自己的 root 文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间
 * 每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层
 
-### 仓库
+## 仓库
 
-* 通过 `<仓库名>:<标签>` 的格式来指定具体是这个软件哪个版本的镜像, 如果不给出标签，将以 `latest` 作为默认标签
+### Docker Registry
+
+* Docker Registry提供集中的存储, 分发镜像的服务
+* 一个 Docker Registry 中可以包含多个仓库（Repository）
+* 每个仓库可以包含多个 标签（Tag）
+* 每个标签对应一个镜像
+
+### Docker Registry公开服务
+
+> Docker Registry 公开服务是开放给用户使用、允许用户管理镜像的 Registry 服务。一般这类公开服务允许用户免费上传、下载公开的镜像，并可能提供收费服务供用户管理私有镜像。
+
 * [Docker Hub](https://hub.docker.com/)
 * [Repositories · Quay](https://quay.io/repository/)
 * [Google Container Registry  | Google Cloud](https://cloud.google.com/container-registry/)
 
-### 最佳实现
+### Repository
+
+* 通常，一个仓库会包含同一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本
+* 通过 `<仓库名>:<标签>` 的格式来指定具体是这个软件哪个版本的镜像, 如果不给出标签，将以 `latest` 作为默认标签
+* 仓库名经常是两段式名称，即 <用户名>/<软件名>。对于 Docker Hub，如果不给出用户名，则默认为 library，也就是官方镜像
+
+## 最佳实现
 
 * 在Docker的世界里，公认的最佳实践是尽可能多地把系统拆分开，直到在每个容器上都只运行一个“服务”，并且所有容器都通过网络互相连通
 * 容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 数据卷（Volume）、或者 绑定宿主目录，在这些位置的读写会跳过容器存储层，直接对宿主（或网络存储）发生读写，其性能和稳定性更高。
 * 尽可能使用`COPY`而不是`ADD`,因为语义明确
 
-### 原理
+## 原理
 
 * 安装Docker后获得两大组件:客户端(client)和守护进程(deamon, 有时也叫引擎)
 * 通过`docker version`可以确定两者的版本
 * Docker守护进程是用户与Docker交互的枢纽,其使用HTTP协议接收来自Docker客户端的请求并返回响应
 
-## 使用镜像
+# 使用镜像
 
-### 查找
+## 查找
 
 ```bash
 docker search <镜像名> [-f starts=100]
 ```
 
-### 获取
+## 获取
 
 ```bash
-docker pull [选项] [<域名/IP>[:端口号]/]仓库名[:标签]
+docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
 ```
 
-### 列出
+## 列出
 
 ```shell
 docker images
@@ -61,19 +101,24 @@ docker image ls
 
 docker system df # 查看镜像,容器,数据卷所占空间
 
+# 虚悬镜像是那些标签为`<none>`的镜像, 一般由生成新镜像而没有指定名称导致旧镜像变为虚悬
 docker image ls -f dangling=true # 列出虚悬镜像
 docker image prune # 删除虚悬镜像
 
 docker image ls -a # 列出中间层镜像
 
-docker image ls [仓库名] | [仓库名:标签]
-# --filter 缩写为 -f
-docker image ls --filter [since | before | label=]
+docker image ls [仓库名] | [仓库名:标签] # 列出部分镜像
 
+docker image ls --filter [ since= | before= | label= ]
+
+# 格式化使用的是Go的模板语法
 docker image ls --format "{{.ID}}: {{.Repository}}"
+docker image ls --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}"
 ```
 
-### 检视
+[Introduction to Hugo Templating | Hugo (gohugo.io)](https://gohugo.io/templates/introduction/)
+
+## 检视
 
 ```bash
 docker image inspect <镜像ID或镜像名>
@@ -81,90 +126,300 @@ docker image inspect <镜像ID或镜像名>
 docker history <镜像ID或镜像名> # 查看构建层的详细
 ```
 
-### 删除
+## 删除
 
 ```shell
 docker image rm [选项] <镜像1> [<镜像2> ...]
 docker rmi [选项] <镜像1> [<镜像2> ...]
-# <镜像> 可以是 镜像短 ID、镜像长 ID、镜像名 或者 镜像摘要
+```
 
+<镜像> 可以是
+
+* 镜像短ID
+
+* 镜像长ID
+
+* 镜像名(`<REPOSITORY>:<TAG>`)
+
+* 镜像摘要(`<REPOSITOY>@<DIGEST>`)
+
+```bash
 docker image rm $(docker image ls -q -f before=mongo:3.2) # 配合ls
 ```
 
-### 保存容器为镜像
+## 保存容器为镜像(慎用)
 
 ```shell
 docker commit [选项] <容器ID或容器名> [<仓库名>[:<标签>]]
 ```
 
-### 利用DockerFile定制
-
-```dockerfile
-FROM <image>[:<tag>]
-
-RUN <command>
-# 或者 RUN ["exec", "par1", "par2"]
-
-CMD <command> <par1> <par2> ...
-# 或者 CMD ["exec", "par1", "par2"]
-
-ENTRYPOINT command par1 par2
-# 或者 ENTRYPOINT ["exec", "par1", "par2"]
-# ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数
-# 一个Dockerfile中只有一条CMD和ENTRYPOINT，如果有多条只执行最后一条
-# 入口点总会在镜像启动之后运行，即使命令被提供给`docker run`调用
-# 如果用户尝试传入一条命令，它将会作为参数被传给入口点，然后取代在CMD指令部分定义的默认值
-# 用户只能通过显式地传入一个`--entrypoint`标志给`docker run`命令来覆盖入口点
-
-COPY [--chown=<user>:<group>] ["<src1>",... "<dst>"]
-ADD [--chown=<user>:<group>] <src> <dest> # src可以是URL或者tar文件(tar文件会自动解压为文件目录)
-
-ENV <key> <value>
-# 或者 ENV <key1>=<value1> <key2>=<value2>...
-# 在Dockerfile的后续代码或者容器运行时使用
-
-ARG <参数名>[=<默认值>]
-# 与ENV不同,ARG所设置的构建环境的环境变量，在将来容器运行时是不存在的
-
-VOLUME [path]
-# 通过VOLUME挂载的卷可以供其他容器使用
-
-EXPOSE <port>
-# 声明容器运行时提供服务的端口
-# 这只是一个声明，在容器运行时并不会因为这个声明应用就会开启这个端口的服务
-
-WORKDIR [path]
-# 可以使用绝对路径或者相对路径
-# 如果使用相对路径,那么切换的路径基于之前的WORKDIR
-# 设置之后的所有操作都将在这个目录下完成
-
-USER <用户名>[:<用户组>]
-# 和 WORKDIR 相似，都是改变环境状态并影响以后的层
-# WORKDIR 是改变工作目录
-# USER 则是改变之后层的执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份
-
-HEALTHCHECK [选项] <命令>
-# --interval=<间隔>：两次健康检查的间隔，默认为 30 秒
-# --timeout=<时长>：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认 30 秒
-# --retries=<次数>：当连续失败指定次数后，则将容器状态视为 unhealthy，默认 3 次
-
-ONBUILD <其它指令>
-# ONBUILD 是一个特殊的指令，它后面跟的是其它指令
-# 而这些指令，在当前镜像构建时并不会被执行
-# 只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行
-
-LABEL <key>=<value> <key>=<value> ...
-# 给镜像以键值对的形式添加一些元数据（metadata）
-```
+## 利用DockerFile定制
 
 * [Dockerfile reference | Docker Documentation](https://docs.docker.com/engine/reference/builder/)
 * [Best practices for writing Dockerfiles | Docker Documentation](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 * [ Documentation for Docker Official Images in docker-library (github.com)](https://github.com/docker-library/docs)
 
-### 构建
+### 注释
 
-```shell
-docker build [选项] <上下文路径/URL>
+> Dockerfile只支持行首注释
+
+```dockerfile
+# 在长 docker RUN 命令中添加注释
+
+# comment 1
+RUN apt-get update \
+    # comment 2
+    && apt-get install blabla blabla blabla \
+    # comment 3
+    && echo this is not a drill
+```
+
+### FROM
+
+```dockerfile
+FROM <image>[:<tag>]
+# `FROM scratch`表示不以任何镜像为基础
+```
+
+### RUN
+
+```dockerfile
+# shell格式
+RUN <command>
+# exec格式
+RUN ["executable", "param1", "param2"...]
+```
+
+#### shell格式
+
+`shell`格式下, Linux下默认以`/bin/sh -c`执行, Windows下默认以`cmd /S /C`执行(所以可以使用环境变量)
+
+默认shell可以用`SHELL`命令改变
+
+可以使用`\`来续行
+
+#### exec格式
+
+```dockerfile
+RUN ["/bin/bash", "-c", "echo hello"]
+```
+
+`exec`格式会被解析为JSON数组,所以必须用双引号括住
+
+不会产生字符串拓展
+
+Windows环境下必须特别注意反斜杠`\`
+
+```dockerfile
+RUN ["c:\\windows\\system32\\tasklist.exe"]
+```
+
+### COPY
+
+```dockerfile
+# 命令行格式
+COPY [--chown=<user>:<group>] <源路径>... <目标路径>
+# 函数调用格式
+COPY [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
+```
+
+`<源路径>` 可以是多个，甚至可以是通配符，其通配符规则要满足 Go 的 [`filepath.Match`](https://golang.org/pkg/path/filepath/#Match) 规则
+
+```dockerfile
+COPY hom* /mydir/
+COPY hom?.txt /mydir/
+```
+
+`<目标路径>` 可以是容器内的绝对路径，也可以是相对于工作目录的相对路径（工作目录可以用 `WORKDIR` 指令来指定）。目标路径不需要事先创建，如果目录不存在会在复制文件前先行创建缺失目录。
+
+注意: 使用 `COPY` 指令，源文件的各种**元数据**都会保留。比如读、写、执行权限、文件变更时间等。
+
+### ADD
+
+```dockerfile
+# 命令行格式
+ADD [--chown=<user>:<group>] <源路径>... <目标路径>
+# 函数调用格式
+ADD [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
+```
+
+`ADD`比`COPY`增加的功能:
+
+* `<源路径>` 可以是一个 `URL`,Docker 引擎会试图去下载这个链接的文件放到 `<目标路径>` 去
+  * 下载后的文件权限自动设置为 `600`，如果这并不是想要的权限，那么还需要增加额外的一层 `RUN` 进行权限调整
+  * 如果下载的是个压缩包，需要解压缩，也一样还需要额外的一层 `RUN` 指令进行解压缩
+  * 所以不如直接使用 `RUN` 指令，然后使用 `wget` 或者 `curl` 工具下载，处理权限、解压缩、然后清理无用文件更合理
+* 如果 `<源路径>` 为一个 `tar` 压缩文件的话，压缩格式为 `gzip`, `bzip2` 以及 `xz` 的情况下，`ADD` 指令将会自动解压缩这个压缩文件到 `<目标路径>` 去
+
+> 在 `COPY` 和 `ADD` 指令中选择的时候，可以遵循这样的原则: 所有的文件复制均使用 `COPY` 指令，仅在需要自动解压缩的场合使用 `ADD`
+
+### CMD
+
+> `CMD` 指令就是用于指定默认的容器主进程的启动命令的
+
+```dockerfile
+# shell格式
+CMD <command>
+# exec格式,推荐格式
+CMD ["executable", "param1", "param2"...]
+# 作为ENTRYPOINT的参数
+CMD ["param1", "param2"]
+```
+
+>  一个Dockerfile中只能有一条CMD，如果有多条只有最后一条起效果
+
+```dockerfile
+# 如果使用 `shell` 格式的话，实际的命令会被包装为 `sh -c` 的参数的形式进行执行
+CMD echo $HOME
+# 实际执行的是:
+CMD [ "sh", "-c", "echo $HOME" ]
+# 如果不希望命令被在shell中执行,必须使用exec格式
+```
+
+### ENTRYPOINT
+
+```dockerfile
+# shell格式
+EN <command>
+# exec格式
+CMD ["exec", "arg1", "arg2"...]
+```
+
+`ENTRYPOINT` 的目的和 `CMD` 一样，都是在指定容器启动程序及参数。`ENTRYPOINT` 在运行时也可以替代，不过比 `CMD` 要略显繁琐，需要通过 `docker run` 的参数 `--entrypoint` 来覆盖
+
+> 一个Dockerfile中只能有一条ENTRYPOINT，如果有多条只有最后一条起效果
+
+当指定了 `ENTRYPOINT` 后，`CMD` 的含义就发生了改变，不再是直接的运行其命令，而是将 `CMD` 的内容作为参数传给 `ENTRYPOINT` 指令
+
+如果用户尝试传入一条命令，它将会作为参数被传给 `ENTRYPOINT` ，然后取代在CMD指令部分定义的默认值
+
+### ENV
+
+> 设置环境变量，在Dockerfile的后续代码或者容器运行时使用
+
+```dockerfile
+ENV <key> <value>
+# 或者 
+ENV <key1>=<value1> <key2>=<value2>...
+```
+
+下列指令可以支持环境变量展开： `ADD`、`COPY`、`ENV`、`EXPOSE`、`FROM`、`LABEL`、`USER`、`WORKDIR`、`VOLUME`、`STOPSIGNAL`、`ONBUILD`、`RUN`
+
+### ARG
+
+```dockerfile
+ARG <参数名>[=<默认值>]
+```
+
+> 定义参数名称，以及定义其默认值。
+>
+> 该默认值可以在构建命令 `docker build` 中用 `--build-arg <参数名>=<值>` 来覆盖
+
+与`ENV`的不同:`ARG` 所设置的构建环境的环境变量，在将来容器运行时是不会存在的。
+
+但是不要因此就使用 `ARG` 保存密码之类的信息，因为 `docker history` 还是可以看到所有值的。
+
+### VOLUME
+
+```dockerfile
+VOLUME ["<路径1>", "<路径2>"...]
+VOLUME <路径>
+```
+
+通过VOLUME挂载的卷可以供其他容器使用
+
+### EXPOSE
+
+> 声明容器运行时提供服务的端口，这只是一个声明，在容器运行时并不会因为这个声明应用就会开启这个端口的服务
+
+```dockerfile
+EXPOSE <port> [<port>/<protocol>...]
+```
+
+ `EXPOSE` 和在运行时使用 `-p <宿主端口>:<容器端口>`的 区分:
+
+* `-p`是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问
+*  `EXPOSE` 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射(`docker run -P` 时，会自动随机映射 `EXPOSE` 的端口)
+
+### WORKDIR
+
+> 指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，`WORKDIR` 会创建目录
+
+```dockerfile
+WORKDIR <工作目录路径>
+```
+
+可以使用绝对路径或者相对路径
+
+如果使用相对路径,那么切换的路径基于之前的WORKDIR, 设置之后的所有操作都将在这个目录下完成
+
+```dockerfile
+WORKDIR /a
+WORKDIR b
+WORKDIR c
+
+# 工作目录为/a/b/c
+RUN pwd
+```
+
+### USER
+
+```dockerfile
+USER <用户名>[:<用户组>]
+```
+
+`USER` 指令和 `WORKDIR` 相似，都是改变环境状态并影响以后的层。
+
+`WORKDIR` 是改变工作目录，`USER` 则是改变之后层的执行 `RUN`, `CMD` 以及 `ENTRYPOINT` 这类命令的身份。
+
+注意，`USER` 只是切换到指定用户而已，这个用户必须是事先建立好的，否则无法切换。
+
+### HEALTHCHECK
+
+> 告诉 Docker 应该如何进行判断容器的状态是否正常
+
+```dockerfile
+# 设置检查容器健康状况的命令
+HEALTHCHECK [选项] CMD <命令>
+# 如果基础镜像有健康检查指令，使用这行可以屏蔽掉其健康检查指令
+HEALTHCHECK NONE
+
+# 选项:
+# --interval=<间隔>：两次健康检查的间隔，默认为 30 秒
+# --timeout=<时长>：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认 30 秒
+# --retries=<次数>：当连续失败指定次数后，则将容器状态视为 unhealthy，默认 3 次
+```
+
+> 和 `CMD`, `ENTRYPOINT` 一样，`HEALTHCHECK` 只可以出现一次，如果写了多个，只有最后一个生效
+
+### ONBUILD
+
+```dockerfile
+ONBUILD <其它指令>
+```
+
+`ONBUILD` 是一个特殊的指令，它后面跟的是其它指令，比如 `RUN`, `COPY` 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。
+
+### LABEL
+
+> 给镜像以键值对的形式添加一些元数据（metadata）
+
+```dockerfile
+LABEL <key>=<value> <key>=<value> ...
+```
+
+### SHELL
+
+> 指定 `RUN` `ENTRYPOINT` `CMD` 指令的 shell
+
+```dockerfile
+SHELL ["executable", "parameters"]
+```
+
+## 构建
+
+```bash
+docker build [选项] <上下文路径 | URL>
 
 # 常见选项:
 #    --build-arg: 设置构建时的变量
@@ -181,18 +436,22 @@ docker build [选项] <上下文路径/URL>
 #    --quiet, -q: 默认false, 设置该选项则不输出编译过程,构建成功时输出镜像ID
 #    --force-rm: 默认false, 设置该选项则总是删除中间环节的容器
 #    --rm: 默认true, 即构建成功后删除中间环节的容器
+
+docker build http://server/context.tar.gz # 用给定的tar压缩包构建
+docker build - < Dockerfile # 从标准输入中读取Dockerfile
+cat Dockerfile | docker build -
 ```
 
-### 导入导出
+## 导入导出
 
 ```shell
 docker save
 docker load
 ```
 
-## 操作容器
+# 操作容器
 
-### 启动与终止
+## 启动与终止
 
 ```bash
 docker run ubuntu:18.04 /bin/echo 'Hello world'
@@ -221,7 +480,7 @@ docker [container] unpause [container ID/NAMES] # 恢复挂起的容器
 | docker kill | KILL     | 9          |
 | docker stop | TERM     | 15         |
 
-### 进入容器
+## 进入容器
 
 ```bash
 docker exec -it <container ID/NAMES>
@@ -234,14 +493,14 @@ docker container attach <container ID/NAMES>
 # 	如果在attach的情况下不停止容器的运行需要 `Ctrl+P`+`Ctrl+Q`
 ```
 
-### 文件复制
+## 文件复制
 
 ```bash
 docker cp <container ID/NAMES:path> <localPath>
 docker cp <localPath> <container ID/NAMES:path>
 ```
 
-### 导出和导入
+## 导出和导入
 
 ```bash
 docker export [container ID/NAMES] -o <tarFileName>
@@ -250,7 +509,7 @@ docker export [container ID/NAMES] > [tarFileName] # 重定向
 docker import [tarFileName] [container ID/NAMES]
 ```
 
-### 检视与查看
+## 检视与查看
 
 ```bash
 docker inspect <container ID/NAMES> # 以JSON格式访问Docker的内部元数据,包括容器的IP地址
@@ -270,7 +529,7 @@ docker container ls [-a]
 docker container logs <container ID/NAMES> [-t | --tail <line number>] [-f | --follow]
 ```
 
-### 删除
+## 删除
 
 ```bash
 docker [container] rm [-f] <container ID/NAMESS> # 容器处于运行状态时需要force
@@ -278,7 +537,7 @@ docker [container] rm [-f] <container ID/NAMESS> # 容器处于运行状态时�
 docker container prune # 清理所有终止的容器
 ```
 
-## Docker Machine
+# Docker Machine
 
 使用Docker Machine是管理远程机器上Docker安装的官方解决方案
 
@@ -291,7 +550,7 @@ docker-machine create --driver virtualbox host1
 $(docker-machine env host1) # 设置`DOCKER_HOST`环境变量,这会设置Docker命令运行时默认的宿主机
 ```
 
-### 子命令
+## 子命令
 
 | 子命令  | 行为                              |
 | ------- | --------------------------------- |
@@ -308,9 +567,9 @@ $(docker-machine env host1) # 设置`DOCKER_HOST`环境变量,这会设置Docker
 | url     | 返回一台机器上Docker守护进程的URL |
 | upgrade | 将宿主机上的Docker升级到最新版本  |
 
-## 数据管理
+# 数据管理
 
-### 数据卷
+## 数据卷
 
 * 数据卷 可以在容器之间共享和重用
 
@@ -328,7 +587,7 @@ $(docker-machine env host1) # 设置`DOCKER_HOST`环境变量,这会设置Docker
   docker volume prune # 清理
   ```
 
-### 挂载主机目录
+## 挂载主机目录
 
 ```bash
 docker run -d -P \
@@ -338,9 +597,9 @@ docker run -d -P \
     nginx:alpine
 ```
 
-## 使用网络
+# 使用网络
 
-### 外部访问容器
+## 外部访问容器
 
 * `-P`:随机映射一个端口到内部容器开放的网络端口
 * `-p`
@@ -350,7 +609,7 @@ docker run -d -P \
   * `ip::containerPort`:`docker run -d -p 127.0.0.1::80 nginx:alpine`(本地主机自动分配一个端口)
 * 使用`docker port`或者`docker inspect`查看端口配置
 
-### 网络互联
+## 网络互联
 
 ```bash
 docker network create -d bridge my-net
@@ -361,7 +620,7 @@ docker run -it --rm --name busybox1 --network my-net busybox sh
 # 加入
 ```
 
-## Docker Compose
+# Docker Compose
 
 > `Compose` 定位是 「定义和运行多个 Docker 容器的应用（Defining and running multi-container Docker applications）」
 
@@ -376,13 +635,13 @@ docker run -it --rm --name busybox1 --network my-net busybox sh
 >
 > [Compose V2 beta | Docker Documentation](https://docs.docker.com/compose/cli-command/)
 
-### 命令
+## 命令
 
 ```bash
 docker-compose [-f=<arg>...] [options] [COMMAND] [ARGS...]
 ```
 
-### Compose模板文件
+## Compose模板文件
 
 ```yaml
 version: '3'
@@ -460,9 +719,9 @@ stdin_open: true
 tty: true # TeleTYpewriter
 ```
 
-## 技巧
+# 技巧
 
-### 向世界开放Docker守护进程
+## 向世界开放Docker守护进程
 
 > 默认的Docker配置,限制只能通过`/var/run/docker.sock`域套接字访问,宿主机外的进程无法获取Docker的访问权限
 
