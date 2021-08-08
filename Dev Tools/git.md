@@ -71,11 +71,28 @@ git add -u # 直接进入交互命令中的update模式
 git add --ignore-removal . # 添加工作区 修改 或 新增 的文件列表， 删除 的文件不会被添加
 ```
 
+#### `diff`
+
+```bash
+git diff # 比较暂存区和工作区
+git diff --cached [<path>...] # 比较暂存区和最新本地版本库
+git diff HEAD [<path>...] # 比较工作区和最新本地版本库,如果HEAD指向的是master分支，那么HEAD还可以换成master
+git diff <commit-id> [<path>...] # 比较工作区和指定commit-id的差异
+git diff --cached <commit-id> [<path>...] # 比较暂存区和指定commit-id的差异
+
+git diff <commit-id> <commit-id> # 比较两个commit-id之间的差异
+
+git diff <branch1> <branch2> # 显示两个分支之间所有有差异的文件的详细差异
+git diff <branch1> <branch2> --stat # 显示两个分支之间所有有差异的文件列表
+git diff <branch1> <branch2> <file> # 显示指定文件的详细差异
+```
+
 #### `rm`
 
 ```bash
 git rm [<文件名> | 正则表达式] # 从工作区和暂存区移除文件同时添加变动到暂存区
-git rm -f [<文件名> | 正则表达式]# Force
+git rm -f [<文件名> | 正则表达式] # Force
+git rm -r [<文件夹名> | 正则表达式] # 非空文件夹
 git rm --cached [<文件名> | 正则表达式] # 保留硬盘上的文件, 从git上删除
 ```
 
@@ -102,6 +119,7 @@ git commit -C HEAD # 提交到HEAD
 git log
 git reset --hard <commit> # 回滚至之前的版本
 # 自从 <commit> 以来在工作区中的任何改变都被丢弃，并把 HEAD 指向 <commit>
+git reset --hard HEAD^ # 回滚一次提交
 git reset --soft <commit>
 # 暂存区和工作区中的内容不作任何改变，仅仅把 HEAD 指向 <commit>
 git reset --mixed <commit>
