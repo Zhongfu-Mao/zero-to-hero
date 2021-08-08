@@ -161,7 +161,7 @@ docker commit [选项] <容器ID或容器名> [<仓库名>[:<标签>]]
 
 ### 注释
 
-> Dockerfile只支持行首注释
+> Dockerfile只支持行首注释, 行中任何其他位置的`#`标记都被视为参数, 注释中不允许行继续符
 
 ```dockerfile
 # 在长 docker RUN 命令中添加注释
@@ -176,9 +176,18 @@ RUN apt-get update \
 
 ### FROM
 
+> 除了`ARG`可以出现在`FROM`之前外, Dockerfile必须以`FROM`开头
+
 ```dockerfile
-FROM <image>[:<tag>]
-# `FROM scratch`表示不以任何镜像为基础
+FROM <image>[:<tag> | @<digest>] [AS <name>]
+```
+
+* `FROM scratch`表示不以任何镜像为基础
+* 通过将`AS name`添加到`FROM`指令，可以将可选的名称赋予新的构建阶段。该名称可以在后续的`FROM`和`COPY --from=<name|index>`指令中使用，以引用此阶段构建的镜像
+
+```dockerfile
+ARG  CODE_VERSION=latest
+FROM base:${CODE_VERSION}
 ```
 
 ### RUN
@@ -219,7 +228,7 @@ RUN ["c:\\windows\\system32\\tasklist.exe"]
 ```dockerfile
 # 命令行格式
 COPY [--chown=<user>:<group>] <源路径>... <目标路径>
-# 函数调用格式
+# 函数调用格式,如果包含空格必须使用此格式
 COPY [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
 ```
 
@@ -239,7 +248,7 @@ COPY hom?.txt /mydir/
 ```dockerfile
 # 命令行格式
 ADD [--chown=<user>:<group>] <源路径>... <目标路径>
-# 函数调用格式
+# 函数调用格式,如果包含空格必须使用此格式
 ADD [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
 ```
 
@@ -262,7 +271,7 @@ ADD [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
 CMD <command>
 # exec格式,推荐格式
 CMD ["executable", "param1", "param2"...]
-# 作为ENTRYPOINT的参数
+# 作为ENTRYPOINT的默认参数
 CMD ["param1", "param2"]
 ```
 
@@ -280,9 +289,9 @@ CMD [ "sh", "-c", "echo $HOME" ]
 
 ```dockerfile
 # shell格式
-EN <command>
+ENTRYPOINT command param1 param2
 # exec格式
-CMD ["exec", "arg1", "arg2"...]
+ENTRYPOINT ["executable", "param1", "param2"]
 ```
 
 `ENTRYPOINT` 的目的和 `CMD` 一样，都是在指定容器启动程序及参数。`ENTRYPOINT` 在运行时也可以替代，不过比 `CMD` 要略显繁琐，需要通过 `docker run` 的参数 `--entrypoint` 来覆盖
@@ -308,7 +317,7 @@ ENV <key1>=<value1> <key2>=<value2>...
 ### ARG
 
 ```dockerfile
-ARG <参数名>[=<默认值>]
+ARG <name>[=<default value>]
 ```
 
 > 定义参数名称，以及定义其默认值。
@@ -323,7 +332,7 @@ ARG <参数名>[=<默认值>]
 
 ```dockerfile
 VOLUME ["<路径1>", "<路径2>"...]
-VOLUME <路径>
+VOLUME <路径1> <路径2>...
 ```
 
 通过VOLUME挂载的卷可以供其他容器使用
@@ -341,12 +350,22 @@ EXPOSE <port> [<port>/<protocol>...]
 * `-p`是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问
 *  `EXPOSE` 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射(`docker run -P` 时，会自动随机映射 `EXPOSE` 的端口)
 
+可以指定是监听端口是TCP还是UDP, 默认是TCP
+
+```dockerfile
+EXPOSE 80/udp
+
+# 同时暴露TCP和UDP
+EXPOSE 80/tcp
+EXPOSE 80/udp
+```
+
 ### WORKDIR
 
 > 指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，`WORKDIR` 会创建目录
 
 ```dockerfile
-WORKDIR <工作目录路径>
+WORKDIR /path/to/workdir
 ```
 
 可以使用绝对路径或者相对路径
@@ -366,6 +385,7 @@ RUN pwd
 
 ```dockerfile
 USER <用户名>[:<用户组>]
+USER <UID>[:<GID>]
 ```
 
 `USER` 指令和 `WORKDIR` 相似，都是改变环境状态并影响以后的层。
@@ -406,6 +426,24 @@ ONBUILD <其它指令>
 
 ```dockerfile
 LABEL <key>=<value> <key>=<value> ...
+
+# 如果有空格,用引号括住
+LABEL com.example.label-with-value="foo bar"
+# 跨行
+LABEL description="This text illustrates \
+that label-values can span multiple lines."
+
+# 多个LABEL的两种格式
+LABEL multi.label1="value1" multi.label2="value2" other="value3"
+LABEL multi.label1="value1" \
+      multi.label2="value2" \
+      other="value3"
+```
+
+查看容器的元数据:
+
+```bash
+docker image inspect --format='' myimage
 ```
 
 ### SHELL
