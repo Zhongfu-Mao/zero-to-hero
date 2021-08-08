@@ -83,7 +83,7 @@ Docker的用处包括了软件原型、软件打包、减少测试和调试环�
 ## 查找
 
 ```bash
-docker search <镜像名> [-f starts=100]
+docker search <镜像名> [-f stars=N]
 ```
 
 ## 获取
@@ -500,13 +500,13 @@ docker run -t -i ubuntu:18.04 /bin/bash
 
 docker run -d ubuntu:18.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
 # -d 以deamon状态运行
-# 用`docker container logs [container ID/NAMES]`查看输出
+# 用`docker [container] logs [container ID | NAMES]`查看输出
 
-docker [container] start [container ID/NAMES] # 启动已终止的容器
-docker [container] stop [container ID/NAMES] # 中止运行中的容器
-docker [container] restart [container ID/NAMES] # 重启运行中的容器
-docker [container] pause [container ID/NAMES] # 挂起运行中的容器
-docker [container] unpause [container ID/NAMES] # 恢复挂起的容器
+docker [container] start [container ID | NAMES] # 启动已终止的容器
+docker [container] stop [container ID | NAMES] # 中止运行中的容器
+docker [container] restart [container ID | NAMES] # 重启运行中的容器
+docker [container] pause [container ID | NAMES] # 挂起运行中的容器
+docker [container] unpause [container ID | NAMES] # 恢复挂起的容器
 # 只启动一个终端的容器可以用`exit`或者`Ctrl+d`来退出
 ```
 
@@ -521,11 +521,11 @@ docker [container] unpause [container ID/NAMES] # 恢复挂起的容器
 ## 进入容器
 
 ```bash
-docker exec -it <container ID/NAMES>
+docker exec -it <container ID | NAMES>
 # 只用 -i 参数时，由于没有分配伪终端，界面没有我们熟悉的 Linux 命令提示符，但命令执行结果仍然可以返回
 # 当 -i -t 参数一起使用时，则可以看到我们熟悉的 Linux 命令提示符
 
-docker container attach <container ID/NAMES>
+docker container attach <container ID | NAMES>
 # exec与attach的区别:
 # 	`Ctrl+C`后exec退出后不会导致容器的停止而attach会
 # 	如果在attach的情况下不停止容器的运行需要 `Ctrl+P`+`Ctrl+Q`
@@ -534,43 +534,45 @@ docker container attach <container ID/NAMES>
 ## 文件复制
 
 ```bash
-docker cp <container ID/NAMES:path> <localPath>
-docker cp <localPath> <container ID/NAMES:path>
+docker cp <container ID:path | NAMES:path> <localPath>
+docker cp <localPath> <container ID:path | NAMES:path>
 ```
 
 ## 导出和导入
 
 ```bash
-docker export [container ID/NAMES] -o <tarFileName>
-docker export [container ID/NAMES] > [tarFileName] # 重定向
+docker export [container ID | NAMES] -o <tarFileName>
+docker export [container ID | NAMES] > [tarFileName] # 重定向
 
-docker import [tarFileName] [container ID/NAMES]
+docker import [tarFileName] [container ID | NAMES]
 ```
+
+用户既可以使用*`docker load`* 来导入镜像存储文件到本地镜像库，也可以使用 *`docker import`* 来导入一个容器快照到本地镜像库。这两者的区别在于容器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息
 
 ## 检视与查看
 
 ```bash
-docker inspect <container ID/NAMES> # 以JSON格式访问Docker的内部元数据,包括容器的IP地址
-docker inspect <container ID/NAMES> | head # 使用管道过滤
+docker inspect <container ID | NAMES> # 以JSON格式访问Docker的内部元数据,包括容器的IP地址
+docker inspect <container ID | NAMES> | head # 使用管道过滤
 # 镜像和容器的元数据有所不同,例如:容器将具有镜像缺乏（一个镜像是无状态的）的运行时字段，如“State”
 
-docker diff <container ID/NAMES> # 查看容器内的文件变化(容器和镜像的文件系统)
-docker logs <container ID/NAMES>
-docker stats <container ID/NAMES> # 动态显示容器资源消耗
-docker port <container ID/NAMES> # 列出容器的端口和宿主机的映射
-docker top <container ID/NAMES>
+docker diff <container ID | NAMES> # 查看容器内的文件变化(容器和镜像的文件系统)
+docker logs <container ID | NAMES>
+docker stats <container ID | NAMES> # 动态显示容器资源消耗
+docker port <container ID | NAMES> # 列出容器的端口和宿主机的映射
+docker top <container ID | NAMES>
 
 docker events # 输出docker服务的事件(容器的启动/停止/关闭)
 
 docker container ls [-a]
 
-docker container logs <container ID/NAMES> [-t | --tail <line number>] [-f | --follow]
+docker container logs <container ID | NAMES> [-t | --tail <line number>] [-f | --follow]
 ```
 
 ## 删除
 
 ```bash
-docker [container] rm [-f] <container ID/NAMESS> # 容器处于运行状态时需要force
+docker [container] rm [-f] <container ID | NAMES> # 容器处于运行状态时需要force
 
 docker container prune # 清理所有终止的容器
 ```
@@ -627,6 +629,8 @@ $(docker-machine env host1) # 设置`DOCKER_HOST`环境变量,这会设置Docker
 
 ## 挂载主机目录
 
+> 使用 `--mount` 标记可以指定挂载一个本地主机的目录或者文件到容器中去
+
 ```bash
 docker run -d -P \
     --name web \
@@ -642,19 +646,37 @@ docker run -d -P \
 * `-P`:随机映射一个端口到内部容器开放的网络端口
 * `-p`
   * 指定要映射的端口,一个指定端口只能绑定一个容器
-  * `hostPort:containerPort`:`docker run -d -p 80:80 nginx:alpine`
-  * `ip:hostPort:containerPort`:`docker run -d -p 127.0.0.1:80:80 nginx:alpine`
-  * `ip::containerPort`:`docker run -d -p 127.0.0.1::80 nginx:alpine`(本地主机自动分配一个端口)
+  * `hostPort:containerPort` -> `docker run -d -p 80:80 nginx:alpine`
+  * `ip:hostPort:containerPort` -> `docker run -d -p 127.0.0.1:80:80 nginx:alpine`
+  * `ip::containerPort` -> `docker run -d -p 127.0.0.1::80 nginx:alpine`(本地主机自动分配一个端口)
+  * 可以多次使用来绑定多个端口
 * 使用`docker port`或者`docker inspect`查看端口配置
+* 容器有自己的内部网络和IP地址
+
+## 容器访问外部
+
+容器要想访问外部网络，需要本地系统的转发支持
+
+```bash
+sysctl net.ipv4.ip_forward # 在Linux 系统中，检查转发是否打开
+# net.ipv4.ip_forward = 1
+```
+
+如果为 0，说明没有开启转发，则需要手动打开
+
+```bash
+sysctl -w net.ipv4.ip_forward=1
+```
 
 ## 网络互联
 
 ```bash
 docker network create -d bridge my-net
 # 创建
-# -d 指定网络类型
+# -d 指定网络类型, 有bridge, overlay(用于Swarm模式)
 
 docker run -it --rm --name busybox1 --network my-net busybox sh
+docker run -it --rm --name busybox2 --network my-net busybox sh
 # 加入
 ```
 
@@ -678,6 +700,8 @@ docker run -it --rm --name busybox1 --network my-net busybox sh
 ```bash
 docker-compose [-f=<arg>...] [options] [COMMAND] [ARGS...]
 ```
+
+
 
 ## Compose模板文件
 
