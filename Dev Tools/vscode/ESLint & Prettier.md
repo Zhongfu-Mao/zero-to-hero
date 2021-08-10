@@ -26,7 +26,7 @@ Prettier强调自己是一个**Opinionated code formatter**，而且只有 few(�
 ```bash
 npm init -y
 npm i -D eslint prettier eslint-plugin-prettier eslint-config-prettier eslint-plugin-node eslint-config-node eslint-config-airbnb --legacy-peer-deps
-./node_modules/.bin/eslint --init
+npx eslint --init
 ```
 
 3. 目录中创建`.prettierrc`的文件,按照json语法编写规则
