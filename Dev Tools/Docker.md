@@ -83,13 +83,20 @@ Docker的用处包括了软件原型、软件打包、减少测试和调试环�
 ## 查找
 
 ```bash
-docker search <镜像名> [-f stars=N]
+docker search <镜像名>
+# 选项:
+# -f/--filter<过滤条件 key=value的形式> -> 例: stars=100(stars100以上)
+# --limit <输出结果的最大个数(int)>
+# --help -> 获取帮助
 ```
 
 ## 获取
 
 ```bash
-docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
+docker pull [选项] 仓库名[:标签] # 基本使用这个格式
+# 省略标签的话默认使用`latest`标签
+
+docker pull [选项] [<Docker Registry 地址 | IP>[:端口号]/]仓库名[:标签] # Docker Hub以外的Registry
 ```
 
 ## 列出
@@ -121,9 +128,9 @@ docker image ls --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}"
 ## 检视
 
 ```bash
-docker image inspect <镜像ID或镜像名>
+docker [image] inspect <IMAGE ID | REPOSITORY>
 
-docker history <镜像ID或镜像名> # 查看构建层的详细
+docker history <IMAGE ID | REPOSITORY> # 查看构建层的详细
 ```
 
 ## 删除
@@ -469,7 +476,7 @@ docker build [选项] <上下文路径 | URL>
 #    --isolation: 默认`--isolation="default"`,即Linux命名空间; 别的选项还有`process`和`hyperv`
 #    --label: 为生成的镜像设置metadata
 #    --squash: 默认false,设置该选项则将构建出的多个层压缩为一个新层,但是将无法在多个镜像之间共享新层(实质上是创建了新的image同时保留原有的image)
-#    --tag, -t: 镜像的名字及tag,通常为`name:tag`或者`name`格式;可以在一次构建中为一个镜像设置多个tag
+#    --tag, -t: 镜像的名字及tag,通常为`name:tag`或者`name`格式;可以在一次构建中使用多个`-t`设置多个tag
 #    --network: 在构建过程中为RUN指令设置网络模式
 #    --quiet, -q: 默认false, 设置该选项则不输出编译过程,构建成功时输出镜像ID
 #    --force-rm: 默认false, 设置该选项则总是删除中间环节的容器
@@ -483,8 +490,16 @@ cat Dockerfile | docker build -
 ## 导入导出
 
 ```shell
-docker save
-docker load
+docker save [选项] 镜像 [镜像..]
+# -o, --output="" 导出到文件
+docker save python > python.tar
+docker save -o python.tar python
+
+docker load [选项]
+# -i, --input="" -> 从文件导入
+# -q, --quiet -> 不显示导入进度,导入成功后输出信息
+docker load < python.tar
+docker load -i python.tar
 ```
 
 # 操作容器
@@ -495,11 +510,11 @@ docker load
 docker run ubuntu:18.04 /bin/echo 'Hello world'
 
 docker run -t -i ubuntu:18.04 /bin/bash
-# -t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上
-# -i 让容器的标准输入保持打开
+# -t, --tty -> Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上
+# -i, --interactive -> 让容器的标准输入保持打开
 
 docker run -d ubuntu:18.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
-# -d 以deamon状态运行
+# -d, --detach -> 以detach模式运行
 # 用`docker [container] logs [container ID | NAMES]`查看输出
 
 docker [container] start [container ID | NAMES] # 启动已终止的容器
@@ -517,6 +532,17 @@ docker [container] unpause [container ID | NAMES] # 恢复挂起的容器
 | kill        | TERM     | 15         |
 | docker kill | KILL     | 9          |
 | docker stop | TERM     | 15         |
+
+## 列出
+
+```bash
+docker container ls [选项]
+# 常用选项
+# -a, --all -> 全部容器(默认只列出运行状态的)
+# -f, --filter -> 过滤
+# -q, --quiet -> 只显示容器ID
+# -n, --last -> 最近生成的N个
+```
 
 ## 进入容器
 
@@ -544,7 +570,7 @@ docker cp <localPath> <container ID:path | NAMES:path>
 docker export [container ID | NAMES] -o <tarFileName>
 docker export [container ID | NAMES] > [tarFileName] # 重定向
 
-docker import [tarFileName] [container ID | NAMES]
+docker import < tarFileName | URL | - > [REPOSITORY[:TAG]]
 ```
 
 用户既可以使用*`docker load`* 来导入镜像存储文件到本地镜像库，也可以使用 *`docker import`* 来导入一个容器快照到本地镜像库。这两者的区别在于容器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息
@@ -678,6 +704,14 @@ docker network create -d bridge my-net
 docker run -it --rm --name busybox1 --network my-net busybox sh
 docker run -it --rm --name busybox2 --network my-net busybox sh
 # 加入
+
+
+docker network connect
+docker network disconnect
+docker network inspect
+docker network ls
+docker network rm
+docker network prune
 ```
 
 # Docker Compose
