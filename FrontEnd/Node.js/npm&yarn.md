@@ -62,6 +62,14 @@ npm install package-name@version
 npm install package-name@version-range # 例: express@">4.1.0<5.0"
 ```
 
+### 全局安装的位置
+
+使用`npm root -g`
+
+* macOS或Linux上: `/usr/local/lib/node_modules`
+* Windows上:`C:\Users\YOU\AppData\Roaming\npm\node_modules`
+* nvm:`/Users/YOU/.nvm/versions/node/v14.17.0/lib/node_modules`
+
 ## npm脚本
 
 * 定义:在`package.json`文件中用`scripts`字段定义
@@ -218,9 +226,11 @@ npm init [-y | --yes]
 npm set init.author.email <new_value> # 更改默认值
 ```
 
+### 属性
+
 ```json
 {
-  "name": "package.json", // 项目名称
+  "name": "package.json", // 项目名称,只能使用小写字母和连字符下划线
   "version": "4.21.0", // 项目当前版本（格式：major.minor.patch）
   // name和version组成npm内部的唯一标识符,如果不想发布的话可以不填
   "description": "", // 项目描述
@@ -228,45 +238,68 @@ npm set init.author.email <new_value> # 更改默认值
     	"latest": "5.0.0",
     	"stable": "4.21.0",
   },// 列出符号标签帮助用户选择版本
-  "main": "index.js", // 入口文件
+  "main": "index.js", // 应用程序的入口文件
   "scripts": { // 指定运行脚本命令的 npm 命令行缩写
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "rsync --archive --delete local-dir user@host:/path/to/dest-dir",
     "prepublish": "npm run test"
   },
   "keywords": [], // 关键词, 会在`npm search`中列出
-  "author": "", // 作者
+  "author": "NodeJS中文网 <mail@nodejs.cn> (http://nodejs.cn)",
+  // 或者用下面的格式
+  "author": {
+    "name": "NodeJS中文网",
+    "email": "mail@nodejs.cn",
+    "url": "http://nodejs.cn"
+  },
+  "contributors": ["NodeJS中文网 <mail@nodejs.cn> (http://nodejs.cn))"], //数组
+  "bugs": "https://github.com/nodejscn/node-api-cn/issues", // 软件包的问题追踪器
+  "repository": "github:nodejscn/node-api-cn", //程序包仓库的位置
   "license": "ISC" // 许可证
 	"engine": {
     "node": ">= 10.12.0",
-    "npm": ">= 6.9.0"
+    "npm": ">= 6.9.0",
+    "yarn": ">= 3.0.0"
   },
 	"os": ["darwin", "linux", "!win32"],
 	"cpu": ["x64", "!arm"], // `process.arch`查看CPU架构
 	"private": true, // npm拒绝发布私有模块
-
+	"browserslist": [
+  	"> 1%",
+  	"last 2 versions",
+  	"not ie <= 8"
+	],
 }
 ```
 
 [SPDX License List | Software Package Data Exchange (SPDX)](https://spdx.org/licenses/)
 
-### version
+### 语义版本控制
 
-| Value       | Description                               |
-| :---------- | :---------------------------------------- |
-| `~version`  | "Approximately equivalent to version"[^1] |
-| `^version`  | "Compatible with version"[^2]             |
-| `version`   | Must match version exactly                |
-| `>version`  | Must be greater than version              |
-| `>=version` | etc                                       |
-| `<version`  |
-| `<=version` |
-| `1.2.x`     | 1.2.0, 1.2.1, etc., but not 1.3.0         |
-| `*`         | Matches any version                       |
-| `latest`    | Obtains latest release                    |
+当发布新的版本时，要遵循以下规则：
 
-[^1]: will update you to all future patch versions, without incrementing the **minor** version. ~1.2.3 will use releases from 1.2.3 to <1.3.0.
-[^2]: will update you to all future minor/patch versions, without incrementing the **major** version. ^2.3.4 will use releases from 2.3.4 to <3.0.0.
+- 当进行不兼容的 API 更改时，则升级主版本。
+- 当以向后兼容的方式添加功能时，则升级次版本。
+- 当进行向后兼容的缺陷修复时，则升级补丁版本。
+
+npm的版本规则:
+
+- `^`: 只会执行不更改最左边非零数字的更新。 如果写入的是 `^0.13.0`，则当运行 `npm update` 时，可以更新到 `0.13.1`、`0.13.2` 等，但不能更新到 `0.14.0` 或更高版本。 如果写入的是 `^1.13.0`，则当运行 `npm update` 时，可以更新到 `1.13.1`、`1.14.0` 等，但不能更新到 `2.0.0` 或更高版本。
+- `~`: 如果写入的是 `〜0.13.0`，则当运行 `npm update` 时，会更新到补丁版本：即 `0.13.1` 可以，但 `0.14.0` 不可以。
+- `>`: 接受高于指定版本的任何版本。
+- `>=`: 接受等于或高于指定版本的任何版本。
+- `<=`: 接受等于或低于指定版本的任何版本。
+- `<`: 接受低于指定版本的任何版本。
+- `=`: 接受确切的版本。
+- `-`: 接受一定范围的版本。例如：`2.1.0 - 2.6.2`。
+- `||`: 组合集合。例如 `< 2.1 || > 2.6`。
+
+可以合并其中的一些符号，例如 `1.0.0 || >=1.1.0 <1.2.0`，即使用 1.0.0 或从 1.1.0 开始但低于 1.2.0 的版本。
+
+还有其他的规则：
+
+- 无符号: 仅接受指定的特定版本（例如 `1.2.1`）。
+- `latest`: 使用可用的最新版本。
 
 ## npx
 
@@ -300,6 +333,25 @@ npx create-react-app my-react-app
 ```bash
 # 允许指定版本
 npx uglify-js@3.1.0 main.js -o ./dist/main.js
+```
+
+### 使用不同的Node.js版本运行代码
+
+使用 `@` 指定版本，并将其与 `node` npm 软件包 结合使用：
+
+```bash
+npx node@10 -v #v10.18.1
+npx node@12 -v #v12.14.1
+```
+
+这有助于避免使用 `nvm` 之类的工具或其他 Node.js 版本管理工具。
+
+### 直接从URL运行任意代码片段
+
+可以运行位于GitHub gist中的代码
+
+```bash
+npx https://gist.github.com/path/to/code
 ```
 
 ### 参数
@@ -338,7 +390,28 @@ npm outdated
 
 ```bash
 npm update express
-npm update # 升级所有npm outdated中列出的包
+npm update # 升级所有npm outdated中列出的包, 会更新`package-lock.json`
+```
+
+### list
+
+```bash
+npm list [-g] [--depth=<int>]
+```
+
+### view
+
+```bash
+npm view <package-name> [versions]
+```
+
+### uninstall
+
+```bash
+npm uninstall <package-name>
+npm uninstall -S <package-name>
+npm uninstall -D <package-name>
+npm uninstall -g <package-name>
 ```
 
 # yarn
