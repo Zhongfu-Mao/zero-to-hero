@@ -528,6 +528,19 @@ git remote rename name_from name_to
 git remote remove <remote>
 ```
 
+```powershell
+# Create a Git repo base on windows shared folder
+pushd \\remoteServer\git\Share\Folder\Path
+mkdir MyGitRepo1
+cd MyGitRepo1
+git init --bare
+
+# Back to local repository
+popd
+git remote add origin //remoteServer/git/Share/Folder/Path/MyGitRepo1  # using `/` rather than `\` in uri
+git push origin --all
+```
+
 ## Git Svn
 
 ### To clone repository from SVN
