@@ -204,6 +204,8 @@ git log --pretty=format:"格式化字符串" --graph
 git log -- path/to/file
 
 git log -S <searchTarget> --one-line
+
+git log --oneline --graph --decorate --all # 打印提交图
 ```
 
 | Specifier |   Description of Output   |
@@ -541,7 +543,45 @@ git remote add origin //remoteServer/git/Share/Folder/Path/MyGitRepo1  # using `
 git push origin --all
 ```
 
-## Git Svn
+## Git基本原理
+
+### `.git`目录
+
+#### `object`文件夹
+
+```bash
+git cat-file -t <hash> # 类型
+git cat-file -p <hash> # 内容
+git cat-file -s <hash> # 大小
+```
+
+#### blob对象和SHA1哈希
+
+```bash
+ls -lh # 获取字节数
+# 用"blob <字节数>\0<字符串>" | shasum 来获取哈希值
+# "\0"是Linux中的字符串终止符
+echo "blob 10\0hello git" | shasum # "hello git"加上"\n"一共是10
+```
+
+```python
+# 通过哈希值获取内容
+import zlib
+
+compressed_contents = open(<哈希值>, 'rb').read()
+zlib.decompress(compressed_contents)
+```
+
+#### 工作区和索引区
+
+```bash
+git ls-files # 列出索引区文件
+git ls-files -s # 打印权限,哈希值, ,文件名
+```
+
+
+
+## Git SVN
 
 ### To clone repository from SVN
 
