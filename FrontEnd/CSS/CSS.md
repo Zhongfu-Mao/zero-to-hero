@@ -1,5 +1,26 @@
 # CSS World
 
+## 参考文档
+
+[CSS 基础拾遗（核心知识、常见需求）](read://https_mp.weixin.qq.com/?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2FdD49a3RV_uYXoMk3fSHrRg)
+
+## @规则
+
+CSS 里包含了以下 @规则：
+
+- @namespace 告诉 CSS 引擎必须考虑XML命名空间。
+- @media, 如果满足媒体查询的条件则条件规则组里的规则生效。
+- @page, 描述打印文档时布局的变化.
+- @font-face, 描述将下载的外部的字体。
+- @keyframes, 描述 CSS 动画的关键帧。
+- @document, 如果文档样式表满足给定条件则条件规则组里的规则生效。(推延至 CSS Level 4 规范)
+
+不常用:
+
+- @charset用于定义样式表使用的字符集。它必须是样式表中的第一个元素。如果有多个 `@charset` 被声明，只有第一个会被使用，而且不能在HTML元素或HTML页面的 `<style>` 元素内使用。
+- @import用于告诉 CSS 引擎引入一个外部样式表。
+- @supports 用于查询特定的 CSS 是否生效，可以结合 not、and 和 or 操作符进行后续的操作。
+
 ## 选择器
 
 ### 基本选择器
@@ -90,15 +111,15 @@
 
 ### 属性选择器
 
-|    选择器     |                   功能描述                   |
-| :-----------: | :------------------------------------------: |
-|    E[attr]    |         选择匹配具有属性attr的E元素          |
-|  E[attr=val]  |        attr的属性值为val(区分大小写)         |
-| E[attr\|=val] |    attr属性值是一个具有val或者以val-开始     |
-| E[attr~=val]  | attr属性具有多个空格分隔的值,其中一个值为val |
-| E[attr*=val]  |         attr属性中任意位置包含了val          |
-| E[attr^=val]  |              attr属性以val开头               |
-| E[attr$=val]  |              attr属性以val结尾               |
+|    选择器     |                         功能描述                         |
+| :-----------: | :------------------------------------------------------: |
+|    E[attr]    |               选择匹配具有属性attr的E元素                |
+|  E[attr=val]  |              attr的属性值为val(区分大小写)               |
+| E[attr\|=val] |    attr属性值是一个具有val或者以val-开始(不推荐使用)     |
+| E[attr~=val]  | attr属性具有多个空格分隔的值,其中一个值为val(不推荐使用) |
+| E[attr*=val]  |               attr属性中任意位置包含了val                |
+| E[attr^=val]  |                    attr属性以val开头                     |
+| E[attr$=val]  |                    attr属性以val结尾                     |
 
 > E省略时表示任意类型元素
 
@@ -116,8 +137,18 @@
 
 ### 继承
 
-* 但不是所有的属性都能被继承。默认情况下，只有特定的一些属性能被继承，通常是我们希望被继承的那些。它们主要是跟文本相关的属性：color、font、font-family、font-size、font-weight、font-variant、font-style、line-height、letter-spacing、text-align、text-indent、text-transform、white-space以及word-spacing。
-* 还有一些其他的属性也可以被继承，比如列表属性：list-style、list-style-type、list-style-position以及list-style-image。
+* 不是所有的属性都能被继承。默认情况下，只有特定的一些属性能被继承，通常是我们希望被继承的那些。
+* 可以分为如下几类：
+  - 字体相关：`font-family`、`font-style`、`font-size`、`font-weight` 等；
+  - 文本相关：`text-align`、`text-indent`、`text-decoration`、`text-shadow`、`letter-spacing`、`word-spacing`、`white-space`、`line-height`、`color` 等；
+  - 列表相关：`list-style`、`list-style-image`、`list-style-type`、`list-style-position` 等；
+  - 其他属性：`visibility`、`cursor` 等；
+* 对于其他默认不继承的属性也可以通过以下几个属性值来控制继承行为：
+
+  * `inherit`：继承父元素对应属性的计算值；
+  * `initial`：应用该属性的默认值，比如 color 的默认值是 `#000`；
+  * `unset`：如果属性是默认可以继承的，则取 `inherit` 的效果，否则同 `initial`；
+  * `revert`：效果等同于 `unset`，兼容性差。
 
 ### 特殊值
 
