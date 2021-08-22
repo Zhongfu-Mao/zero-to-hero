@@ -1,6 +1,4 @@
-# Git & GitHub
-
-## 参考资料
+# 参考资料
 
 * [Pro Git](https://git-scm.com/book/zh/v2)
 * [x]  [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)
@@ -10,42 +8,110 @@
 * [x] [B站视频教程](https://www.bilibili.com/video/BV1tf4y1e7yt?p=1)
 * [官方文档](https://git-scm.com/docs)
 
-## Git
+# 基础知识
 
-![Cheat Sheet](https://qph.fs.quoracdn.net/main-qimg-be0c4389a44fea9757d650d578252164)
-
-### 版本控制软件的发展
+## 版本控制软件的发展
 
 * 文件夹拷贝
 * 本地版本控制
-* 集中式版本控制
-* 分布式版本控制
+* 集中式版本控制(Centralized Version Control System)
+* 分布式版本控制(Distributed Version Control System)
 
-### Getting and Creating Projects
+# Config
 
-#### `init`
+## 把VS Code设置为Git的编辑器
+
+```bash
+git config --global core.editor "code --wait"
+
+git config --global -e # 打开设置文件
+```
+
+添加如下内容,设置VSCode为Git的合并比较工具:
+
+```conf
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+    tool = code
+```
+
+## 个人信息配置
+
+```bash
+# 项目配置文件,只针对当前项目: 项目/.git/.gitconfig
+git config --local user.email "for@example.com"
+git config --local user.name "Your Name"
+
+# 全局配置文件,只针对当前用户: ~/.gitconfig
+git config --global user.email "for@example.com"
+git config --global user.name "Your Name"
+
+# 系统配置文件,包含系统上每一个用户及他们仓库的通用配置: /etc/.gitconfig
+git config --system user.email "for@example.com"
+git config --system user.name "Your Name"
+```
+
+## 别名设置
+
+```bash
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+git config --global alias.last 'log -1 HEAD'
+```
+
+## 免密码登陆
+
+### URL中体现
+
+```bash
+git remote add origin https://user:password@仓库地址
+git push origin master
+```
+
+### SSH实现
+
+```bash
+ssh-keygen # 生成公钥和私钥(默认放在`~/.ssh`目录下, `id_rsa.pub`公钥, `id_rsa`私钥)
+# 拷贝公钥的内容, 设置到GitHub
+git remote add origin git@github.com:地址 # 在本地设置ssh地址
+git push origin master
+```
+
+# Git CLI
+
+![Cheat Sheet](https://qph.fs.quoracdn.net/main-qimg-be0c4389a44fea9757d650d578252164)
+
+## Getting and Creating Projects
+
+### `init`
 
 ```bash
 git init
 ```
 
-#### `clone`
+### `clone`
 
 ```bash
-git clone <远程仓库地址>
+git clone <远程仓库地址> [<本地仓库名>]
+
 git clone -b <Tag名> <地址> # 指定Tag下载代码
 ```
 
-### Basic Snapshotting
+## Basic Snapshotting
 
-#### `status`
+### `status`
 
 ```bash
 git status
 git status -s # --short的缩写
 ```
 
-#### `add`
+### `add`
 
 ```bash
 git add .
@@ -71,14 +137,16 @@ git add -u # 直接进入交互命令中的update模式
 git add --ignore-removal . # 添加工作区 修改 或 新增 的文件列表， 删除 的文件不会被添加
 ```
 
-#### `diff`
+### `diff`
+
+> git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。
 
 ```bash
 git diff # 比较暂存区和工作区
-git diff --cached [<path>...] # 比较暂存区和最新本地版本库
+git diff --staged [<path>...] # 比较暂存区和最新本地版本库
 git diff HEAD [<path>...] # 比较工作区和最新本地版本库,如果HEAD指向的是master分支，那么HEAD还可以换成master
 git diff <commit-id> [<path>...] # 比较工作区和指定commit-id的差异
-git diff --cached <commit-id> [<path>...] # 比较暂存区和指定commit-id的差异
+git diff --staged <commit-id> [<path>...] # 比较暂存区和指定commit-id的差异
 
 git diff <commit-id> <commit-id> # 比较两个commit-id之间的差异
 
@@ -87,7 +155,7 @@ git diff <branch1> <branch2> --stat # 显示两个分支之间所有有差异的
 git diff <branch1> <branch2> <file> # 显示指定文件的详细差异
 ```
 
-#### `rm`
+### `rm`
 
 ```bash
 git rm [<文件名> | 正则表达式] # 从工作区和暂存区移除文件同时添加变动到暂存区
@@ -96,24 +164,28 @@ git rm -r [<文件夹名> | 正则表达式] # 非空文件夹
 git rm --cached [<文件名> | 正则表达式] # 保留硬盘上的文件, 从git上删除
 ```
 
-#### `mv`
+### `mv`
 
 ```bash
 git mv file_from file_to [-f] # 重命名文件
 ```
 
-#### `commit`
+### `commit`
 
 ```bash
 git commit -m "描述信息"
+git commit -m -a "描述信息" # 跳过`git add`
 git commit -m '第一行提交原因'  -m '第二行提交原因' # 多行
-git commit --amend //rewrite commit message without staging
+
+git commit --amend # 如果自上次提交以来还未做任何修改,那么快照会保持不变只修改提交信息
 git commit --amend -m '提交原因'
 git commit --amend --no-edit
 git commit -C HEAD # 提交到HEAD
 ```
 
-#### `reset`
+### `reset`
+
+> 不加选项地调用 `git reset` 并不危险 — 它只会修改暂存区域
 
 ```bash
 git log
@@ -133,35 +205,39 @@ git reset --hard 版本号 # 回滚至之后的版本
 git reset HEAD~1 # 回滚至HEAD的父提交, can be applied to undo Merges
 ```
 
-#### `restore`
+### `restore`
 
 ```bash
 git restore <file> # 和`git checkout -- <file>`同样效果
 git restore --staged <file>
 ```
 
-### Branching and Merging
+## Branching and Merging
 
-#### `branch`
+### `branch`
 
 ```bash
 git branch # 查看分支
 git branch -a # 查看本地版本库和远程版本库上的分支列表
 git branch -r # 查看远程版本库上的分支列表，加上 -d 参数可以删除远程版本库上的分支
-git branch -vv # 查看带有最后提交id、最近提交原因等信息的本地版本库分支列表
+git branch -vv # 查看设置的所有跟踪分支,这会将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有
 
-git branch --merged
-git branch --no-merged
+git branch --merged # 查看哪些分支已经合并到当前分支
+git branch --no-merged # 查看所有包含未合并工作的分支
 
 git branch <分支名> # 创建分支
 git branch -d <分支名> # 删除分支
 git branch -D <分支名> # 强制删除
-git branch -u origin/<分支名> <本地分支名>
+
+git branch -u origin/<分支名> <本地分支名> # --set-upstream-to
+# 设置已有的本地分支跟踪一个刚刚拉取下来的远程分支，或者想要修改正在跟踪的上游分支
+# 当设置好跟踪分支后，可以通过 @{upstream} 或 @{u} 快捷方式来引用它。
+# 所以在 master 分支时并且它正在跟踪 origin/master 时，如果愿意的话可以使用 git merge @{u} 来取代 git merge origin/master。
 
 git branch --move | -m bad-branch-name corrected-branch-name # 重命名分支
 ```
 
-#### `checkout`
+### `checkout`
 
 ```bash
 git checkout <分支名> # 切换到分支
@@ -178,7 +254,7 @@ git checkout -b <本地分支名> origin/<分支名> # 在本地创建分支追�
 git checkout -- <file> # 撤销修改, 丢失所有本地修改
 ```
 
-#### `switch`
+### `switch`
 
 ```bash
 git switch <branch>
@@ -186,7 +262,7 @@ git switch -c <new-branch> # --create
 git switch - # Return to previously checked out branch
 ```
 
-#### `log`
+### `log`
 
 ```bash
 git log
@@ -226,7 +302,7 @@ git log --oneline --graph --decorate --all # 打印提交图
 |    %cr    | Committer date, relative  |
 |    %s     |          Subject          |
 
-#### `merge`
+### `merge`
 
 ```bash
 git merge <分支名> # 合并分支
@@ -243,25 +319,30 @@ git merge --no-edit
 # 在没有冲突的情况下合并，不想手动编辑提交原因，而是用 Git 自动生成的类似 Merge branch 'test' 的文字直接提交
 ```
 
-#### `tag`
+### `tag`
 
 > Tag并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置
+
+Git 使用两种主要类型的标签：轻量标签（lightweight）与附注标签（annotated）。
+* 一个轻量标签很像一个不会改变的分支 - 它只是一个特定提交的引用。
+* 附注标签是存储在 Git 数据库中的一个完整对象。 它们是可以被校验的；其中包含打标签者的名字、电子邮件地址、日期时间；还有一个标签信息；并且可以使用 GNU Privacy Guard （GPG）签名与验证。
+* 通常建议创建附注标签，这样可以拥有以上所有信息；但是如果只是想用一个临时的标签，或者因为某些原因不想要保存那些信息，轻量标签也是可用的。
 
 ```bash
 git tag # listing existing tags
 git tag -l "v1.2.*" # 可以使用通配符
 
-git tag <Tag名> [node] # 给node打tag,如果不提供node则使用HEAD指向的位置
-git tag -a <Tag名> -m 'message' [node] # 创建本地Tag信息
+git tag <Tag名> [node] # 创建轻量标签,如果不提供node则使用HEAD指向的位置
+git tag -a <Tag名> -m 'message' [node] # 创建附注标签
 git tag -d <Tag名> # 删除Tag
 
-git push origin --tag # 将本地Tag信息推送到远程仓库
-git pull origin --tag # 更新本地Tag版本信息
+git push origin --tags # 将本地Tag信息推送到远程仓库
+git pull origin --tags # 更新本地Tag版本信息
 
 git show <Tag名>
 ```
 
-#### `stash`
+### `stash`
 
 ```bash
 git stash           # 将未提交的文件保存到Git栈中
@@ -289,9 +370,9 @@ git stash store <ID>
 # 将 create 方法里返回的ID放到 store 后面，此时在栈里真正创建了一个记录，但当前修改或删除的文件并未从工作区移除
 ```
 
-### Inspection and Comparison
+## Inspection and Comparison
 
-#### `describe`
+### `describe`
 
 ```bash
 git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（HEAD）
@@ -304,12 +385,12 @@ git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引
 # 当 ref 提交记录上有某个标签时，则只输出标签名称
 ```
 
-### Patching
+## Patching
 
-#### `Rebase`
+### `rebase`
 
-> Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去  
-> Rebase 的优势就是可以创造更线性的提交历史
+> rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去 
+> rebase 的优势就是可以创造更线性的提交历史
 
 ```bash
 git rebase <分支名> # 把当前分支的工作移到别的分支
@@ -327,10 +408,34 @@ git rebase -i HEAD~4 # 在交互式编辑(如vim, VSCode)中提交记录
 # m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
 
 git rebase <基准分支名> <移动分支名> # 把移动分支名移动到基准分支名下
+```
+
+#### `--onto`
+
+```bash
 git rebase --onto master server client # 把从server开始分支出来的client移到master上
 ```
 
-#### `revert`
+![截取特性分支上的另一个特性分支，然后变基到其他分支。](https://www.progit.cn/images/interesting-rebase-2.png)
+
+```bash
+git checkout master
+git merge client
+git rebase master server
+```
+
+![将 server 中的修改变基到 master 上。](https://www.progit.cn/images/interesting-rebase-4.png)
+
+```bash
+git checkout master
+git merge server
+git branch -d client
+git branch -d server
+```
+
+![最终的提交历史。](https://www.progit.cn/images/interesting-rebase-5.png)
+
+### `revert`
 
 ```bash
 # 撤销某次操作，此次操作之前和之后的 commit 和 history 都会保留，并且把这次撤销作为一次最新的提交
@@ -342,15 +447,15 @@ git revert -n HEAD
 # 需要撤销多次操作的时候加 -n 参数，这样不会每次撤销操作都提交，而是等所有撤销都完成后一起提交
 ```
 
-#### `cherry-pick`
+### `cherry-pick`
 
 ```bash
 git cherry-pick <node的哈希值>...# 选取想复制的node, 直接复制到当前HEAD
 ```
 
-### Administration
+## Administration
 
-#### `archive`
+### `archive`
 
 ```bash
 # 将加了tag的某个版本打包提取
@@ -359,98 +464,9 @@ git archive -v --format=zip v0.1 > v0.1.zip
 # -v 表示对应的tag名，后面跟的是tag名
 ```
 
-### Config
+## Moving on the Tree
 
-#### VS CodeをGitのeditorにする
-
-```bash
-git config --global core.editor "code --wait"
-git config --global -e
-```
-
-```conf
-[diff]
-    tool = default-difftool
-[difftool "default-difftool"]
-    cmd = code --wait --diff $LOCAL $REMOTE
-[merge]
-    tool = code
-```
-
-#### 个人信息配置
-
-```bash
-# 项目配置文件: 项目/.git/.gitconfig
-git config --local user.email "for@example.com"
-git config --local user.name "Your Name"
-
-# 全局配置文件: ~/.gitconfig
-git config --global user.email "for@example.com"
-git config --global user.name "Your Name"
-
-# 系统配置文件: /etc/.gitconfig
-git config --system user.email "for@example.com"
-git config --system user.name "Your Name"
-```
-
-#### 别名设置
-
-```bash
-git config --global alias.co checkout
-git config --global alias.br branch
-git config --global alias.ci commit
-git config --global alias.st status
-git config --global alias.last 'log -1 HEAD'
-```
-
-### 免密码登陆
-
-#### URL中体现
-
-```bash
-git remote add origin https://user:password@仓库地址
-git push origin master
-```
-
-#### SSH实现
-
-```bash
-ssh-keygen # 生成公钥和私钥(默认放在`~/.ssh`目录下, `id_rsa.pub`公钥, `id_rsa`私钥)
-# 拷贝公钥的内容, 设置到GitHub
-git remote add origin git@github.com:地址 # 在本地设置ssh地址
-git push origin master
-```
-
-### `.gitignore`
-
-#### `.gitignore`をグローバル設定
-
-##### MacOS
-
-```bash
-touch ~/.gitignore_global
-vim ~/.gitignore_global
-git config --global core.excludesfile ~/.gitignore_global
-```
-
-#### 格式
-
-```bash
-*.h
-!foo.h
-files/
-*.py[c|a|d]
-```
-
-[各种语言的参考](https://github.com/github/gitignore)
-
-### 在树上移动
-
-#### HEAD
-
-> HEAD 是一个对当前检出记录的符号引用 —— 也就是指向你正在其基础上进行工作的提交记录。  
-> HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。  
-> HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
+### HEAD
 
 ```bash
 cat .git/HEAD # 查看HEAD指向
@@ -458,7 +474,7 @@ git symbolic-ref HEAD # 如果HEAD指向一个引用,查看其指向
 git checkout <node的哈希值> # 移动HEAD的指向
 ```
 
-#### 相对引用
+### 相对引用
 
 ```bash
 # 操作符 (^): 把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交
@@ -476,9 +492,9 @@ git branch -f main HEAD~3 # 将 main 分支强制指向 HEAD 的第 3 级父提�
 # `~`和`^`可以链式使用
 ```
 
-### Sharing and Updating Projects
+## Sharing and Updating Projects
 
-#### `fetch`
+### `fetch`
 
 > git fetch 完成了仅有的但是很重要的两步:  
 > 1.从远程仓库下载本地仓库中缺失的提交记录  
@@ -495,7 +511,7 @@ git fetch origin <source>:<destination> # destination分支不存在时会创建
 git fetch origin :<分支名> # 在本地创建一个新分支
 ```
 
-#### `pull`
+### `pull`
 
 > `git pull` == `git fetch` + `git merge`
 
@@ -505,7 +521,7 @@ git pull --rebase # fetch+rebase
 git pull origin <source>:<destination>
 ```
 
-#### `push`
+### `push`
 
 > `git push` 不带任何参数时的行为与 Git 的一个名为 `push.default` 的配置有关,它的默认值取决于你正使用的 Git 的版本
 
@@ -520,7 +536,7 @@ git push --set-upstream origin main
 git push origin --delete master
 ```
 
-#### `remote`
+### `remote`
 
 ```bash
 git remote
@@ -530,8 +546,13 @@ git remote rename name_from name_to
 git remote remove <remote>
 ```
 
+> “origin” 并无特殊含义
+>
+> 远程仓库名字 “origin” 与分支名字 “master” 一样，在 Git 中并没有任何特别的含义一样。 同时 “master” 是当你运行 `git init` 时默认的起始分支名字，原因仅仅是它的广泛使用，“origin” 是当你运行 `git clone` 时默认的远程仓库名字。 如果你运行 `git clone -o booyah`，那么你默认的远程分支名字将会是 `booyah/master`。
+
+### Create a Git repo base on windows shared folder
+
 ```powershell
-# Create a Git repo base on windows shared folder
 pushd \\remoteServer\git\Share\Folder\Path
 mkdir MyGitRepo1
 cd MyGitRepo1
@@ -543,11 +564,55 @@ git remote add origin //remoteServer/git/Share/Folder/Path/MyGitRepo1  # using `
 git push origin --all
 ```
 
-## Git基本原理
+# `.gitignore`
 
-### `.git`目录
+## `.gitignore`をグローバル設定
 
-#### `object`文件夹
+### MacOS
+
+```bash
+touch ~/.gitignore_global
+vim ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore_global
+```
+
+## 格式
+
+文件 .gitignore 的格式规范如下：
+
+* 所有空行或者以 `＃` 开头的行都会被 Git 忽略。
+* 可以使用标准的 glob 模式匹配。
+* 匹配模式可以以（`/`）开头防止递归。
+* 匹配模式可以以（`/`）结尾指定目录。
+* 要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（`!`）取反。
+
+```bash
+# no .a files
+*.a
+
+# but do track lib.a, even though you're ignoring .a files above
+!lib.a
+
+# only ignore the TODO file in the current directory, not subdir/TODO
+/TODO
+
+# ignore all files in the build/ directory
+build/
+
+# ignore doc/notes.txt, but not doc/server/arch.txt
+doc/*.txt
+
+# ignore all .pdf files in the doc/ directory
+doc/**/*.pdf
+```
+
+[各种语言的参考](https://github.com/github/gitignore)
+
+# 深入理解Git
+
+## `.git`目录
+
+### `object`文件夹
 
 ```bash
 git cat-file -t <hash> # 类型
@@ -555,7 +620,11 @@ git cat-file -p <hash> # 内容
 git cat-file -s <hash> # 大小
 ```
 
-#### blob对象和SHA1哈希
+## blob对象和SHA1哈希
+
+> Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）。 这是一个由 40 个十六进制字符（0-9 和 a-f）组成字符串，基于 Git 中文件的内容或目录结构计算出来。
+>
+> Git 数据库中保存的信息都是以文件内容的哈希值来索引，而不是文件名。
 
 ```bash
 ls -lh # 获取字节数
@@ -572,24 +641,48 @@ compressed_contents = open(<哈希值>, 'rb').read()
 zlib.decompress(compressed_contents)
 ```
 
-#### 工作区和索引区
+## 暂存和提交
+
+暂存操作会为每一个文件计算校验和（使用SHA-1哈希算法）,然后会把当前版本的文件快照保存到 Git 仓库中（Git 使用 blob 对象来保存它们）,最终将校验和加入到暂存区域等待提交
+
+当使用 `git commit` 进行提交操作时，Git 会先计算每一个子目录的校验和，然后在 Git 仓库中这些校验和保存为树对象。 随后，Git 便会创建一个提交对象，它除了包含上面提到的那些信息外，还包含指向这个树对象（项目根目录）的指针。如此一来，Git 就可以在需要的时候重现此次保存的快照。
+
+![首次提交对象及其树结构](https://www.progit.cn/images/commit-and-tree.png)
+
+非首次提交对象会包含一个指向上次提交对象（父对象）的指针。
+
+![提交对象及其父对象。](https://www.progit.cn/images/commits-and-parents.png)
+
+## 分支
+
+Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git 的默认分支名字是 `master`。 在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 `master` 分支。 它会在每次的提交操作中自动向前移动。
+
+> Git 的 “master” 分支并不是一个特殊分支。 它就跟其它分支完全没有区别。 之所以几乎每一个仓库都有 master 分支，是因为 `git init` 命令默认创建它，并且大多数人都懒得去改动它。
+
+![分支及其提交历史](https://www.progit.cn/images/branch-and-history.png)
+
+> HEAD 是一个对当前检出记录的符号引用 —— 也就是指向你正在其基础上进行工作的提交记录。 
+> HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。 
+> HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
+
+
+
+## 工作区和索引区
 
 ```bash
 git ls-files # 列出索引区文件
 git ls-files -s # 打印权限,哈希值, ,文件名
 ```
 
+# Git SVN
 
-
-## Git SVN
-
-### To clone repository from SVN
+## To clone repository from SVN
 
 ```bash
 git svn clone "<URL>" --prefix=svn/ --trunk=trunk --branches=branches --tags=tags  --authors-file
 ```
 
-### To pull in new commits from SVN
+## To pull in new commits from SVN
 
 ```bash
 git stash
@@ -597,31 +690,33 @@ git svn rebase
 git stash pop
 ```
 
-### To ignore changes of something
+## To ignore changes of something
 
 ```bash
 git update-index --assume-unchanged db.sqlite3
 ```
 
-### To push local commits into SVN
+## To push local commits into SVN
 
 ```bash
 git svn dcommit
 ```
 
-## GitHub
+# GitHub
 
-### 上传
+## 上传
 
 ```bash
 git remote add origin 远程仓库地址 # 给远程仓库起别名
 git push -u origin 分支 # 向远程仓库推送代码
 ```
 
-### 下载
+## 下载
 
 ```bash
 git clone 远程仓库地址 # 第一次的时候
 git checkout 分支
 git pull origin 分支 # 拉取代码 等价于`git fetch origin 分支; git merge origin 分支`
 ```
+
+# GitLab
