@@ -282,6 +282,9 @@ git log -- path/to/file
 git log -S <searchTarget> --one-line
 
 git log --oneline --graph --decorate --all # 打印提交图
+
+git log master..experiment # 查看 experiment 分支中还有哪些提交尚未被合并入 master 分支
+git log origin/master..HEAD # 查看在当前分支中而不在远程 origin 中的提交
 ```
 
 | Specifier |   Description of Output   |
@@ -464,6 +467,30 @@ git archive -v --format=zip v0.1 > v0.1.zip
 # -v 表示对应的tag名，后面跟的是tag名
 ```
 
+### `reflog`
+
+ Git 会在后台保存一个引用日志(reflog)记录最近几个月的 HEAD 和分支引用所指向的历史
+
+```bash
+git reflog
+4d047fc (HEAD -> master, origin/master) HEAD@{0}: commit: 重新组织内容结构+添加内
+容
+01c3278 HEAD@{1}: commit: 补充@规则和继承相关的内容
+01fdec2 HEAD@{2}: commit: 补充Git基本原理(part1)
+3e4d96b HEAD@{3}: commit: 补充Registry的分类
+f0d4d00 HEAD@{4}: commit: 新增文件,准备整理出来
+ddb581d HEAD@{5}: commit: 更改配置文件格式为yaml, 删除VSCode中设置的内容(已经自带
+对TypeScript的支持)
+dfab469 HEAD@{6}: pull --tags origin master: Fast-forward
+```
+
+每当HEAD 所指向的位置发生了变化，Git 就会将这个信息存储到引用日志这个历史记录里。 通过这些数据可以很方便地获取之前的提交历史。 如果想查看仓库中 HEAD 在五次前的所指向的提交可以使用 `@{n}` 来引用 reflog 中输出的提交记录。
+
+```bash
+git show HEAD@{5}
+git show master@{yesterday} # 显示昨天该分支的顶端指向了哪个提交,这个方法只对还在引用日志里的数据有用
+```
+
 ## Moving on the Tree
 
 ### HEAD
@@ -620,6 +647,50 @@ git cat-file -p <hash> # 内容
 git cat-file -s <hash> # 大小
 ```
 
+### `hooks`文件夹
+
+> 和其它版本控制系统一样，Git 能在特定的重要动作发生时触发自定义脚本。 
+>
+> 有两组这样的钩子：**客户端**的(由诸如提交和合并这样的操作所调用)和**服务器端**的(作用于诸如接收被推送的提交这样的联网操作)。 
+
+钩子都被存储在 Git 目录下的 `hooks` 子目录中。
+
+当使用 `git init` 初始化一个新版本库时，Git 默认会在这个目录中放置一些示例脚本。这些脚本除了本身可以被调用外，它们还透露了被触发时所传入的参数。 所有的示例都是 shell 脚本，其中一些还混杂了 Perl 代码，不过，任何正确命名的可执行脚本都可以正常使用 —— 可以用 Ruby 或 **Python**，或其它语言编写它们。 这些示例的名字都是以 `.sample` 结尾，如果想启用它们，得先移除这个后缀。
+
+#### 客户端钩子
+
+##### 提交工作流钩子
+
+* `pre-commit` :在键入提交信息前运行, 用于检查即将提交的快照
+* `prepare-commit-msg`:在启动提交信息编辑器之前，默认信息被创建之后运行, 允许编辑提交者所看到的默认信息
+* `commit-msg` :可以用来在提交通过前验证项目状态或提交信息
+* `post-commit` :在整个提交过程完成后运行, 一般用于通知之类的事情
+
+##### 电子邮件工作流钩子
+
+由 `git am` 命令调用
+
+* `applypatch-msg` : 用来确保提交信息符合格式，或直接用脚本修正格式错误
+* `pre-applypatch` :运行于应用补丁之后产生提交之前，用来在提交前检查快照
+* `post-applypatch` :运行于提交产生之后，是在 `git am` 运行期间最后被调用的钩子,可以用来把结果通知给一个小组或所拉取的补丁的作者
+
+##### 其他钩子
+
+* `pre-rebase` :运行于变基之前，以非零值退出可以中止变基的过程, 可以使用这个钩子来禁止对已经推送的提交变基
+
+* `post-rewrite` :被那些会替换提交记录的命令调用，比如 `git commit --amend` 和 `git rebase`（不过不包括 `git filter-branch`）, 用途很大程度上跟 `post-checkout` 和 `post-merge` 差不多
+* `post-checkout` :在 `git checkout` 成功运行后会被调用, 可以根据项目环境用来调整工作目录, 其中包括放入大的二进制文件、自动生成文档或进行其他类似这样的操作
+
+* `post-merge` :在 `git merge` 成功运行后会被调用, 可以用来恢复 Git 无法跟踪的工作区数据，比如权限数据,也可以用来验证某些在 Git 控制之外的文件是否存在，这样就能在工作区改变时，把这些文件复制进来
+* `pre-push` :会在 `git push` 运行期间更新了远程引用但尚未传送对象时被调用,可以在推送开始之前，用它验证对引用的更新操作
+* `pre-auto-gc` :会在垃圾回收开始之前被调用，可以用来提醒现在要回收垃圾了，或者依情形判断是否要中断回收
+
+#### 服务器端钩子
+
+*  `pre-receive`:处理来自客户端的推送操作时最先被调用,可以用这个钩子阻止对引用进行非快进（non-fast-forward）的更新，或者对该推送所修改的所有引用和文件进行访问控制。
+* `update` :和 `pre-receive` 脚本十分类似，不同之处在于它会为每一个准备更新的分支各运行一次。 假如推送者同时向多个分支推送内容，`pre-receive` 只运行一次，相比之下 `update` 则会为每一个被推送的分支各运行一次。 
+* `post-receive` :在整个过程完结以后运行，可以用来更新其他系统服务或者通知用户。 它接受与 `pre-receive` 相同的标准输入数据。 它的用途包括给某个邮件列表发信，通知持续集成（continous integration）的服务器，或者更新问题追踪系统（ticket-tracking system） —— 甚至可以通过分析提交信息来决定某个问题（ticket）是否应该被开启，修改或者关闭
+
 ## blob对象和SHA1哈希
 
 > Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）。 这是一个由 40 个十六进制字符（0-9 和 a-f）组成字符串，基于 Git 中文件的内容或目录结构计算出来。
@@ -665,8 +736,6 @@ Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git
 > HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。 
 > HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
 
-
-
 ## 工作区和索引区
 
 ```bash
@@ -703,6 +772,12 @@ git svn dcommit
 ```
 
 # GitHub
+
+## Fork
+
+如果你想要参与某个项目，但是并没有推送权限，这时可以对这个项目进行“派生”。 派生的意思是指，GitHub 将在你的空间中创建一个完全属于你的项目副本，且你对其具有推送权限。
+
+> 在以前，“fork”是一个贬义词，指的是某个人使开源项目向不同的方向发展，或者创建一个竞争项目，使得原项目的贡献者分裂。 在 GitHub，“fork”指的是你自己的空间中创建的项目副本，这个副本允许你以一种更开放的方式对其进行修改。
 
 ## 上传
 
