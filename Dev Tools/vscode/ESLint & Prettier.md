@@ -21,34 +21,52 @@ Prettier强调自己是一个**Opinionated code formatter**，而且只有 few(�
 ## VSCode中配置
 
 1. 安装`ESLint`和`Prettier ESLint`插件
-2. 安装包
+2. 初始化
 
 ```bash
 npm init -y
-npm i -D eslint prettier eslint-plugin-prettier eslint-config-prettier eslint-plugin-node eslint-config-node eslint-config-airbnb --legacy-peer-deps
+npm i -D eslint
 npx eslint --init
 ```
 
-3. 目录中创建`.prettierrc`的文件,按照json语法编写规则
+3. 安装`eslint-config-airbnb-base`依赖
 
-4. 按照需求编辑第二步生成的`.eslintrc.(js|json|yaml)`文件
-
-   ```yaml
-   env:
-     es2021: true
-     node: true
-   extends:
-     - 'eslint:recommended'
-     - 'prettier'
-     - 'airbnb'
-     - 'plugin:node/recommended'
-     - 'plugin:@typescript-eslint/recommended'
-   parser: '@typescript-eslint/parser'
-   parserOptions:
-     ecmaVersion: 12
-     sourceType: module
-   plugins:
-     - '@typescript-eslint'
-   rules: {}
-   
+   ```bash
+   npx install-peerdeps --dev eslint-config-airbnb-base
    ```
+
+4. 安装剩余的依赖
+
+   ```bash
+   npm install eslint-config-airbnb-typescript \
+               @typescript-eslint/eslint-plugin \
+               @typescript-eslint/parser \
+               prettier prettier-eslint \
+               eslint-plugin-prettier eslint-config-prettier \
+               eslint-plugin-node eslint-config-node \
+               --save-dev
+   ```
+
+5. 编辑.eslintrc.(js|json|yaml)`文件
+
+```yaml
+env:
+  es2021: true
+  node: true
+extends:
+  - 'eslint:recommended'
+  - 'prettier'
+  - 'airbnb-base'
+  - 'airbnb-typescript/base'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:node/recommended'
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaVersion: 12
+  sourceType: module
+  project: './tsconfig.json'
+plugins:
+  - '@typescript-eslint'
+rules: {}
+
+```
