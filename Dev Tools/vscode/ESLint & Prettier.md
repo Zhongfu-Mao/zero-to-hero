@@ -55,9 +55,9 @@ env:
   node: true
 extends:
   - 'eslint:recommended'
-  - 'prettier'
   - 'airbnb-base'
   - 'airbnb-typescript/base'
+  - 'prettier'
   - 'plugin:@typescript-eslint/recommended'
   - 'plugin:node/recommended'
 parser: '@typescript-eslint/parser'
