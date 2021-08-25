@@ -196,7 +196,7 @@ RUN apt-get update \
 > 除了`ARG`可以出现在`FROM`之前外, Dockerfile必须以`FROM`开头
 
 ```dockerfile
-FROM <image>[:<tag> | @<digest>] [AS <name>]
+FROM <repository>[:<tag> | @<digest>] [AS <name>]
 ```
 
 * `FROM scratch`表示不以任何镜像为基础
@@ -283,6 +283,11 @@ ADD [--chown=<user>:<group>] ["<源路径1>",... "<目标路径>"]
 
 > `CMD` 指令就是用于指定默认的容器主进程的启动命令的
 
+与`RUN`指令的不同在于**运行时间点**:
+
+* `RUN`指令运行于构建镜像文件的过程中
+* `CMD`指令运行于基于Dockerfile构建出的镜像文件启动容器时
+
 ```dockerfile
 # shell格式
 CMD <command>
@@ -292,7 +297,7 @@ CMD ["executable", "param1", "param2"...]
 CMD ["param1", "param2"]
 ```
 
->  一个Dockerfile中只能有一条CMD，如果有多条只有最后一条起效果
+>  一个Dockerfile中可以存在多个CMD指令,但是只有最后一个会生效
 
 ```dockerfile
 # 如果使用 `shell` 格式的话，实际的命令会被包装为 `sh -c` 的参数的形式进行执行
@@ -313,7 +318,7 @@ ENTRYPOINT ["executable", "param1", "param2"]
 
 `ENTRYPOINT` 的目的和 `CMD` 一样，都是在指定容器启动程序及参数。`ENTRYPOINT` 在运行时也可以替代，不过比 `CMD` 要略显繁琐，需要通过 `docker run` 的参数 `--entrypoint` 来覆盖
 
-> 一个Dockerfile中只能有一条ENTRYPOINT，如果有多条只有最后一条起效果
+> 一个Dockerfile中可以有多条ENTRYPOINT，但是只有最后一条起效果
 
 当指定了 `ENTRYPOINT` 后，`CMD` 的含义就发生了改变，不再是直接的运行其命令，而是将 `CMD` 的内容作为参数传给 `ENTRYPOINT` 指令
 
@@ -330,6 +335,15 @@ ENV <key1>=<value1> <key2>=<value2>...
 ```
 
 下列指令可以支持环境变量展开： `ADD`、`COPY`、`ENV`、`EXPOSE`、`FROM`、`LABEL`、`USER`、`WORKDIR`、`VOLUME`、`STOPSIGNAL`、`ONBUILD`、`RUN`
+
+环境变量在 Dockerfile 中用 `$variable_name` 或 `${variable_name}` 表示。
+
+`${variable_name}` 语法还支持一些标准的 bash 修饰符:
+
+- `${variable:-word}` 表示如果设置了 `variable` 则结果将是该值。如果未设置 `variable`，那么将是 `word`。
+- `${variable:+word}`表示如果设置了 `variable` 则将以 `word` 作为结果，否则结果为空字符串。
+
+可以通过在变量前添加一个`\`来进行转义：例如，`\$foo` 或 `\${foo}` 将分别转换为 `$foo` 和 `${foo}`。
 
 ### ARG
 
@@ -359,7 +373,7 @@ VOLUME <路径1> <路径2>...
 > 声明容器运行时提供服务的端口，这只是一个声明，在容器运行时并不会因为这个声明应用就会开启这个端口的服务
 
 ```dockerfile
-EXPOSE <port> [<port>/<protocol>...]
+EXPOSE <port>[/<protocol>] [<port>/<protocol>...]
 ```
 
  `EXPOSE` 和在运行时使用 `-p <宿主端口>:<容器端口>`的 区分:
