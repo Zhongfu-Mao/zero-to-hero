@@ -1,3 +1,9 @@
+# 参考
+
+[在浏览器输入 URL 回车之后发生了什么（超详细版） - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/80551769)
+
+[从浏览器多进程到JS单线程，JS运行机制最全面的一次梳理 - SegmentFault 思否](https://segmentfault.com/a/1190000012925872)
+
 # Bookmark
 
 * Use JavaScript in Bookmark
