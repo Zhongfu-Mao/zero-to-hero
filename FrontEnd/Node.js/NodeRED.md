@@ -55,3 +55,8 @@ npm install -g --unsafe-perm node-red
 * 移除`tail`Node
 * Flow Debugger
 * Flow Linter(nrlint)
+
+## 推荐的节点
+
+* [node-red-dashboard (node)](https://flows.nodered.org/node/node-red-dashboard)
+
