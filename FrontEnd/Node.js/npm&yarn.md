@@ -16,9 +16,7 @@
 
 # npm
 
-## install命令
-
-> 缩写`i`
+## install(i)
 
 ### dependencies与devDependencies的区别
 
@@ -228,51 +226,349 @@ npm set init.author.email <new_value> # 更改默认值
 
 ### 属性
 
-```json
-{
-  "name": "package.json", // 项目名称,只能使用小写字母和连字符下划线
-  "version": "4.21.0", // 项目当前版本（格式：major.minor.patch）
-  // name和version组成npm内部的唯一标识符,如果不想发布的话可以不填
-  "description": "", // 项目描述
-  "dist-tags": {
-    	"latest": "5.0.0",
-    	"stable": "4.21.0",
-  },// 列出符号标签帮助用户选择版本
-  "main": "index.js", // 应用程序的入口文件
-  "scripts": { // 指定运行脚本命令的 npm 命令行缩写
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "rsync --archive --delete local-dir user@host:/path/to/dest-dir",
-    "prepublish": "npm run test"
-  },
-  "keywords": [], // 关键词, 会在`npm search`中列出
-  "author": "NodeJS中文网 <mail@nodejs.cn> (http://nodejs.cn)",
-  // 或者用下面的格式
-  "author": {
-    "name": "NodeJS中文网",
-    "email": "mail@nodejs.cn",
-    "url": "http://nodejs.cn"
-  },
-  "contributors": ["NodeJS中文网 <mail@nodejs.cn> (http://nodejs.cn))"], //数组
-  "bugs": "https://github.com/nodejscn/node-api-cn/issues", // 软件包的问题追踪器
-  "repository": "github:nodejscn/node-api-cn", //程序包仓库的位置
-  "license": "ISC" // 许可证
-	"engine": {
-    "node": ">= 10.12.0",
-    "npm": ">= 6.9.0",
-    "yarn": ">= 3.0.0"
-  },
-	"os": ["darwin", "linux", "!win32"],
-	"cpu": ["x64", "!arm"], // `process.arch`查看CPU架构
-	"private": true, // npm拒绝发布私有模块
-	"browserslist": [
-  	"> 1%",
-  	"last 2 versions",
-  	"not ie <= 8"
-	],
-}
-```
+#### name
 
-[SPDX License List | Software Package Data Exchange (SPDX)](https://spdx.org/licenses/)
+* 长度不大于214个字符,大写字母不被允许
+* 名称会成为URL,命令行参数或者文件夹名称的一部分,所以不能包含`non-URL-safe`字符(小写字母和连字符下划线)
+* 不要使用`js`或者`node`这两个名称
+
+#### version
+
+* 项目当前版本（格式：major.minor.patch）
+* name和version组成npm内部的唯一标识符,如果不想发布的话可以不填
+
+#### description
+
+* 项目描述
+* 会出现在`npm search`中
+
+#### keywords
+
+* 字符串的列表
+* 会在`npm search`中列出
+
+#### homepage
+
+* 例: 
+
+  ```JSON
+  "homepage": "https://github.com/owner/project#readme"
+  ```
+
+#### bugs
+
+* 项目的问题追踪器
+
+* `url`和`email`任一或者皆有都可以,如果提供了`url`那么会出现在`npm bugs`中
+
+* 例:
+
+  ```JSON
+  {
+    "url" : "https://github.com/owner/project/issues",
+    "email" : "project@hostname.com"
+  }
+  ```
+
+#### license
+
+* 过时的写法:
+
+  ```JSON
+  // Not valid metadata
+  {
+    "license" : {
+      "type" : "ISC",
+      "url" : "https://opensource.org/licenses/ISC"
+    }
+  }
+  
+  // Not valid metadata
+  {
+    "licenses" : [
+      {
+        "type": "MIT",
+        "url": "https://www.opensource.org/licenses/mit-license.php"
+      },
+      {
+        "type": "Apache-2.0",
+        "url": "https://opensource.org/licenses/apache2.0.php"
+      }
+    ]
+  }
+  ```
+
+* 推荐的写法([SPDX License List | Software Package Data Exchange (SPDX)](https://spdx.org/licenses/)):
+
+  ```JSON
+  {
+    "license": "ISC"
+  }
+  ```
+
+  ```JSON
+  {
+    "license": "(MIT OR Apache-2.0)"
+  }
+  ```
+
+* 如果不希望授权他人使用:
+
+  ```JSON
+  {
+    "license": "UNLICENSED"
+  }
+  ```
+
+#### author, contributors
+
+* `author`是一个人, `contributors`是一组人
+
+* `author`是一个包含`name`(必填)和`url`,`email`(选填)的对象:
+
+  ```JSON
+  {
+    "author": {
+      "name": "NodeJS中文网",
+      "email": "mail@nodejs.cn",
+      "url": "http://nodejs.cn"
+    }
+  }
+  ```
+
+* 也可以全部合并入一个字符串中,npm会解析:
+
+  ```JSON
+  {
+    "author": "NodeJS中文网 <mail@nodejs.cn> (http://nodejs.cn)"
+  }
+  ```
+
+* `contributors`例:
+
+  ```JSON
+  {
+      "contributors": ["NodeJS中文网 <mail@nodejs.cn> (http://nodejs.cn))"]
+  }
+  ```
+
+#### funding
+
+* 可以指定一个包含捐助信息URL的对象来让人们帮助项目成长
+* 会出现在`npm fund`中
+
+#### files
+
+* 定义了哪些文件应该被包括在 `npm install` 后的 `node_modules`中
+
+* 例(`vite`):
+
+  ```JSON
+  {
+    "files": [ "bin", "dist", "client.d.ts" ]
+  }
+  ```
+
+#### main, browser, module
+
+- `main`字段决定了别人`require('xxx')`时，引用的是哪个模块对象。在不设置`main`字段时，默认值是`index.js`。
+- 如果你开发的包是用于浏览器端的，那么用`browser`指定入口文件是最佳的选择。
+- `module`则代表你开发的包支持`ESM`，并指定了一个`ESM`入口。
+
+![图片](https://mmbiz.qpic.cn/mmbiz_jpg/lolOWBY1tkwcKH2pugFJwSuTcHBAsSTuDPqN0cF54gxajRKKlib85IRTuo7oibFN03Np6Z09FdxTRica48P2Uiav1g/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+#### bin
+
+* bin 列出了可执行文件，表示你这个包要对外提供哪些脚本。
+* 在这个包被 install 安装时，如果是全局安装 -g，bin 列出的可执行文件会被添加到 PATH 变量（全局可执行）；如果是局部安装，则会进入到 `node_modules/.bin/` 目录下。
+
+#### man
+
+* 用于指定`man`命令时返回的帮助文件
+
+* 可以使单个文件或者文件名的列表
+
+* 必须以数字结尾
+
+* 例:
+
+  ```JSON
+  {
+  	"man": [
+      "./man/foo.1",
+      "./man/foo.2"
+    ]
+  }
+  ```
+
+#### directories
+
+* CommonJS规范指定的目录结构
+
+#### repository
+
+* 说明程序包仓库的位置, 如果是托管在GitHub上的,那么`npm docs`可以列出
+
+* 例:
+
+  ```JSON
+  {
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/npm/cli.git"
+    }
+  }
+  ```
+
+#### [scripts](#npm脚本)
+
+* 例:
+
+  ```JSON
+  {
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "deploy": "rsync --archive --delete local-dir user@host:/path/to/dest-dir",
+      "prepublish": "npm run test"
+    },
+  }
+  ```
+
+#### config
+
+* 通过`config`配置的参数`xxx`，可以在脚本中通过`npm_package_config_xxx` 的形式引用，比如`port`
+
+* 例:
+
+  ```JSON
+  {
+    "config": {
+      "port": "8080"
+    }
+  }
+  ```
+
+#### dependencies
+
+* `dependencies`可以理解为生产依赖
+* 通过`npm install --save`安装的依赖包都会进入到`dependencies`中
+
+#### devDependencies
+
+* `devDependencies`可以理解为开发环境依赖，通常是一些工具类的包，比如 webpack, babel等
+* 通过`npm install --save-dev`安装的依赖包都会进入到`devDependencies`中
+
+#### peerDependencies
+
+* 为了避免重复安装
+* 常见于开发组件或者库
+
+#### bundleDependencies
+
+* 配置上不是键值对的形式，而是一个数组
+
+* 在运行`npm pack`时，会将对应依赖打包到`tgz`文件中
+
+* 例:
+
+  ```JSON
+  {
+    "bundledDependencies": [
+      "vue",
+      "vue-router"
+    ]
+  }
+  ```
+
+#### optionalDependencies
+
+* 用于配置可选依赖
+* 执行`npm install --no-optional`时会阻止这些依赖被安装
+
+#### engines
+
+* 指定node或者yarn的版本
+
+* 例:
+
+  ```JSON
+  	"engine": {
+      "node": ">= 14.17.5 <15",
+      "npm": "~ 6.9.0",
+      "yarn": ">= 3.0.0"
+    },
+  ```
+
+#### os
+
+* 指定模块运行的操作系统
+
+* 可以使用`process.platform`查看
+
+* 例:
+
+  ```JSON
+  {
+    "os": [
+      "darwin",
+      "linux",
+      "!win32"
+    ]
+  }
+  ```
+
+#### cpu
+
+* 指定CPU架构
+
+* 可以使用`process.arch`查看
+
+* 例:
+
+  ```JSON
+  {
+    "cpu": [
+      "x64",
+      "ia32",
+      "!arm"
+    ]
+  }
+  ```
+
+#### private
+
+* 如果设置了`"private": true`那么npm会拒绝发布
+
+#### dist-tags
+
+* 列出符号标签帮助用户选择版本
+
+* 例:
+
+  ```JSON
+  {
+    "dist-tags": {
+      	"latest": "5.0.0",
+      	"stable": "4.21.0",
+    }
+  }
+  ```
+
+#### browserslist
+
+* 常见于前端项目中,指定兼容的浏览器版本
+
+* 例:
+
+  ```JSON
+  {
+    	"browserslist": [
+    	"> 1%",
+    	"last 2 versions",
+    	"not ie <= 8"
+  	],
+  }
+  ```
 
 ### 语义版本控制
 
@@ -405,7 +701,7 @@ npm list [-g] [--depth=<int>]
 npm view <package-name> [versions]
 ```
 
-### uninstall
+### uninstall(un)
 
 ```bash
 npm uninstall <package-name>
