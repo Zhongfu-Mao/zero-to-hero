@@ -435,13 +435,13 @@ less 文件名
 ### 添加用户
 
 ```bash
-# sudo adduser 用户名
+$ sudo adduser 用户名
 ```
 
 ### 切换用户
 
 ```bash
-# su -l 用户名
+$ su -l 用户名
 ```
 
 ### 查看用户
@@ -458,7 +458,7 @@ less 文件名
 ### 删除用户和用户组
 
 ```bash
-# sudo deluser 用户名 --remove-home
+$ sudo deluser 用户名 --remove-home
 ```
 
 ## 权限管理命令
@@ -874,7 +874,7 @@ which [参数] 命令名
 * 功能描述：关机和重启
 
 ```bash
-# shutdown [参数] 时间 [警告信息]
+$ shutdown [参数] 时间 [警告信息]
 ```
 
 参数:
@@ -882,11 +882,72 @@ which [参数] 命令名
 -h: 关机￼
 -r: 重启
 
-#### `reboot` `halt` `poweroff`
+```bash
+$ shutdown now
+$ shutdown 13:20  
+$ shutdown -p now	#poweroff the machine
+$ shutdown -H now	#halt the machine		
+$ shutdown -r09:35	#reboot the machine at 09:35am
+```
+
+
+
+### `reboot`
+
+若系统的 runlevel 为 0 或 6 ，则重新开机，否则以 shutdown 指令（加上 -r 参数）来取代
+
+```bash
+$ reboot [参数]
+```
+
+**参数**：
+
+- -n : 在重开机前不做将记忆体资料写回硬盘的动作
+- -w : 并不会真的重开机，只是把记录写到 /var/log/wtmp 档案里
+- -d : 不把记录写到 /var/log/wtmp 档案里（-n 这个参数包含了 -d）
+- -f : 强迫重开机，不呼叫 shutdown 这个指令
+- -i : 在重开机之前先把所有网络相关的装置先停止
+
+###  `halt`
+
+若系统的 runlevel 为 0 或 6 ，则关闭系统，否则以 shutdown 指令（加上 -h 参数）来取代
+
+```bash
+$ halt [参数]
+```
+
+**参数**：
+
+- -n : 在关机前不做将记忆体资料写回硬盘的动作
+- -w : 并不会真的关机，只是把记录写到 /var/log/wtmp 文件里
+- -d : 不把记录写到 /var/log/wtmp 文件里（-n 这个参数包含了 -d） -f : 强迫关机，不呼叫 shutdown 这个指令
+- -i : 在关机之前先把所有网络相关的装置先停止
+- -p : 当关机的时候，顺便做关闭电源（poweroff）的动作
+
+### `poweroff`
+
+发送一个 ACPI 信号来通知系统关机
+
+```bash
+$ poweroff   	         # poweroff the machine
+$ poweroff --halt      # halt the machine
+$ poweroff --reboot    # reboot the machine
+```
+
+
 
 ### `init`
 
-> init是修改Linux运行级别的命令，也可以用于关机和重启。
+> **init**是所有进程的祖先，其进程号始终为1。
+>
+> init用于切换系统的运行级别，切换的工作是立即完成的。
+
+```bash
+$ init 0 # 立即将系统运行级别切换为0，即关机
+$ init 6 # 将系统运行级别切换为6，即重新启动
+```
+
+
 
 ### `date`
 
