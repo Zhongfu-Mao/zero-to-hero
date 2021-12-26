@@ -841,13 +841,9 @@ tty: true # TeleTYpewriter
 
 # 技巧
 
-## 向世界开放Docker守护进程
+## 从容器访问宿主机
 
-> 默认的Docker配置,限制只能通过`/var/run/docker.sock`域套接字访问,宿主机外的进程无法获取Docker的访问权限
+* **`localhost` and `127.0.0.1`** – These resolve to the _container_.
+* **`host.docker.internal`** – This resolves to the outside host.
 
-```bash
-systemctl stop docker 
-sudo docker daemon -H tcp://0.0.0.0:2375
-docker -H tcp://<宿主机IP>:2375 <subcommand>
-```
-
+参考链接： <https://www.cloudsavvyit.com/14114/how-to-connect-to-localhost-within-a-docker-container/>
