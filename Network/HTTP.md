@@ -1,4 +1,4 @@
-# HTTP /1.0 & 1.1
+# HTTP
 
 ## MIME
 
@@ -20,7 +20,7 @@
 
 ### 语法
 
-```
+```http
 <scheme>://<user>:<password>@<host>:<port>/<path>;<params>?<query>#<frag>
 ```
 
@@ -123,4 +123,11 @@
 * 400~499 -> 客户端错误状态码
 * 500~599 -> 服务器错误状态码
 
-# HTTP /2
+## HTTP 3
+
+参考链接：
+
+* [详解HTTP3](https://http3-explained.haxx.se/zh)
+* [HTTP3检测](https://www.http3check.net)
+* [HTTP3的占有率](https://w3techs.com/technologies/breakdown/ce-http3/ranking)
+* [HTTP3 is fast](https://requestmetrics.com/web-performance/http3-is-fast)
