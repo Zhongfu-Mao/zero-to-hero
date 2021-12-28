@@ -1,4 +1,6 @@
-# 参考资料
+# Git相关的知识总结
+
+## 参考资料
 
 * [Pro Git](https://git-scm.com/book/zh/v2)
 * [x]  [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)
@@ -8,16 +10,16 @@
 * [x] [B站视频教程](https://www.bilibili.com/video/BV1tf4y1e7yt?p=1)
 * [官方文档](https://git-scm.com/docs)
 
-# 基础知识
+## 基础知识
 
-## 版本控制软件的发展
+### 版本控制软件的发展
 
 * 文件夹拷贝
 * 本地版本控制
 * 集中式版本控制(Centralized Version Control System)
 * 分布式版本控制(Distributed Version Control System)
 
-## Git VS SVN
+### Git VS SVN
 
 [git与svn的区别 - SegmentFault 思否](https://segmentfault.com/a/1190000006846175?utm_source=sf-similar-article)
 
@@ -27,9 +29,9 @@
 
 ![Git stores data as snapshots of the project over time](https://git-scm.com/book/en/v2/images/snapshots.png)
 
-# Config
+## Config
 
-## 把VS Code设置为Git的编辑器
+### 把VS Code设置为Git的编辑器
 
 ```bash
 git config --global core.editor "code --wait"
@@ -48,7 +50,7 @@ git config --global -e # 打开设置文件
     tool = code
 ```
 
-## 个人信息配置
+### 个人信息配置
 
 ```bash
 # 项目配置文件,只针对当前项目: 项目/.git/.gitconfig
@@ -64,7 +66,7 @@ git config --system user.email "for@example.com"
 git config --system user.name "Your Name"
 ```
 
-## 查看设置
+### 查看设置
 
 ```bash
 git config --list --system
@@ -73,17 +75,17 @@ git config --list --local
 # `git config`默认是local
 ```
 
-## 提交模板
+### 提交模板
 
 ```bash
 git config --global commit.template <path_to_file> # exp: $HOME/.gitcommitmsg.txt
 ```
 
-When Git creates a new repository, either via init or clone, it will copy the files from the template directory (the default location is `/usr/share/gitcore/templates`) to the new repository when creating the directory structure. 
+When Git creates a new repository, either via init or clone, it will copy the files from the template directory (the default location is `/usr/share/gitcore/templates`) to the new repository when creating the directory structure.
 
 The template directory can be defined either by a command-line argument, an environment variable, or a configuration option. If nothing is specified, the default template directory will be used
 
-## 别名设置
+### 别名设置
 
 ```bash
 git config --global alias.co checkout
@@ -100,7 +102,7 @@ git config --global alias.ll "log --pretty=format:'%C(yellow)%h%Cred%d %Creset%s
 # To create an alias method with an external command, the alias must start with an exclamation mark !.
 ```
 
-## rebase和merge设置
+### rebase和merge设置
 
 ```bash
 git config pull.rebase true # 默认值是false
@@ -109,16 +111,16 @@ git config pull.rebase true # 默认值是false
 git config branch.autosetuprebase always # 默认值是never
 # When this configuration is set to always, any new branch created with <git branch or git checkout that tracks another branch will be set up to pull to rebase (instead of merge). 
 # The valid options are as follows: 
-# 	never: This is set to pull to rebase (default) 
-# 	local: This is set to pull to rebase for local tracked branches 
-# 	remote: This is set to pull to rebase for remote tracked branches 
-# 	always: This is set to pull to rebase for all tracked branches 
+#  never: This is set to pull to rebase (default) 
+#  local: This is set to pull to rebase for local tracked branches 
+#  remote: This is set to pull to rebase for remote tracked branches 
+#  always: This is set to pull to rebase for all tracked branches 
 
 git config branch.<name>.rebase true
 # This configuration, when set to true, applies only to the <name> branch and tells Git to pull to rebase when performing git pull on the given branch
 ```
 
-## 垃圾回收
+### 垃圾回收
 
 ```bash
 # gc.reflogExpire
@@ -140,7 +142,7 @@ git config gc./refs/remote/*.reflogexpireunreachable "2 months"
 # gc.pruneexpire
 ```
 
-## 自动更正
+### 自动更正
 
 ```bash
 git config help.autocorrect 5
@@ -150,16 +152,16 @@ git config help.autocorrect 5
 # A positive value means to wait the given number of deciseconds (0.1 sec) before running the command (so there is an amount of time in which to cancel it).
 ```
 
-## 免密码登陆
+### 免密码登陆
 
-### URL中体现
+#### URL中体现
 
 ```bash
 git remote add origin https://user:password@仓库地址
 git push origin master
 ```
 
-### SSH实现
+#### SSH实现
 
 ```bash
 ssh-keygen # 生成公钥和私钥(默认放在`~/.ssh`目录下, `id_rsa.pub`公钥, `id_rsa`私钥)
@@ -168,13 +170,13 @@ git remote add origin git@github.com:地址 # 在本地设置ssh地址
 git push origin master
 ```
 
-# Git CLI
+## Git CLI
 
 ![Cheat Sheet](https://qph.fs.quoracdn.net/main-qimg-be0c4389a44fea9757d650d578252164)
 
-## Getting and Creating Projects
+### Getting and Creating Projects
 
-### `init`
+#### `init`
 
 ```bash
 git init
@@ -184,7 +186,7 @@ git init --bare <repo>
 # 裸仓库一般情况下是作为远端的中心仓库而存在的。
 ```
 
-### `clone`
+#### `clone`
 
 ```bash
 git clone <远程仓库地址> [<本地仓库名>]
@@ -192,9 +194,9 @@ git clone <远程仓库地址> [<本地仓库名>]
 git clone -b <Tag名> <地址> # 指定Tag下载代码
 ```
 
-## Basic Snapshotting
+### Basic Snapshotting
 
-### `status`
+#### `status`
 
 ```bash
 git status
@@ -203,7 +205,7 @@ git status -s # --short的缩写
 git status --ignored --short --branch
 ```
 
-### `add`
+#### `add`
 
 ```bash
 git add .
@@ -229,7 +231,7 @@ git add -u # 直接进入交互命令中的update模式
 git add --ignore-removal . # 添加工作区 修改 或 新增 的文件列表， 删除 的文件不会被添加
 ```
 
-### `diff`
+#### `diff`
 
 > git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。
 
@@ -247,7 +249,7 @@ git diff <branch1> <branch2> --stat # 显示两个分支之间所有有差异的
 git diff <branch1> <branch2> <file> # 显示指定文件的详细差异
 ```
 
-### `rm`
+#### `rm`
 
 ```bash
 git rm [<文件名> | 正则表达式] # 从工作区和暂存区移除文件同时添加变动到暂存区
@@ -256,13 +258,13 @@ git rm -r [<文件夹名> | 正则表达式] # 非空文件夹
 git rm --cached [<文件名> | 正则表达式] # 保留硬盘上的文件, 从git上删除
 ```
 
-### `mv`
+#### `mv`
 
 ```bash
 git mv file_from file_to [-f] # 重命名文件
 ```
 
-### `commit`
+#### `commit`
 
 ```bash
 git commit -m "描述信息"
@@ -280,7 +282,7 @@ git commit -C HEAD # 提交到HEAD
 git commit --allow-empty
 ```
 
-### `notes`
+#### `notes`
 
 > A Git note is essentially an extra `refs/notes/commits` reference in Git
 
@@ -291,7 +293,7 @@ git notes list
 git notes show <hash>
 ```
 
-### `reset`
+#### `reset`
 
 > 不加选项地调用 `git reset` 并不危险 — 它只会修改暂存区域
 
@@ -313,16 +315,16 @@ git reset --hard 版本号 # 回滚至之后的版本
 git reset HEAD~1 # 回滚至HEAD的父提交, can be applied to undo Merges
 ```
 
-### `restore`
+#### `restore`
 
 ```bash
 git restore <file> # 和`git checkout -- <file>`同样效果
 git restore --staged <file>
 ```
 
-## Branching and Merging
+### Branching and Merging
 
-### `branch`
+#### `branch`
 
 ```bash
 git branch # 查看分支
@@ -350,7 +352,7 @@ git branch --edit-description <description>
 git branch --contains <commit_hash>
 ```
 
-### `checkout`
+#### `checkout`
 
 ```bash
 git checkout <分支名> # 切换到分支
@@ -368,7 +370,7 @@ git checkout -b <本地分支名> --track origin/<分支名> # 在本地创建�
 git checkout -- <file> # 撤销修改, 丢失所有本地修改
 ```
 
-### `switch`
+#### `switch`
 
 ```bash
 git switch <branch>
@@ -376,7 +378,7 @@ git switch -c <new-branch> # --create
 git switch - # Return to previously checked out branch
 ```
 
-### `log`
+#### `log`
 
 ```bash
 git log
@@ -423,7 +425,7 @@ git log -1 --dirstat=lines
 |    %cr    | Committer date, relative  |
 |    %s     |          Subject          |
 
-### `merge`
+#### `merge`
 
 ```bash
 git merge <分支名> # 合并分支
@@ -443,11 +445,12 @@ git merge <branch_name> --no-ff --edit --quiet
 #  use the --quiet flag to minimize the output and --edit to allow us to edit the commit message
 ```
 
-### `tag`
+#### `tag`
 
 > Tag并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置
 
 Git 使用两种主要类型的标签：轻量标签（lightweight）与附注标签（annotated）。
+
 * 一个轻量标签很像一个不会改变的分支 - 它只是一个特定提交的引用。
 * 附注标签是存储在 Git 数据库中的一个完整对象。 它们是可以被校验的；其中包含打标签者的名字、电子邮件地址、日期时间；还有一个标签信息；并且可以使用 GNU Privacy Guard （GPG）签名与验证。
 * 通常建议创建附注标签，这样可以拥有以上所有信息；但是如果只是想用一个临时的标签，或者因为某些原因不想要保存那些信息，轻量标签也是可用的。
@@ -466,7 +469,7 @@ git pull origin --tags # 更新本地Tag版本信息
 git show <Tag名>
 ```
 
-### `stash`
+#### `stash`
 
 ```bash
 git stash           # 将未提交的文件保存到Git栈中
@@ -494,9 +497,9 @@ git stash store <ID>
 # 将 create 方法里返回的ID放到 store 后面，此时在栈里真正创建了一个记录，但当前修改或删除的文件并未从工作区移除
 ```
 
-## Inspection and Comparison
+### Inspection and Comparison
 
-### `describe`
+#### `describe`
 
 ```bash
 git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（HEAD）
@@ -509,18 +512,18 @@ git describe <ref> # <ref> 可以是任何能被 Git 识别成提交记录的引
 # 当 ref 提交记录上有某个标签时，则只输出标签名称
 ```
 
-### `shortlog`
+#### `shortlog`
 
 ```bash
 git shortlog -5
 git shortlog --numbered --summary --email --all
 ```
 
-## Patching
+### Patching
 
-### `rebase`
+#### `rebase`
 
-> rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去 
+> rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去
 > rebase 的优势就是可以创造更线性的提交历史
 
 ```bash
@@ -543,7 +546,7 @@ git rebase -i --autosquash
 git rebase <基准分支名> <移动分支名> # 把移动分支名移动到基准分支名下
 ```
 
-#### `--onto`
+##### `--onto`
 
 ```bash
 git rebase --onto master server client # 把从server开始分支出来的client移到master上
@@ -568,7 +571,7 @@ git branch -d server
 
 ![最终的提交历史。](https://www.progit.cn/images/interesting-rebase-5.png)
 
-### `revert`
+#### `revert`
 
 > Revert can be used to undo a commit in history that has already been published (pushed), whereas this can't be done with the amend or reset options without rewriting history.
 
@@ -584,15 +587,15 @@ git revert -n HEAD
 git revert master~6..master~2
 ```
 
-### `cherry-pick`
+#### `cherry-pick`
 
 ```bash
 git cherry-pick <node的哈希值>...# 选取想复制的node, 直接复制到当前HEAD
 ```
 
-## Administration
+### Administration
 
-### `archive`
+#### `archive`
 
 ```bash
 # 将加了tag的某个版本打包提取
@@ -601,7 +604,7 @@ git archive -v --format=zip v0.1 > v0.1.zip
 # -v 表示对应的tag名，后面跟的是tag名
 ```
 
-### `reflog`
+#### `reflog`
 
  Git 会在后台保存一个引用日志(reflog)记录最近几个月的 HEAD 和分支引用所指向的历史
 
@@ -629,7 +632,7 @@ git show HEAD@{5}
 git show master@{yesterday} # 显示昨天该分支的顶端指向了哪个提交,这个方法只对还在引用日志里的数据有用
 ```
 
-### `fsck`
+#### `fsck`
 
 > The fsck command tests the object database and verifies the SHA-1 ID of the objects and the connections they make. This command can also be used to find objects that are not reachable from any named reference, as it tests all the objects found in the database, which are in the `.git/objects` folder.
 
@@ -638,17 +641,15 @@ git fsck --dangling
 git fsck --unreachable
 ```
 
-### `gc`
+#### `gc`
 
 ```bash
 git gc --prune=now
 ```
 
+### Moving on the Tree
 
-
-## Moving on the Tree
-
-### HEAD
+#### HEAD
 
 ```bash
 cat .git/HEAD # 查看HEAD指向
@@ -656,7 +657,7 @@ git symbolic-ref HEAD # 如果HEAD指向一个引用,查看其指向
 git checkout <node的哈希值> # 移动HEAD的指向
 ```
 
-### 相对引用
+#### 相对引用
 
 ```bash
 # 操作符 (^): 把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交
@@ -674,9 +675,9 @@ git branch -f main HEAD~3 # 将 main 分支强制指向 HEAD 的第 3 级父提�
 # `~`和`^`可以链式使用
 ```
 
-## Sharing and Updating Projects
+### Sharing and Updating Projects
 
-### `fetch`
+#### `fetch`
 
 > git fetch 完成了仅有的但是很重要的两步:  
 > 1.从远程仓库下载本地仓库中缺失的提交记录  
@@ -697,7 +698,7 @@ git fetch <remote> refs/notes/commits:refs/notes/commits
 git fetch --prune
 ```
 
-### `pull`
+#### `pull`
 
 > `git pull` == `git fetch` + `git merge`
 
@@ -709,7 +710,7 @@ git pull origin <source>:<destination>
 git pull --prune
 ```
 
-### `push`
+#### `push`
 
 > `git push` 不带任何参数时的行为与 Git 的一个名为 `push.default` 的配置有关,它的默认值取决于你正使用的 Git 的版本
 
@@ -729,7 +730,7 @@ git push <remote> --tags
 git push <remote> refs/notes/commits
 ```
 
-### `remote`
+#### `remote`
 
 ```bash
 git remote
@@ -749,7 +750,7 @@ git remote prune origin
 >
 > 远程仓库名字 “origin” 与分支名字 “master” 一样，在 Git 中并没有任何特别的含义一样。 同时 “master” 是当你运行 `git init` 时默认的起始分支名字，原因仅仅是它的广泛使用，“origin” 是当你运行 `git clone` 时默认的远程仓库名字。 如果你运行 `git clone -o booyah`，那么你默认的远程分支名字将会是 `booyah/master`。
 
-### Create a Git repo base on windows shared folder
+#### Create a Git repo base on windows shared folder
 
 ```powershell
 pushd \\remoteServer\git\Share\Folder\Path
@@ -763,21 +764,19 @@ git remote add origin //remoteServer/git/Share/Folder/Path/MyGitRepo1  # using `
 git push origin --all
 ```
 
-## Plumbing Commands
+### Plumbing Commands
 
-### `ls-tree`
+#### `ls-tree`
 
 ```bash
 git ls-tree --abbrev HEAD
 ```
 
+## `.gitignore`
 
+### `.gitignore`をグローバル設定
 
-# `.gitignore`
-
-## `.gitignore`をグローバル設定
-
-### MacOS
+#### MacOS
 
 ```bash
 touch ~/.gitignore_global
@@ -785,7 +784,7 @@ vim ~/.gitignore_global
 git config --global core.excludesfile ~/.gitignore_global
 ```
 
-## 格式
+### 格式
 
 文件 .gitignore 的格式规范如下：
 
@@ -817,11 +816,11 @@ doc/**/*.pdf
 
 [各种语言的参考](https://github.com/github/gitignore)
 
-# `.gitattribute`
+## `.gitattribute`
 
 > `.gitattributes` 是一个文本文件，文件中的一行定义一个路径的若干个属性，主要用于定义每种文件的属性，以方便 Git帮我们统一管理。
 
-## 格式
+### 文件格式
 
 > gitattributes文件以行为单位设置一个路径下所有文件的属性
 
@@ -829,30 +828,31 @@ doc/**/*.pdf
 pattern attr1 attr2 ...
 ```
 
-## 状态
+### 状态
 
 在gitattributes文件的一行中，一个属性（以text属性为例）可能有4种状态：
 
-- Set: text
-- Unset: -text
-- Set to a value: text=string
-- Unspecified
+* Set: text
+* Unset: -text
+* Set to a value: text=string
+* Unspecified
 
-## 示例
+### 示例
 
 ```gitattributes
 *               text=auto
-*.txt						text
-*.vcproj				text eol=crlf
-*.sh						text eol=lf
-*.jpg						-text
-*.ps1						text working-tree-encoding=UTF-16LE eol=CRLF
-*.c							filter=indent
+*.txt      text
+*.vcproj    text eol=crlf
+*.sh      text eol=lf
+*.jpg      -text
+*.ps1      text working-tree-encoding=UTF-16LE eol=CRLF
+*.c       filter=indent
 ```
 
-## 属性
+### 属性
 
 gitattributes文件中的常见属性：
+
 * text，控制行尾的规范性。
   * 如果一个文本文件是规范的，则Git库中该文件的行尾总是LF
   * 对于工作目录，除了text属性之外，还可以设置eol属性，或core.eol配置变量。
@@ -862,36 +862,32 @@ gitattributes文件中的常见属性：
   * eol=lf: 入库时将行尾规范为LF，检出时行尾不强制转换为 CRLF
   * eol=crlf: 入库时将行尾规范为LF，检出时将行尾转换为CRLF
 
-  
+## 深入理解Git
 
-# 深入理解Git
+### `.git`目录
 
-## `.git`目录
+#### `object`文件夹
 
-### `object`文件夹
+#### `hooks`文件夹
 
-
-
-### `hooks`文件夹
-
-> 和其它版本控制系统一样，Git 能在特定的重要动作发生时触发自定义脚本。 
+> 和其它版本控制系统一样，Git 能在特定的重要动作发生时触发自定义脚本。
 >
-> 有两组这样的钩子：**客户端**的(由诸如提交和合并这样的操作所调用)和**服务器端**的(作用于诸如接收被推送的提交这样的联网操作)。 
+> 有两组这样的钩子：**客户端**的(由诸如提交和合并这样的操作所调用)和**服务器端**的(作用于诸如接收被推送的提交这样的联网操作)。
 
 钩子都被存储在 Git 目录下的 `hooks` 子目录中。
 
 当使用 `git init` 初始化一个新版本库时，Git 默认会在这个目录中放置一些示例脚本。这些脚本除了本身可以被调用外，它们还透露了被触发时所传入的参数。 所有的示例都是 shell 脚本，其中一些还混杂了 Perl 代码，不过，任何正确命名的可执行脚本都可以正常使用 —— 可以用 Ruby 或 **Python**，或其它语言编写它们。 这些示例的名字都是以 `.sample` 结尾，如果想启用它们，得先移除这个后缀。
 
-#### 客户端钩子
+##### 客户端钩子
 
-##### 提交工作流钩子
+###### 提交工作流钩子
 
 * `pre-commit` :在键入提交信息前运行, 用于检查即将提交的快照
 * `prepare-commit-msg`:在启动提交信息编辑器之前，默认信息被创建之后运行, 允许编辑提交者所看到的默认信息
 * `commit-msg` :可以用来在提交通过前验证项目状态或提交信息
 * `post-commit` :在整个提交过程完成后运行, 一般用于通知之类的事情
 
-##### 电子邮件工作流钩子
+###### 电子邮件工作流钩子
 
 由 `git am` 命令调用
 
@@ -899,7 +895,7 @@ gitattributes文件中的常见属性：
 * `pre-applypatch` :运行于应用补丁之后产生提交之前，用来在提交前检查快照
 * `post-applypatch` :运行于提交产生之后，是在 `git am` 运行期间最后被调用的钩子,可以用来把结果通知给一个小组或所拉取的补丁的作者
 
-##### 其他钩子
+###### 其他钩子
 
 * `pre-rebase` :运行于变基之前，以非零值退出可以中止变基的过程, 可以使用这个钩子来禁止对已经推送的提交变基
 
@@ -910,13 +906,13 @@ gitattributes文件中的常见属性：
 * `pre-push` :会在 `git push` 运行期间更新了远程引用但尚未传送对象时被调用,可以在推送开始之前，用它验证对引用的更新操作
 * `pre-auto-gc` :会在垃圾回收开始之前被调用，可以用来提醒现在要回收垃圾了，或者依情形判断是否要中断回收
 
-#### 服务器端钩子
+##### 服务器端钩子
 
-*  `pre-receive`:处理来自客户端的推送操作时最先被调用,可以用这个钩子阻止对引用进行非快进（non-fast-forward）的更新，或者对该推送所修改的所有引用和文件进行访问控制。
-* `update` :和 `pre-receive` 脚本十分类似，不同之处在于它会为每一个准备更新的分支各运行一次。 假如推送者同时向多个分支推送内容，`pre-receive` 只运行一次，相比之下 `update` 则会为每一个被推送的分支各运行一次。 
+* `pre-receive`:处理来自客户端的推送操作时最先被调用,可以用这个钩子阻止对引用进行非快进（non-fast-forward）的更新，或者对该推送所修改的所有引用和文件进行访问控制。
+* `update` :和 `pre-receive` 脚本十分类似，不同之处在于它会为每一个准备更新的分支各运行一次。 假如推送者同时向多个分支推送内容，`pre-receive` 只运行一次，相比之下 `update` 则会为每一个被推送的分支各运行一次。
 * `post-receive` :在整个过程完结以后运行，可以用来更新其他系统服务或者通知用户。 它接受与 `pre-receive` 相同的标准输入数据。 它的用途包括给某个邮件列表发信，通知持续集成（continous integration）的服务器，或者更新问题追踪系统（ticket-tracking system） —— 甚至可以通过分析提交信息来决定某个问题（ticket）是否应该被开启，修改或者关闭
 
-## Git对象
+### Git对象
 
 > Git 用以计算校验和的机制叫做 SHA-1 散列（hash，哈希）。 这是一个由 40 个十六进制字符（0-9 和 a-f）组成字符串，基于 Git 中文件的内容或目录结构计算出来。
 >
@@ -930,13 +926,13 @@ git cat-file -p <hash> # 内容
 git cat-file -s <hash> # 大小
 ```
 
-### 提交对象
+#### 提交对象
 
 * 这类对象表示修订版本
 * 每个提交由一组包含0个或多个父提交的首部（键-值对）构成，实际上包含一系列链接的树对象表示版本库内容的快照——项目的顶层目录
 * 用户可以使用底层命令`git commit-tree`或者只是简单地使用`git commit`命令创建一个包含给定树对象的提交，将它作为一个修订的快照
 
-### 树对象
+#### 树对象
 
 * 这些对象用于表示**文件目录**
 * 每个树对象是一个根据文件名排序的实体列表
@@ -949,13 +945,13 @@ git cat-file -s <hash> # 大小
 
 * A generic form of the notation is `<rev>^<type>`, and will return the first object of `<type>`, searching recursively from `<rev>`
 
-### 二进制大对象(BLOB) 
+#### 二进制大对象(BLOB)
 
 * 这些对象用于存储文件内容的给定版本
 * 可以使用底层命令`git hash-object -w`创建一个这样的对象
 * 如果不同修订版本包含的文件内容是一样的它只会存储一次
 
-### 标签对象
+#### 标签对象
 
 * 这些对象表示附注标签，签名标签属于特例
 * 标签对象还包含一系列的首部信息（此外还指向了一个标签对象）和一个标签信息
@@ -978,7 +974,7 @@ compressed_contents = open(<哈希值>, 'rb').read()
 zlib.decompress(compressed_contents)
 ```
 
-## 暂存和提交
+### 暂存和提交
 
 暂存操作会为每一个文件计算校验和（使用SHA-1哈希算法）,然后会把当前版本的文件快照保存到 Git 仓库中（Git 使用 blob 对象来保存它们）,最终将校验和加入到暂存区域等待提交
 
@@ -990,7 +986,7 @@ zlib.decompress(compressed_contents)
 
 ![提交对象及其父对象。](https://www.progit.cn/images/commits-and-parents.png)
 
-## 分支
+### 分支
 
 Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git 的默认分支名字是 `master`。 在多次提交操作之后，你其实已经有一个指向最后那个提交对象的 `master` 分支。 它会在每次的提交操作中自动向前移动。
 
@@ -998,26 +994,26 @@ Git 的分支，其实本质上仅仅是指向提交对象的可变指针。 Git
 
 ![分支及其提交历史](https://www.progit.cn/images/branch-and-history.png)
 
-> HEAD 是一个对当前检出记录的符号引用 —— 也就是指向你正在其基础上进行工作的提交记录。 
-> HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。 
+> HEAD 是一个对当前检出记录的符号引用 —— 也就是指向你正在其基础上进行工作的提交记录。
+> HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。
 > HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。
 
-## 工作区和索引区
+### 工作区和索引区
 
 ```bash
 git ls-files # 列出索引区文件
 git ls-files -s # 打印权限,哈希值, ,文件名
 ```
 
-# Git SVN
+## Git SVN
 
-## To clone repository from SVN
+### To clone repository from SVN
 
 ```bash
 git svn clone "<URL>" --prefix=svn/ --trunk=trunk --branches=branches --tags=tags  --authors-file
 ```
 
-## To pull in new commits from SVN
+### To pull in new commits from SVN
 
 ```bash
 git stash
@@ -1025,34 +1021,34 @@ git svn rebase
 git stash pop
 ```
 
-## To ignore changes of something
+### To ignore changes of something
 
 ```bash
 git update-index --assume-unchanged db.sqlite3
 ```
 
-## To push local commits into SVN
+### To push local commits into SVN
 
 ```bash
 git svn dcommit
 ```
 
-# GitHub
+## GitHub
 
-## Fork
+### Fork
 
 如果你想要参与某个项目，但是并没有推送权限，这时可以对这个项目进行“派生”。 派生的意思是指，GitHub 将在你的空间中创建一个完全属于你的项目副本，且你对其具有推送权限。
 
 > 在以前，“fork”是一个贬义词，指的是某个人使开源项目向不同的方向发展，或者创建一个竞争项目，使得原项目的贡献者分裂。 在 GitHub，“fork”指的是你自己的空间中创建的项目副本，这个副本允许你以一种更开放的方式对其进行修改。
 
-## 上传
+### 上传
 
 ```bash
 git remote add origin 远程仓库地址 # 给远程仓库起别名
 git push -u origin 分支 # 向远程仓库推送代码
 ```
 
-## 下载
+### 下载
 
 ```bash
 git clone 远程仓库地址 # 第一次的时候
@@ -1060,4 +1056,4 @@ git checkout 分支
 git pull origin 分支 # 拉取代码 等价于`git fetch origin 分支; git merge origin 分支`
 ```
 
-# GitLab
+## GitLab
