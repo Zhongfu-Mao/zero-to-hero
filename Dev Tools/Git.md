@@ -3,12 +3,13 @@
 ## 参考资料
 
 * [Pro Git](https://git-scm.com/book/zh/v2)
-* [x]  [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)
+* [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN)
     > `show solution`查看答案  
     > `reset`重置
 * [try git](https://try.github.io)
-* [x] [B站视频教程](https://www.bilibili.com/video/BV1tf4y1e7yt?p=1)
+* [B站视频教程](https://www.bilibili.com/video/BV1tf4y1e7yt?p=1)
 * [官方文档](https://git-scm.com/docs)
+* [30天精通Git](https://github.com/doggy8088/Learn-Git-in-30-days)
 
 ## 基础知识
 
