@@ -847,3 +847,8 @@ tty: true # TeleTYpewriter
 * **`host.docker.internal`** – This resolves to the outside host.
 
 参考链接： <https://www.cloudsavvyit.com/14114/how-to-connect-to-localhost-within-a-docker-container/>
+
+## 最佳实践
+
+* [🔗容器化Python时的最佳实践](https://snyk.io/blog/best-practices-containerizing-python-docker/)
+* [🔗容器化Node.js时的最佳实践](https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/)
