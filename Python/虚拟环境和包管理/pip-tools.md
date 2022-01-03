@@ -16,9 +16,9 @@ $ source /path/to/venv/bin/activate
 ### 执行`pip-compile`
 
 ```bash
-$ pip-compile
-$ python -m pip-tools compile
-$ pythonX.Y -m piptools compile # 多版本共存的时候使用
+pip-compile
+python -m pip-tools compile
+pythonX.Y -m piptools compile # 多版本共存的时候使用
 ```
 
 ### 编译源文件之`setup.py`
@@ -90,7 +90,7 @@ $ pip-compile --upgrade-package django --upgrade-package requests==2.0.0
 Tips: 可以组合使用`--upgrade`和`--upgrade-package`来限制`pip-compile`只更新指定的包。
 
 ```bash
-$ pip-compile --upgrade --upgrade-package 'requests<3.0'
+pip-compile --upgrade --upgrade-package 'requests<3.0'
 ```
 
 ### 使用hash值
@@ -143,8 +143,8 @@ sqlparse==0.4.2
 可以使用`--output-file=-`来将输出文件写入标准输出。
 
 ```bash
-$ pip-compile --output-file=- > requirements.txt
-$ pip-compile - --output-file=- < requirements.in > requirements.txt
+pip-compile --output-file=- > requirements.txt
+pip-compile - --output-file=- < requirements.in > requirements.txt
 ```
 
 ### 使用`pip`的选项
@@ -152,7 +152,7 @@ $ pip-compile - --output-file=- < requirements.in > requirements.txt
 在使用`pip-compile`时,可以通过`--pip-args`选项来指定任意合法的`pip`选项:
 
 ```bash
-$ pip-compile requirements.in --pip-args '--retries 10 --timeout 30'
+pip-compile requirements.in --pip-args '--retries 10 --timeout 30'
 ```
 
 ## pip-sync
@@ -160,9 +160,9 @@ $ pip-compile requirements.in --pip-args '--retries 10 --timeout 30'
 ### 执行`pip-sync`
 
 ```bash
-$ pip-sync
-$ python -m piptools sync
-$ pythonX.Y -m piptools sync
+pip-sync
+python -m piptools sync
+pythonX.Y -m piptools sync
 ```
 
 ```bash
@@ -180,7 +180,7 @@ Successfully installed asgiref-3.4.1 django-4.0 sqlparse-0.4.2
 ### 多个`*.txt`文件
 
 ```bash
-$ pip-sync dev-requirements.txt requirements.txt
+pip-sync dev-requirements.txt requirements.txt
 ```
 
 ⭐️如果没有参数为空,那么默认传入`requirements.txt`.
@@ -190,7 +190,7 @@ $ pip-sync dev-requirements.txt requirements.txt
 和`pip-compile`一样,任何合法的`pip`选项都可以使用`--pip-args`选项来指定:
 
 ```bash
-$ pip-sync requirements.txt --pip-args '--no-cache-dir --no-deps'
+pip-sync requirements.txt --pip-args '--no-cache-dir --no-deps'
 ```
 
 ## 注意事项
