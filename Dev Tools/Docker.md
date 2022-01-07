@@ -581,6 +581,8 @@ docker container attach <container ID | NAMES>
 # 	如果在attach的情况下不停止容器的运行需要 `Ctrl+P`+`Ctrl+Q`
 ```
 
+[🔗exec与attach的区别](https://iximiuz.com/en/posts/containers-101-attach-vs-exec/)
+
 ## 文件复制
 
 ```bash
