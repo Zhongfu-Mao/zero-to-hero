@@ -83,6 +83,161 @@ theme:
     - search.highlight
 ```
 
+### Abbreviation
+
+```yaml
+markdown_extensions:
+  - abbr
+  - pymdownx.snippets
+```
+
+exp:
+
+```markdown
+The HTML specification is maintained by the W3C.
+
+*[HTML]: Hyper Text Markup Language
+*[W3C]: World Wide Web Consortium
+```
+
+### Admonitions
+
+#### Config
+
+```yaml
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+```
+
+#### Basic Usage
+
+```markdown
+!!! note
+    Note
+```
+
+[Supported Types](https://squidfunk.github.io/mkdocs-material/reference/admonitions/#supported-types)
+
+#### Change the Title
+
+```markdown
+!!! note "title"
+
+    Customized title
+```
+
+#### Remove the Title
+
+```markdown
+!!! note ""
+
+    No title
+```
+
+#### Collapsible blocks
+
+```markdown
+??? note
+
+    Collapsed block
+
+???+ note
+
+    Rendered open block
+```
+
+### Buttons
+
+```yaml
+markdown_extensions:
+  - attr_list
+```
+
+```markdown
+[Text](#<link>){ .md-button }
+[Text](#<link>){ .md-button .md-button--primary }
+```
+
+### Code Blocks
+
+```yaml
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+```
+
+#### Highlight
+
+``` py hl_lines="2 3"
+def bubble_sort(items):
+    for i in range(len(items)):
+        for j in range(len(items) - 1 - i):
+            if items[j] > items[j + 1]:
+                items[j], items[j + 1] = items[j + 1], items[j]
+```
+
+* Line numbers: `hl_lines="2 3"`
+* Line number range: `hl_lines="2-3"`
+* Inline code blocks: `#!python range()`
+
+### Content tab
+
+```yaml
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
+```
+
+[Usage](https://squidfunk.github.io/mkdocs-material/reference/content-tabs/#usage)
+
+### Data Table
+
+```yaml
+markdown_extensions:
+  - tables
+```
+
+[sortable table](https://squidfunk.github.io/mkdocs-material/reference/data-tables/#sortable-tables)
+
+### mermaid
+
+```shell
+pip install mkdocs-mermaid2-plugin
+```
+
+```yaml
+plugins:
+    - search
+    - mermaid2
+```
+
+### Footnotes
+
+[footnotes](https://squidfunk.github.io/mkdocs-material/reference/footnotes/)
+
+### Formatting
+
+[formatting](https://squidfunk.github.io/mkdocs-material/reference/formatting/)
+[keyboard keys](https://squidfunk.github.io/mkdocs-material/reference/formatting/#adding-keyboard-keys)
+
+### Icons and Emojis
+
+[search](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/#search)
+
+### Images
+
+[images](https://squidfunk.github.io/mkdocs-material/reference/images/)
+
+### List
+
+[lists](https://squidfunk.github.io/mkdocs-material/reference/lists/)
+
 ## Preview
 
 ```shell
