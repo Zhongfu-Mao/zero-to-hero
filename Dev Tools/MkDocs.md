@@ -76,7 +76,7 @@ plugins:
   - search:
       lang: 
         - en
-        - jp
+        - ja
 theme:
   features:
     - search.suggest
