@@ -205,18 +205,6 @@ markdown_extensions:
 
 [sortable table](https://squidfunk.github.io/mkdocs-material/reference/data-tables/#sortable-tables)
 
-### mermaid
-
-```shell
-pip install mkdocs-mermaid2-plugin
-```
-
-```yaml
-plugins:
-    - search
-    - mermaid2
-```
-
 ### Footnotes
 
 [footnotes](https://squidfunk.github.io/mkdocs-material/reference/footnotes/)
@@ -249,3 +237,41 @@ mkdocs serve
 ```shell
 mkdocs build
 ```
+
+## Plug-ins
+
+[MkDocs wiki](https://github.com/mkdocs/mkdocs/wiki/MkDocs-Plugins)
+
+### Mermaid
+
+```shell
+pip install mkdocs-mermaid2-plugin
+```
+
+```yaml
+plugins:
+    - search
+    - mermaid2
+```
+
+### Tooltip
+
+[🔗Homepage](https://roipoussiere.frama.io/mkdocs-tooltips/)
+
+### mkdocstring
+
+* [🔗Homepage](https://mkdocstrings.github.io/handlers/python/#google-style)
+* [🔗GitHub repo](https://github.com/mkdocstrings/mkdocstrings)
+
+### Jupyter Notebook
+
+* [mkdocs-jupyter](https://github.com/danielfrg/mkdocs-jupyter)
+* [mknotebooks](https://github.com/greenape/mknotebooks)
+
+### Table
+
+[🔗GitHub repo](https://github.com/timvink/mkdocs-table-reader-plugin)
+
+### PDF
+
+[🔗Homepage](https://timvink.github.io/mkdocs-print-site-plugin/)
